@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 const Row = styled.div`
   width:100%;
-  max-width:1472px;
+  max-width:1170px;
   margin:auto;
   display:flex;
-  padding:0 16px;
+  padding:0 0;
   flex-wrap:wrap;
   justify-content:space-between;
   align-items:stretch;

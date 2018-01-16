@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from '../components/buttons.js';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
@@ -41,24 +43,37 @@ const BarButton = Button.extend`
 `
 
 class PartsGridSelectionBar extends React.Component {
-constructor(){
-  super();
-  this.selectNum = 1;
-}
- render(){
-   return (
-     <SelectionBar gridarea={this.props.gridarea}>
-      <Count>{this.selectNum}</Count><span>{this.selectNum > 1 ? `Parts Selected` : `Part Selected`}</span>
-      <BlueLink>Select All</BlueLink>
+  static contextTypes = {
+    store: PropTypes.object
+  }
+  constructor(){
+    super();
+    this.selectNum = 1;
+  }
 
-      <BarButton nature="info">Archive</BarButton>
-      <BarButton nature="info">Add To Collection</BarButton>
-      <BarButton nature="info">Add To Estimate</BarButton>
-      <FontAwesomeIcon icon={faTimes} style={{marginLeft:'auto',fontSize:'18px',marginRight:'6px'}}/>
-     </SelectionBar>
+  render(){
+    console.log(this);
+   return (
+
+       <SelectionBar gridarea={this.props.gridarea}>
+        <Count>{this.selectNum}</Count><span>{this.selectNum > 1 ? `Parts Selected` : `Part Selected`}</span>
+        <BlueLink>Select All</BlueLink>
+          <BarButton nature="info">Duplicate</BarButton>
+          <BarButton nature="info">Archive</BarButton>
+          { (this.props.store.collectionSelected != null) ? <BarButton nature="info">Remove From Collection</BarButton> : null }
+          <BarButton nature="info">Add To Collection</BarButton>
+          <BarButton nature="info">Add To Estimate</BarButton>
+        <FontAwesomeIcon icon={faTimes} style={{marginLeft:'auto',fontSize:'18px',marginRight:'6px'}}/>
+       </SelectionBar>
    )
  }
 }
 
-
-export default PartsGridSelectionBar
+export default compose(
+  connect(
+    (state, props) =>
+      ({
+        store: state.store
+      })
+  )
+)(PartsGridSelectionBar)

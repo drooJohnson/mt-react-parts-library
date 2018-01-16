@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withContext, getContext, withHandlers, lifecycle } from 'recompose'
+import { connect } from 'react-redux';
+import { isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase'
+
 import styled from 'styled-components';
 import Button from '../components/buttons.js';
 
@@ -16,10 +21,6 @@ const Wrapper = styled.div`
   top:0;
   height:100%;
   width:100%;
-`
-
-const Sizer = styled.div`
-
 `
 
 const HeaderWrapper = styled.button`
@@ -63,7 +64,6 @@ const PartCount = styled.span`
 
 class Collection extends React.Component {
   render(){
-    console.log(this);
     return(
         <CollectionInner active={this.props.active}>
           <Name>{this.props.name}</Name>
@@ -107,27 +107,51 @@ class A360Area extends React.Component {
   }
 }
 
-class CollectionsPanel extends React.Component {
- render(){
-   console.log(this);
-   return (
+const CollectionsPanel = ({ collections, parts, gridarea, store }) => (
+  <Wrapper gridarea={gridarea}>
+    <CollectionsHeader/>
+    <div style={{gridArea:'collections-body'}}>
+      <Collection name='All Parts' partCount={ parts ? parts.length : "..." }/>
+      {
+        collections ?
+        collections.map((collection) => (
+          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length}/>
+        ))
+        :
+        <span>Loading</span>
+      }
+    </div>
+    <A360Area/>
+  </Wrapper>
+)
 
-     <Wrapper gridarea={this.props.gridarea}>
-       <CollectionsHeader/>
-       <div style={{gridArea:'collections-body'}}>
-           <Collection name="name" partCount="1000"/>
-           <Collection name="name" partCount="1000"/>
-           <Collection name="name" partCount="1000" active/>
-           <Collection name="name" partCount="1000"/>
-           <Collection name="name" partCount="1000"/>
-           <Collection name="name" partCount="1000"/>
-           <Collection name="name" partCount="1000"/>
-       </div>
-       <A360Area/>
-     </Wrapper>
-   )
- }
-}
+CollectionsPanel.propTypes = {
+  collections: PropTypes.array,
+  parts: PropTypes.array,
+  gridarea: PropTypes.string,
+  store: PropTypes.object
+};
+//const withStore = compose(
+//  withContext({ store: PropTypes.object }, () => {}),
+//  getContext({ store: PropTypes.object }),
+//)
 
-
-export default CollectionsPanel
+export default compose(
+  //withStore,
+  //withHandlers({
+  //  loadData: props => err => props.store.firestore.get('collections')
+  //}),
+  //lifecycle({
+  //  componentWillMount() {
+  //    this.props.loadData()
+  //  }
+  //}),
+  firestoreConnect(['collections','parts']),
+  connect(
+    (state,props) => ({collections:state.firestore.ordered.collections, parts:state.firestore.ordered.parts})
+  )
+  //connect(({ firestore }) => {
+//    return({ // state.firebase
+//    collections: firestore.ordered.collections,
+///  })})
+)(CollectionsPanel)

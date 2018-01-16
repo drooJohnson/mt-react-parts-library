@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import {NavLink as RouterNavLink, Link as RouterLink} from 'react-router-dom';
 
 import Row from './layout/row';
 import Col from './layout/col';
@@ -26,19 +27,24 @@ const Nav = styled.nav.attrs({
   }
 `
 
-const Link = styled.li`
+const Link = styled(RouterNavLink)`
   display:inline-block;
   min-width:100px;
   height:100%;
   line-height:70px;
   text-align:center;
   padding:0 24px;
+  font-weight:bold;
+  text-decoration:none;
   &:hover{
     background-color: #666666;
     color: #00e7b2;
   }
   background-color: ${props => props.active ? '#666666' : 'none' };
-  color: ${props => props.active ? '#00e7b2' : '#FFFFFF' };
+  color: ${props => props.active ? '#00e7b2' : '#bbbbbb' };
+  &.active{
+    background-color:#00FFAA;
+  }
 `
 
 const LinkList = styled.ul`
@@ -72,13 +78,13 @@ class Navigation extends React.Component {
         <Row>
           <Logo/>
           <LinkList style={{marginLeft:0,marginRight:'auto'}}>
-            <Link active>Parts</Link>
-            <Link>Jobs</Link>
-            <Link>Machines</Link>
+            <Link to="/parts">Parts</Link>
+            <Link to="/jobs">Jobs</Link>
+            <Link to="/machines">Machines</Link>
           </LinkList>
           <LinkList>
-            <Link>Shop</Link>
-            <Link>Estimate</Link>
+            <Link to="/profile">Shop</Link>
+            <Link to="/estimate">Estimate</Link>
           </LinkList>
         </Row>
       </Nav>

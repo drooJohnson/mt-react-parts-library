@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const buttons = {
+  default:{
+    borderColor: 'rgba(0,0,0,0.15)',
+    backgroundColor: '#F7F7F7',
+    backgroundImage: 'linear-gradient(-180deg,#fdfdfd 2%,#f7f7f7 97%);',
+    textColor: '#000000',
+  },
   primary:{
     borderColor: 'rgba(0,0,0,0.15)',
     backgroundColor: '#00AAFF',
@@ -47,11 +53,14 @@ const Button = styled.button`
   border:solid 1px #00e7b2;
   border-radius: 2px;
   /* Adapt Colors based on badge type prop */
-  background-color: ${props => props.nature ? buttons[props.nature].backgroundColor : null};
-  background-image: ${props => props.nature ? buttons[props.nature].backgroundImage : null};
-  border-color: ${props => props.nature ? buttons[props.nature].borderColor : null};
-  color: ${props => props.nature ? buttons[props.nature].textColor : null};
+  background-color: ${props => props.nature ? buttons[props.nature].backgroundColor : '#FFFFFF'};
+  background-image: ${props => props.nature ? buttons[props.nature].backgroundImage : 'none'};
+  border-color: ${props => props.nature ? buttons[props.nature].borderColor : 'none'};
+  color: ${props => props.nature ? buttons[props.nature].textColor : '#000000'};
   display:inline-flex;
+  &+&{
+    margin-left:4px;
+  }
 `
 
 Button.propTypes = {

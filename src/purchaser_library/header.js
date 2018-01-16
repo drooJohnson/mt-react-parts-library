@@ -60,7 +60,6 @@ PartBadge.propTypes = {
 class Header extends React.Component {
   constructor(){
     super();
-    console.log(this);
     //const part = this.props.part;
   }
   render(){

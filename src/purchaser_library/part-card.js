@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+const CardOverlay = styled.div`
+  display:none;
+  justify-content:center;
+  align-items:center;
+  position: absolute;
+  top: 0;bottom: 0;left: 0;right: 0;
+  height:100%;
+  width:100%;
+  background-color:rgba(0,0,0,0.3);
+`
+
 const CardItem = styled.div`
-  width: 25%;
-  height: 336px;
-  padding: 16px;
+  width: 100%;
+  height: 320px;
   &:hover{
     ${CardOverlay} {
       display: flex;
@@ -28,17 +40,6 @@ const CardPart = Card.extend`
   position:relative;
   padding:16px;
   display: flex;
-`
-
-const CardOverlay = styled.div`
-  display:none;
-  justify-content:center;
-  align-items:center;
-  position: absolute;
-  top: 0;bottom: 0;left: 0;right: 0;
-  height:100%;
-  width:100%;
-  background-color:rgba(0,0,0,0.3);
 `
 
 const CardOverlayButton = styled.button`
@@ -97,7 +98,6 @@ const PartBadge = styled.div`
   border-color: ${props => props.nature ? badges[props.nature].borderColor : null};
   color: ${props => props.nature ? badges[props.nature].textColor : null};
 `
-
 PartBadge.propTypes = {
   nature: PropTypes.oneOf(['primary','caution','error','info','success'])
 }
@@ -109,11 +109,13 @@ const PartName = styled.h3`
   margin-bottom:0;
 `
 
+const DetailLink = ({id}) => (
+  <Link to={`/parts/${id}`}>View Part</Link>
+)
+
 class PartCard extends React.Component {
-  constructor(){
-    super();
-    console.log(this);
-    //const part = this.props.part;
+  constructor(props){
+    super(props);
   }
   render(){
     const part = this.props.part;
@@ -122,16 +124,14 @@ class PartCard extends React.Component {
         <CardPart>
           <CardOverlay>
             <CardOverlayButton>{part.priced ? 'View Results' : 'Price Part'}</CardOverlayButton>
+            <DetailLink id={part.id}/>
           </CardOverlay>
           {!part.priced ? <PartBadge nature='caution'>NEEDS PRICING</PartBadge> : null }
-          <PartName>{part.name}</PartName>
+          <PartName>{part.partNumber}</PartName>
         </CardPart>
       </CardItem>
     )
   }
 }
 
-
-
-
-export default PartCard
+export default PartCard;

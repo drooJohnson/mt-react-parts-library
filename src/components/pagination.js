@@ -43,7 +43,6 @@ class Pagination extends React.Component {
     // marginPagesDisplayed !
   }
   render(){
-    console.log(this.props);
     return (
       <PaginationWrapper style={this.props.style}>
         <PageBlock>l</PageBlock>
