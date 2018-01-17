@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faBars from '@fortawesome/fontawesome-free-solid/faBars';
+import faAlignJustify from '@fortawesome/fontawesome-free-solid/faAlignJustify';
 import faThLarge from '@fortawesome/fontawesome-free-solid/faThLarge';
 
 const SwitchWrapper = styled.div`
@@ -22,8 +22,8 @@ class ListGridSwitch extends React.Component {
   render(){
     return(
       <SwitchWrapper active={this.props.active}>
-        <FontAwesomeIcon icon={faBars} style={{fontSize:24, color: this.active == 'list' ? '#4eeeb9' : '#CCCCCC',}}/>
-        <FontAwesomeIcon icon={faThLarge} style={{fontSize:24,marginLeft:8, color: this.active == 'grid' ? '#4eeeb9' : '#CCCCCC',}}/>
+        <FontAwesomeIcon icon={faAlignJustify} style={{fontSize:24, color: this.active == 'list' ? '#4eeeb9' : '#CCCCCC',}}/>
+        <FontAwesomeIcon icon={faThLarge} style={{fontSize:24,marginLeft:12, color: this.active == 'grid' ? '#4eeeb9' : '#CCCCCC',}}/>
       </SwitchWrapper>
     )
   }

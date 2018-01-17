@@ -27,8 +27,9 @@ const rootReducer = (state = {}, action) => {
 
 const initialState = {
   store:{
-    bulkSelectionMode:true,
-    collectionSelected:'abc',
+    bulkSelectionMode:false,
+    collectionSelected:'All Parts',
+    username:'Test User',
     //partsSelected:[],
     //currentPage:1
   }

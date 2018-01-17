@@ -6,7 +6,8 @@ import styled from 'styled-components';
 const Row = styled.div`
   width:100%;
   max-width:1170px;
-  margin:auto;
+  margin-left:auto;
+  margin-right:auto;
   display:flex;
   padding:0 0;
   flex-wrap:wrap;

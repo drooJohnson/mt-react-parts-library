@@ -3,9 +3,11 @@ import Button from '../components/buttons';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {PrintArea, ModelArea, OtherFilesArea} from '../components/files/file-area';
 
 const Card = styled.div`
   background-color:#ffffff;
+  color:#333333;
   padding:24px;
   margin-bottom:12px;
   line-height:20px;
@@ -19,6 +21,7 @@ const PartDetailHeading = styled.h2`
   font-size:32px;
   line-height:36px;
   margin-bottom:14px;
+  font-weight:normal;
 `
 
 const PartDetailDescription = styled.p`
@@ -48,7 +51,13 @@ const PanelHeading = styled.h5`
   line-height:15.4px;
   font-size:14px;
   margin-bottom:24px;
+  text-transform:uppercase;
   display:block;
+`
+
+const PanelSubhead = styled.span`
+  font-size:10px;
+  font-weight:bold;
 `
 
 const DetailsTable = styled.dl`
@@ -60,7 +69,7 @@ const DetailsTable = styled.dl`
   margin-right:0;
   display:grid;
   grid-auto-flow:row;
-  grid-template-columns:auto 1fr;
+  grid-template-columns:minmax(150px, auto) 4fr;
   grid-column-gap:20px;
   grid-row-gap:10px;
 `
@@ -87,7 +96,7 @@ const Detail = (props) => (
 
 const DetailsPanel = (props) => (
   <Card>
-    <PanelHeading>{props.name}</PanelHeading>
+    <PanelHeading>{props.name} { props.subtitle ? <PanelSubhead>{props.subtitle}</PanelSubhead> : null }</PanelHeading>
     {props.children}
   </Card>
 )
@@ -102,8 +111,33 @@ const DetailsDataTable = (props) => (
 
 const PartDetailsPanel = (props) => (
   <DetailsPanel name={props.name}>
+    { props.details ?
+      <DetailsDataTable details={props.details}/>
+    :
+      <span>No {props.name} Provided</span>
+    }
+
+  </DetailsPanel>
+)
+
+const PriceQuotesPanel = (props) => (
+  <DetailsPanel name="Price Quotes" subtitle="including materials">
+    <div style={{marginBottom:'12px'}}>Quantity</div>
     <DetailsDataTable details={props.details}/>
   </DetailsPanel>
 )
 
-export {DetailHeaderPanel, DetailsPanel, PartDetailsPanel};
+const ModelsPanel = (props) => (
+  <DetailsPanel name="Models">
+    <PrintArea/>
+    <ModelArea/>
+  </DetailsPanel>
+)
+
+const OtherFilesPanel = (props) => (
+  <DetailsPanel name="Other Files">
+    <OtherFilesArea/>
+  </DetailsPanel>
+)
+
+export {DetailHeaderPanel, DetailsPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel};

@@ -111,11 +111,11 @@ const CollectionsPanel = ({ collections, parts, gridarea, store }) => (
   <Wrapper gridarea={gridarea}>
     <CollectionsHeader/>
     <div style={{gridArea:'collections-body'}}>
-      <Collection name='All Parts' partCount={ parts ? parts.length : "..." }/>
+      <Collection name='All Parts' partCount={ parts ? parts.length : "..." } active={store.collectionSelected == 'All Parts'}/>
       {
         collections ?
         collections.map((collection) => (
-          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length}/>
+          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length} active={store.collectionSelected == collection.name}/>
         ))
         :
         <span>Loading</span>
@@ -131,27 +131,10 @@ CollectionsPanel.propTypes = {
   gridarea: PropTypes.string,
   store: PropTypes.object
 };
-//const withStore = compose(
-//  withContext({ store: PropTypes.object }, () => {}),
-//  getContext({ store: PropTypes.object }),
-//)
 
 export default compose(
-  //withStore,
-  //withHandlers({
-  //  loadData: props => err => props.store.firestore.get('collections')
-  //}),
-  //lifecycle({
-  //  componentWillMount() {
-  //    this.props.loadData()
-  //  }
-  //}),
   firestoreConnect(['collections','parts']),
   connect(
-    (state,props) => ({collections:state.firestore.ordered.collections, parts:state.firestore.ordered.parts})
+    (state,props) => ({collections:state.firestore.ordered.collections, parts:state.firestore.ordered.parts, store:state.store})
   )
-  //connect(({ firestore }) => {
-//    return({ // state.firebase
-//    collections: firestore.ordered.collections,
-///  })})
 )(CollectionsPanel)

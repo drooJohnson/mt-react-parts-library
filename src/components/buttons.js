@@ -3,18 +3,18 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const buttons = {
+const nature = {
   default:{
     borderColor: 'rgba(0,0,0,0.15)',
     backgroundColor: '#F7F7F7',
     backgroundImage: 'linear-gradient(-180deg,#fdfdfd 2%,#f7f7f7 97%);',
-    textColor: '#000000',
+    textColor: '#333333',
   },
   primary:{
     borderColor: 'rgba(0,0,0,0.15)',
-    backgroundColor: '#00AAFF',
+    backgroundColor: '#4eeeb9',
     backgroundImage: 'linear-gradient(-180deg,#5df7c4 6%,#4eeeb9 96%);',
-    textColor: '#FFFFFF',
+    textColor: '#000000',
   },
   caution:{
     borderColor: '#e69900',
@@ -42,21 +42,29 @@ const buttons = {
   }
 }
 
+const width = {
+  full:'100%',
+  block:'100%',
+  fullwidth:'100%',
+  stretch:'100%',
+}
+
 const Button = styled.button`
   font-family:proxima nova;
   font-weight:600;
   font-size:12px;
-  letter-spacing:0.5px;
   -webkit-appearance:none;
   background-color:#00e7b2;
   padding:8px 12px;
   border:solid 1px #00e7b2;
   border-radius: 2px;
+  width:${props => props.width ? width[props.width] : 'auto' };
+  justify-content:center;
   /* Adapt Colors based on badge type prop */
-  background-color: ${props => props.nature ? buttons[props.nature].backgroundColor : '#FFFFFF'};
-  background-image: ${props => props.nature ? buttons[props.nature].backgroundImage : 'none'};
-  border-color: ${props => props.nature ? buttons[props.nature].borderColor : 'none'};
-  color: ${props => props.nature ? buttons[props.nature].textColor : '#000000'};
+  background-color: ${props => props.nature ? nature[props.nature].backgroundColor : '#FFFFFF'};
+  background-image: ${props => props.nature ? nature[props.nature].backgroundImage : 'none'};
+  border-color: ${props => props.nature ? nature[props.nature].borderColor : 'none'};
+  color: ${props => props.nature ? nature[props.nature].textColor : '#000000'};
   display:inline-flex;
   &+&{
     margin-left:4px;

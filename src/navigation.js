@@ -2,7 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {NavLink as RouterNavLink, Link as RouterLink} from 'react-router-dom';
+import VerticalRule from './components/vertical-rule';
+import { NavLink as RouterNavLink, Link as RouterLink } from 'react-router-dom';
+import UserDropdown from './components/navigation/user-dropdown';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import Row from './layout/row';
 import Col from './layout/col';
@@ -87,7 +91,7 @@ const LogoImg = styled.img`
 
 const Logo = () => (
   <LogoLink to={{pathname:'/'}}>
-    <LogoImg src="logo.png"/>
+    <LogoImg src="../logo.png"/>
   </LogoLink>
 )
 
@@ -106,7 +110,8 @@ class Navigation extends React.Component {
             <DisabledLink>Machines</DisabledLink>
           </LinkList>
           <LinkList>
-            <DisabledLink>Shop</DisabledLink>
+            <UserDropdown name={this.props.store.username}/>
+            <VerticalRule verticalMargin="10px" color="#4a4a4a" style={{marginRight:0}}/>
             <DisabledLink>Estimate</DisabledLink>
           </LinkList>
         </Row>
@@ -119,4 +124,11 @@ Navigation.defaultProps = {
   gridArea:'navigation'
 }
 
-export default Navigation
+export default compose(
+  connect(
+    (state, props) =>
+      ({
+        store: state.store
+      })
+  )
+)(Navigation)

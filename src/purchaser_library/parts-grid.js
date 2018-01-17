@@ -9,7 +9,8 @@ import { isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components';
 
 import PartsGridSelectionBar from './parts-grid-selection-bar';
-import PartCard from './part-card';
+//import PartCard from './part-card';
+import PartCard from './bobby-part-card';
 
 // CardGrid > CardItem > CardPart > [CardOverlay > CardOverlayButton], PartBadge, PartName
 let partsArr = [
@@ -68,7 +69,7 @@ const PartsGrid = ({ parts, gridarea, store }) => (
         parts
         ?
         parts.map((part) => (
-          <PartCard key={part.id} part={part} />
+          <PartCard key={part.id} part={part} image="../parts/default-preview.png"/>
         ))
         :
         <span>Loading</span>
