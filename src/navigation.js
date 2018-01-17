@@ -12,7 +12,7 @@ import Col from './layout/col';
 const Nav = styled.nav.attrs({
   gridarea: props => props.gridarea || 'navigation',
 })`
-  background-color: #333333;
+  background-color: #313236;
   height: 70px;
   width: 100%;
   display:flex;
@@ -28,6 +28,7 @@ const Nav = styled.nav.attrs({
 `
 
 const Link = styled(RouterNavLink)`
+  transition: all 300ms ease;
   display:inline-block;
   min-width:100px;
   height:100%;
@@ -37,14 +38,31 @@ const Link = styled(RouterNavLink)`
   font-weight:bold;
   text-decoration:none;
   &:hover{
-    background-color: #666666;
-    color: #00e7b2;
+    background-color: #3d3d3d;
   }
-  background-color: ${props => props.active ? '#666666' : 'none' };
-  color: ${props => props.active ? '#00e7b2' : '#bbbbbb' };
+  background-color:none;
+  color:#bbbbbb;
   &.active{
-    background-color:#00FFAA;
+    background-color:#3d3d3d;
+    color:#00e7b2;
   }
+`
+
+const DisabledLink = styled.li`
+  transition: all 300ms ease;
+  display:inline-block;
+  min-width:100px;
+  height:100%;
+  line-height:70px;
+  text-align:center;
+  padding:0 24px;
+  font-weight:bold;
+  text-decoration:none;
+  &:hover{
+    background-color: #3d3d3d;
+  }
+  background-color:none;
+  color:#bbbbbb;
 `
 
 const LinkList = styled.ul`
@@ -53,7 +71,8 @@ const LinkList = styled.ul`
   padding:0;
 `
 
-const LogoLink = styled.div`
+const LogoLink = styled(RouterLink)`
+  display:block;
   margin: 12px 20px 12px 0;
   width: 46px;
 `
@@ -66,7 +85,11 @@ const LogoImg = styled.img`
   height:auto;
 `
 
-const Logo = () => <LogoLink><LogoImg src="logo.png"/></LogoLink>;
+const Logo = () => (
+  <LogoLink to={{pathname:'/'}}>
+    <LogoImg src="logo.png"/>
+  </LogoLink>
+)
 
 class Navigation extends React.Component {
   constructor(){
@@ -79,12 +102,12 @@ class Navigation extends React.Component {
           <Logo/>
           <LinkList style={{marginLeft:0,marginRight:'auto'}}>
             <Link to="/parts">Parts</Link>
-            <Link to="/jobs">Jobs</Link>
-            <Link to="/machines">Machines</Link>
+            <DisabledLink>Jobs</DisabledLink>
+            <DisabledLink>Machines</DisabledLink>
           </LinkList>
           <LinkList>
-            <Link to="/profile">Shop</Link>
-            <Link to="/estimate">Estimate</Link>
+            <DisabledLink>Shop</DisabledLink>
+            <DisabledLink>Estimate</DisabledLink>
           </LinkList>
         </Row>
       </Nav>
