@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import VerticalRule from '../components/vertical-rule';
 import ListGridSwitch from './list-grid-switch';
 import Pagination from '../components/pagination';
 
@@ -24,17 +25,6 @@ const Title = styled.div`
   letter-spacing:1px;
   align-self:center;
   padding-top:1px;
-`
-
-const VerticalRule = styled.div`
-  content: "";
-  border-left: 1px solid #ccc;
-  width: 1px;
-  right: -15px;
-  bottom: 4px;
-  top: 4px;
-  margin-left: 16px;
-  margin-right: 16px;
 `
 
 class PartsActionBar extends React.Component {

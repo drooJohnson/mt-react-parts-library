@@ -1,5 +1,9 @@
+import { createStore, combineReducers, compose } from 'redux'
 import firebase from 'firebase'
-require('firebase/firestore')
+import 'firebase/firestore' // add this to use Firestore
+import { reactReduxFirebase, firebaseReducer, createFirestoreConnect } from 'react-redux-firebase'
+import { reduxFirestore, firestoreReducer } from 'redux-firestore'
+
 
 var config = {
   apiKey: "AIzaSyCCrXyzLZiFIbEfeHzhAFOAjz2pYRqg29M",
@@ -12,39 +16,42 @@ var config = {
 
 firebase.initializeApp(config)
 
-const db = firebase.firestore();
+let firedb = firebase.firestore();
 
-const partsRef = db.collection('parts');
-const collectionsRef = db.collection('collections');
-
-/* Example GETters */
-/*
-let getParts = () => {
-  var partsArr = [];
-  partsRef.onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const data     = doc.data();
-            data.key = doc.id;
-      partsArr.push(data);
-      console.log(data);
-    })
-    console.log(partsArr);
-    return(partsArr);
-  })
+const rootReducer = (state = {}, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
 }
 
-let getCollections = () => {
-  var collectionsArr = [];
-  collectionsRef.onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const data     = doc.data();
-            data.key = doc.id;
-      collectionsArr.push(data);
-      console.log(data);
-    })
-    console.log(collectionsArr);
-    return(collectionsArr);
-  })
+const initialState = {
+  store:{
+    bulkSelectionMode:false,
+    collectionSelected:'All Parts',
+    username:'Test User',
+    //partsSelected:[],
+    //currentPage:1
+  }
 }
-*/
-export { db, partsRef, collectionsRef };
+
+const rrfConfig = {
+  userProfile: 'users',
+}
+
+const createStoreWithFirebase = compose(
+  reactReduxFirebase(firebase, rrfConfig),
+  reduxFirestore(firebase),
+)(createStore);
+
+const rootFireReducer = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
+  store: rootReducer
+})
+
+const store = createStoreWithFirebase(rootFireReducer, initialState);
+
+console.log(firedb.collection('parts').doc('4cAn5WllZ4ung9cgmOj8'));
+
+export {store};
