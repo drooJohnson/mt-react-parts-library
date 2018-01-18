@@ -69,7 +69,7 @@ const PartsGrid = ({ parts, gridarea, store }) => (
         parts
         ?
         parts.map((part) => (
-          <PartCard key={part.id} part={part} image="../parts/default-preview.png"/>
+          <PartCard key={part.id} part={part} image="../assets/default-preview.png"/>
         ))
         :
         <span>Loading</span>
