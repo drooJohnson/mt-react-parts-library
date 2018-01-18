@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withContext, getContext, withHandlers, lifecycle } from 'recompose'
 import { connect } from 'react-redux';
-import { isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
 
 import styled from 'styled-components';
 import Button from '../components/buttons.js';
@@ -63,9 +61,6 @@ const PartCount = styled.span`
 `
 
 class Collection extends React.Component {
-  constructor(props){
-    super(props);
-  }
   render(){
     return(
         <CollectionInner active={this.props.active} onClick={()=>{this.props.onClick(this.props.name)}}>
@@ -114,11 +109,11 @@ const CollectionsPanel = ({ collections, parts, gridarea, store, onAllPartsClick
   <Wrapper gridarea={gridarea}>
     <CollectionsHeader/>
     <div style={{gridArea:'collections-body'}}>
-      <Collection name='All Parts' partCount={ parts ? parts.length : "..." } active={store.collection.Name == ''} onClick={()=>{onAllPartsClick()}}/>
+      <Collection name='All Parts' partCount={ parts ? parts.length : "..." } active={store.collection.Name === ''} onClick={()=>{onAllPartsClick()}}/>
       {
         collections ?
         collections.map((collection) => (
-          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length} active={store.collection == collection} onClick={()=>{onCollectionClick(collection)}}/>
+          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length} active={store.collection === collection} onClick={()=>{onCollectionClick(collection)}}/>
         ))
         :
         <span>Loading</span>

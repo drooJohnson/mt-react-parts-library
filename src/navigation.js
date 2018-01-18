@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import VerticalRule from './components/vertical-rule';
 import { NavLink as RouterNavLink, Link as RouterLink } from 'react-router-dom';
@@ -9,7 +7,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import Row from './layout/row';
-import Col from './layout/col';
 
 // COMPONENTS ASSUME THEIR OWN NAME AS THEIR GRID-AREA VALUE UNLESS EXPLICITLY ASSIGNED OTHERWISE!
 
@@ -96,9 +93,6 @@ const Logo = () => (
 )
 
 class Navigation extends React.Component {
-  constructor(){
-    super();
-  }
   render(){
     return (
       <Nav gridArea={this.props.gridArea}>

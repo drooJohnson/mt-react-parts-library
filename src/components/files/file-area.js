@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFile from '@fortawesome/fontawesome-free-solid/faFile';

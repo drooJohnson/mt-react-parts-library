@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import VerticalRule from '../components/vertical-rule';
 
 import Row from '../layout/row';
-import Col from '../layout/col';
 
 import Search from '../inputs/search';
 import Button from '../components/buttons';
@@ -27,12 +24,7 @@ const RightWrapper = styled.div`
 `
 
 class Header extends React.Component {
-  constructor(){
-    super();
-    //const part = this.props.part;
-  }
   render(){
-    const part = this.props.part;
     return (
       <Wrapper>
         <Row>

@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -48,11 +46,7 @@ const LeftWrapper = styled.div`
 `
 
 class Header extends React.Component {
-  constructor(){
-    super();
-  }
   render(){
-    const part = this.props.part;
     return (
       <Wrapper>
         <Row>

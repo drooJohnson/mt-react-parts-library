@@ -1,24 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
-import { withContext, getContext, withHandlers, lifecycle } from 'recompose'
 
 import 'firebase/firestore'
-import { isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import Grid from '../layout/grid';
 
-import PartsGrid from '../purchaser_library/parts-grid.js';
-import Collections from '../purchaser_library/collections-panel.js';
 import Navigation from '../navigation.js';
 import Header from '../part_details/part-detail-header';
 import PartImage from '../part_details/part-image';
-import PartsActionBar from '../purchaser_library/parts-action-bar.js';
-import {DetailHeaderPanel, DetailsPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel} from '../part_details/detail-card';
+import {DetailHeaderPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel} from '../part_details/detail-card';
 import styled from 'styled-components';
 
 import PropTypes from 'prop-types';
@@ -51,10 +43,10 @@ class PartDetail extends React.Component {
 
     var dimensions;
 
-    if (part.dimensionFormat == "cubic"){
+    if (part.dimensionFormat === "cubic"){
       let {length,width,thickness} = part.dimensions;
       dimensions = (length || "No Length Provided") + " × " + (width || "No Width Provided") + " × " + (thickness || "No Thickness Provided") + " " + (part.units || "No Units Provided");
-    } else if (part.dimensionFormat == "cylindrical"){
+    } else if (part.dimensionFormat === "cylindrical"){
       let {diameter,length} = part.dimensions;
       dimensions = (diameter || "No Diameter Provided") + " " + (part.units || "No Units Provided") + " ∅ x " + (length || "No Length Provided") + " " + (part.units || "No Units Provided");
     } else {

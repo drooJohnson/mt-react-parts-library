@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from '../components/buttons.js';
@@ -60,7 +59,7 @@ class PartsGridSelectionBar extends React.Component {
         <BlueLink>Select All</BlueLink>
           <BarButton nature="info">Duplicate</BarButton>
           <BarButton nature="info">Archive</BarButton>
-          { (this.props.store.collectionSelected != 'All Parts') ? <BarButton nature="info">Remove From Collection</BarButton> : null }
+          { (this.props.store.collection.Name !== '') ? <BarButton nature="info">Remove From Collection</BarButton> : null }
           <BarButton nature="info">Add To Collection</BarButton>
           <BarButton nature="info">Add To Estimate</BarButton>
         <FontAwesomeIcon icon={faTimes} style={{marginLeft:'auto',fontSize:'18px',marginRight:'6px'}}/>

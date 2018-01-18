@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Button from '../components/buttons';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {PrintArea, ModelArea, OtherFilesArea} from '../components/files/file-area';
 
 const Card = styled.div`

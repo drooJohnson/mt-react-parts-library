@@ -1,8 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {NavLink as RouterNavLink, Link as RouterLink} from 'react-router-dom';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
@@ -38,9 +35,6 @@ const UserName = styled.span`
 `
 
 class UserDropdown extends React.Component {
-  constructor(props){
-    super(props);
-  }
   nameToInitials = (name) => {
     return(
       name.split(" ").map((n)=>n[0]).join("")

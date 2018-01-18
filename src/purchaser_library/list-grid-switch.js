@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -22,8 +20,8 @@ class ListGridSwitch extends React.Component {
   render(){
     return(
       <SwitchWrapper active={this.props.active}>
-        <FontAwesomeIcon icon={faAlignJustify} style={{fontSize:24, color: this.active == 'list' ? '#4eeeb9' : '#CCCCCC',}}/>
-        <FontAwesomeIcon icon={faThLarge} style={{fontSize:24,marginLeft:12, color: this.active == 'grid' ? '#4eeeb9' : '#CCCCCC',}}/>
+        <FontAwesomeIcon icon={faAlignJustify} style={{fontSize:24, color: this.active === 'list' ? '#4eeeb9' : '#CCCCCC',}}/>
+        <FontAwesomeIcon icon={faThLarge} style={{fontSize:24,marginLeft:12, color: this.active === 'grid' ? '#4eeeb9' : '#CCCCCC',}}/>
       </SwitchWrapper>
     )
   }

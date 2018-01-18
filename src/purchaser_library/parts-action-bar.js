@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import VerticalRule from '../components/vertical-rule';
 import ListGridSwitch from './list-grid-switch';

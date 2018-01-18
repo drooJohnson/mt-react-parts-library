@@ -1,10 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import 'firebase/firestore'
-import { isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -16,8 +13,6 @@ import Navigation from '../navigation.js';
 import Header from '../purchaser_library/header.js';
 import PartsActionBar from '../purchaser_library/parts-action-bar.js';
 import styled from 'styled-components';
-
-import PropTypes from 'prop-types';
 
 const PartsLibraryBase = styled.div`
   width:100%;

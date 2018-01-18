@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import DropDown from '../components/dropdown';
@@ -42,19 +41,6 @@ const Card = styled.div`
 const CardPart = Card.extend`
   position:relative;
   display: flex;
-`
-
-const CardOverlayButton = styled.button`
-  font-family:proxima nova;
-  font-weight:600;
-  font-size:12px;
-  letter-spacing:0.5px;
-  -webkit-appearance:none;
-  background-color:#00e7b2;
-  padding:8px 12px;
-  border:solid 1px #00e7b2;
-  border-radius:3px;
-  box-shadow:0 0 24px rgba(0,0,0,0.35);
 `
 
 const OverlayLink = styled(Link)`
@@ -148,14 +134,6 @@ const CardFooter = styled.div`
   width:100%;
 `
 
-const PriceWrapper = styled.div`
-  display:flex;
-  flex-direction:row;
-  justify-content:start;
-  align-items:end;
-  margin-bottom:16px;
-`
-
 const PriceRow = styled.div`
   width:100%;
   margin-bottom:16px;
@@ -178,10 +156,6 @@ const Each = styled.div`
   display:inline-block;
   margin-left:6px;
 `
-
-const DetailLink = ({id}) => (
-  <Link to={`/parts/${id}`}>View Part</Link>
-)
 
 class BobbyPartCard extends React.Component {
   constructor(props){

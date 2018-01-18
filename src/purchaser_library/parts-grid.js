@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withContext, getContext, withHandlers, lifecycle } from 'recompose'
+// import { withContext, getContext, withHandlers, lifecycle } from 'recompose'
 import { connect } from 'react-redux';
-import { isLoaded, isEmpty, firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase'
 
 import styled from 'styled-components';
 
@@ -53,8 +52,9 @@ const FilterPartCards = (partsRefs, parts) => {
     ))
     var output = parts.filter((part) => {
       for(var i=0; i<idArray.length; i++){
-        return (idArray[i] == part.id);
+        return (idArray[i] === part.id);
       }
+      return false;
     });
     return output;
 }
@@ -86,10 +86,12 @@ PartsGrid.propTypes = {
   store: PropTypes.object
 };
 
+/*
 const withStore = compose(
   withContext({ store: PropTypes.object }, () => {}),
   getContext({ store: PropTypes.object }),
 )
+*/
 
 export default compose(
   /*withStore,
