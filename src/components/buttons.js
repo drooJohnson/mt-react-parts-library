@@ -72,7 +72,7 @@ const Button = styled.button`
 `
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['primary','caution','error','info','success'])
+  nature: PropTypes.oneOf(['default','primary','caution','error','info','success'])
 }
 
 export default Button

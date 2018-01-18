@@ -35,7 +35,7 @@ const PartsLibraryBase = styled.div`
     ". body .";
 `
 
-const PartsLibrary = () => (
+const PartsLibrary = ({collections,parts,store}) => (
   <PartsLibraryBase>
       <Navigation gridarea="navigation"/>
       <Header gridarea="header"/>

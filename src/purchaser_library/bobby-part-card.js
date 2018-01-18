@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import DropDown from '../components/dropdown';
+import Select from '../components/select';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -107,7 +108,7 @@ const PartBadge = styled.div`
   color: ${props => props.nature ? badges[props.nature].textColor : null};
 `
 PartBadge.propTypes = {
-  nature: PropTypes.oneOf(['primary','caution','error','info','success'])
+  nature: PropTypes.oneOf(['primary','caution','error','info','success','default'])
 }
 
 const PartName = styled.h3`
@@ -185,8 +186,23 @@ const DetailLink = ({id}) => (
 class BobbyPartCard extends React.Component {
   constructor(props){
     super(props);
+    this.extractProcesses = () => {
+      var i;
+      var array = [];
+      var origin = this.props.part.secondaryProcesses;
+      for(i = 0; i < origin.length; i++){
+        array.push(origin[i].name);
+      }
+      return(
+        array.join(", ")
+      )
+    }
+    this.secondaryProcesses = ( this.props.part.secondaryProcesses ? this.extractProcesses() : "" );
+    this.material = (( this.props.part.material.type || null ) + ( this.props.part.material.grade ? ( " " + this.props.part.material.grade ) : null ));
+    this.machineTypes = (this.props.part.machineTypes && this.props.part.machineTypes.length > 0) ? this.props.part.machineTypes.join(", ") : undefined;
+    this.materialAndMachineTypes = (this.material && this.machineTypes) ? [this.material,this.machineTypes].join(", ") : (this.material||this.machineTypes);
   }
-  secondaryProcesses = (part) => {
+  /*secondaryProcesses = (part) => {
     if (part.secondaryProcesses) {
       var i;
       var array = [];
@@ -218,7 +234,7 @@ class BobbyPartCard extends React.Component {
     }
 
     return output;
-  }
+  }*/
   render(){
     const part = this.props.part;
     return (
@@ -231,13 +247,14 @@ class BobbyPartCard extends React.Component {
           </CardTop>
           <CardBottom>
             <PartName>{part.partNumber}</PartName>
-            <GreyDetail>{this.materialAndMachineType(part)}</GreyDetail>
-            <GreyDetail>{this.secondaryProcesses(part)}</GreyDetail>
+            <GreyDetail>{this.materialAndMachineTypes}</GreyDetail>
+            <GreyDetail>{this.secondaryProcesses}</GreyDetail>
             <CardFooter>
               <PriceRow>
                 <Price>$Price</Price><Each>ea</Each>
               </PriceRow>
               <ControlRow><DropDown value="1,000"/><DropDown value="4 Wks"/></ControlRow>
+              <ControlRow><Select value="1,000"/><Select value="4 Wks"/></ControlRow>
               <Button nature="default" width="stretch">Add to Estimate</Button>
             </CardFooter>
           </CardBottom>

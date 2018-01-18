@@ -12,26 +12,6 @@ import PartsGridSelectionBar from './parts-grid-selection-bar';
 //import PartCard from './part-card';
 import PartCard from './bobby-part-card';
 
-// CardGrid > CardItem > CardPart > [CardOverlay > CardOverlayButton], PartBadge, PartName
-let partsArr = [
-  {id:1,name:"MT0001",priced:true},
-  {id:2,name:"MT0002",priced:false},
-  {id:3,name:"MT0003",priced:true},
-  {id:4,name:"MT0004",priced:true},
-  {id:5,name:"MT0005",priced:true},
-  {id:6,name:"MT0006",priced:true},
-  {id:7,name:"MT0007",priced:true},
-  {id:8,name:"MT0008",priced:true},
-  {id:9,name:"MT0009",priced:true},
-  {id:10,name:"MT00010",priced:true},
-  {id:11,name:"MT00011",priced:true},
-  {id:12,name:"MT00012",priced:true},
-  {id:13,name:"MT00013",priced:true},
-  {id:14,name:"MT00014",priced:true},
-  {id:15,name:"MT00015",priced:true},
-  {id:16,name:"MT00016",priced:true},
-]
-
 const CardGrid = styled.div`
   width: 100%;
   height: 100%;
@@ -55,7 +35,31 @@ const PartsGridWrapper = styled.div`
   grid-area:${props => props.gridarea};
 `
 
-const PartsGrid = ({ parts, gridarea, store }) => (
+const PartCards = (parts) => {
+  return(
+    <React.Fragment>
+      {
+        parts ? parts.map((part) => (
+          <PartCard key={part.id} part={part} image="../assets/default-preview.png"/>
+        )) : <span>Loading...</span>
+      }
+    </React.Fragment>
+  )
+}
+
+const FilterPartCards = (partsRefs, parts) => {
+    var idArray = partsRefs.map((part) => (
+      part.id
+    ))
+    var output = parts.filter((part) => {
+      for(var i=0; i<idArray.length; i++){
+        return (idArray[i] == part.id);
+      }
+    });
+    return output;
+}
+
+const PartsGrid = ({ parts, collections, gridarea, store }) => (
   <PartsGridWrapper gridarea={gridarea}>
     {
       store.bulkSelectionMode
@@ -66,13 +70,10 @@ const PartsGrid = ({ parts, gridarea, store }) => (
     }
     <CardGrid>
       {
-        parts
-        ?
-        parts.map((part) => (
-          <PartCard key={part.id} part={part} image="../assets/default-preview.png"/>
-        ))
+        ( parts && store.collection.Parts /* if Parts is undefined, All Parts is selected, so no filtering needed */) ?
+        PartCards(FilterPartCards(store.collection.Parts,parts))
         :
-        <span>Loading</span>
+        PartCards(parts)
       }
     </CardGrid>
   </PartsGridWrapper>
@@ -80,6 +81,7 @@ const PartsGrid = ({ parts, gridarea, store }) => (
 
 PartsGrid.propTypes = {
   parts: PropTypes.array,
+  collections: PropTypes.array,
   gridarea: PropTypes.string,
   store: PropTypes.object
 };
@@ -99,10 +101,11 @@ export default compose(
       this.props.loadData('parts')
     }
   }),*/
-  firestoreConnect(['parts']),
+  firestoreConnect(['parts','collections']),
   connect(
     (state, props) =>
         ({
+      collections: state.firestore.ordered.collections,
       parts: state.firestore.ordered.parts,
       store: state.store
     })

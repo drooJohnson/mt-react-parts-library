@@ -63,9 +63,12 @@ const PartCount = styled.span`
 `
 
 class Collection extends React.Component {
+  constructor(props){
+    super(props);
+  }
   render(){
     return(
-        <CollectionInner active={this.props.active}>
+        <CollectionInner active={this.props.active} onClick={()=>{this.props.onClick(this.props.name)}}>
           <Name>{this.props.name}</Name>
           <PartCount>{this.props.partCount}</PartCount>
         </CollectionInner>
@@ -107,15 +110,15 @@ class A360Area extends React.Component {
   }
 }
 
-const CollectionsPanel = ({ collections, parts, gridarea, store }) => (
+const CollectionsPanel = ({ collections, parts, gridarea, store, onAllPartsClick, onCollectionClick }) => (
   <Wrapper gridarea={gridarea}>
     <CollectionsHeader/>
     <div style={{gridArea:'collections-body'}}>
-      <Collection name='All Parts' partCount={ parts ? parts.length : "..." } active={store.collectionSelected == 'All Parts'}/>
+      <Collection name='All Parts' partCount={ parts ? parts.length : "..." } active={store.collection.Name == ''} onClick={()=>{onAllPartsClick()}}/>
       {
         collections ?
         collections.map((collection) => (
-          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length} active={store.collectionSelected == collection.name}/>
+          <Collection key={collection.id} name={collection.Name} partCount={collection.Parts.length} active={store.collection == collection} onClick={()=>{onCollectionClick(collection)}}/>
         ))
         :
         <span>Loading</span>
@@ -135,6 +138,28 @@ CollectionsPanel.propTypes = {
 export default compose(
   firestoreConnect(['collections','parts']),
   connect(
-    (state,props) => ({collections:state.firestore.ordered.collections, parts:state.firestore.ordered.parts, store:state.store})
-  )
+    (state,props) => ({collections:state.firestore.ordered.collections, parts:state.firestore.ordered.parts, store:state.store}),
+    (dispatch) => ({
+      onCollectionClick: (collection) => {
+        dispatch({type:'CHANGE_COLLECTION', collection});
+        console.log(collection);
+      },
+      onAllPartsClick: () => {
+        dispatch({type:'CLEAR_SELECTION'});
+      }
+
+    })
+  )/*
+  connect(
+    (state)=> ({
+      collections:state.firestore.ordered.collections,
+      parts:state.firestore.ordered.parts,
+      store:state.store
+    }),
+    (dispatch) => ({
+      onClick:(collection) => {
+        dispatch({type:'CHANGE_COLLECTION', collection})
+      }
+    })
+  )*/
 )(CollectionsPanel)
