@@ -55,7 +55,7 @@ const PartsLibrary = ({collections,parts,store}) => (
         }}
       >
         <Collections gridarea="collections"/>
-        <PartsActionBar gridarea="actions" active="grid"/>
+        <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'}/>
         <PartsGrid gridarea="parts" style={{overflowY:'scroll'}}/>
       </Grid>
   </PartsLibraryBase>

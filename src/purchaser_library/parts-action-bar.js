@@ -23,13 +23,14 @@ const Title = styled.div`
   letter-spacing:1px;
   align-self:center;
   padding-top:1px;
+  text-transform:uppercase;
 `
 
 class PartsActionBar extends React.Component {
   render(){
     return (
       <ActionBarWrapper gridarea={this.props.gridarea}>
-        <Title>ALL PARTS</Title>
+        <Title>{this.props.collectionName}</Title>
         <Pagination style={{marginLeft:'auto'}}/>
         <VerticalRule/>
         <ListGridSwitch active={this.props.active}/>
