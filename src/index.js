@@ -11,7 +11,7 @@ import Testing from './pages/testing';
 
 import styled from 'styled-components';
 
-import Modal from './components/modal';
+import ModalContainer from './components/modals/modal-root.js';
 import Scrim from './components/scrim';
 
 const Page = styled.div`
@@ -32,7 +32,7 @@ ReactDOM.render((
           <Route path="/testing" component={Testing}/>
           <Redirect exact from="/" to="/parts"/>
         </Switch>
-      <Modal/>
+      <ModalContainer/>
       <Scrim/>
       </Page>
     </Router>

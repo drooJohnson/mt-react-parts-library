@@ -7,6 +7,7 @@ import Select from '../components/select';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons';
+import zIndex from '../utils/z-index.js';
 
 const CardOverlay = styled.div`
   display:none;
@@ -227,8 +228,8 @@ class BobbyPartCard extends React.Component {
               <PriceRow>
                 <Price>$Price</Price><Each>ea</Each>
               </PriceRow>
-              <ControlRow><DropDown value="1,000"/><DropDown value="4 Wks"/></ControlRow>
-              <ControlRow><Select value="1,000"/><Select value="4 Wks"/></ControlRow>
+              <ControlRow><DropDown value="1,000"/><div style={{content:'',display:'inline-block',width:'8px'}}/><DropDown value="4 Wks"/></ControlRow>
+              { false ? <ControlRow><Select value="1,000"/><Select value="4 Wks"/></ControlRow> : null }
               <Button nature="default" width="stretch">Add to Estimate</Button>
             </CardFooter>
           </CardBottom>

@@ -25,14 +25,9 @@ const ScrimBackdrop = styled.div`
 `
 
 class Scrim extends React.Component {
-  constructor(props){
-    super(props);
-    console.log(this);
-  }
   render(){
-    console.log(this);
     return (
-      <ScrimBackdrop {... this.props} onClick={()=>{this.props.onClick()}} display={this.props.display.toString()}/>
+      <ScrimBackdrop {... this.props} onClick={()=>{this.props.onClick()}} display={this.props.display} id="scrim"/>
     )
   }
 }
@@ -56,7 +51,7 @@ export default connect(
     (dispatch) => ({
       onClick: () => {
         dispatch({type: 'HIDE_SCRIM'});
-  //      dispatch({type: 'SHOW_MODAL'})
+        dispatch({type: 'HIDE_MODAL'});
       },
     })
   )(Scrim);

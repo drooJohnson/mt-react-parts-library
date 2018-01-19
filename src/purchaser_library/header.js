@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import VerticalRule from '../components/vertical-rule';
-
+import zIndex from '../utils/z-index.js';
 import Row from '../layout/row';
 
 import Search from '../inputs/search';
@@ -13,6 +13,8 @@ const Title = styled.h1`
 `
 
 const Wrapper = styled.div`
+  position:relative;
+  z-index:${zIndex['mid']};
   background:#fff;
   padding:16px 10px;
   grid-area:${props => props.gridarea || 'header'};

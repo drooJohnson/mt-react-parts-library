@@ -5,7 +5,7 @@ import { NavLink as RouterNavLink, Link as RouterLink } from 'react-router-dom';
 import UserDropdown from './components/navigation/user-dropdown';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-
+import zIndex from './utils/z-index';
 import Row from './layout/row';
 
 // COMPONENTS ASSUME THEIR OWN NAME AS THEIR GRID-AREA VALUE UNLESS EXPLICITLY ASSIGNED OTHERWISE!
@@ -20,6 +20,8 @@ const Nav = styled.nav.attrs({
   justify-content:space-between;
   align-items:stretch;
   color: white;
+  position:relative;
+  z-index:${zIndex['mid']};
   grid-area: ${props => props.gridarea || 'navigation'};
   ul{
     margin:0 0 0 0;

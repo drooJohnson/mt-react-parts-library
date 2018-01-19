@@ -7,6 +7,8 @@ import Button from '../components/buttons';
 
 import { connect } from 'react-redux';
 
+import { TESTING_MODAL } from '../constants/ModalTypes';
+
 const Div = styled.div`
   width:100%;
   height:100%;
@@ -24,14 +26,13 @@ const ModalScrimButton = connect(
   null,
   (dispatch) => ({
     onClick: () => {
-      console.log("DISPATCHING");
-      dispatch({type: 'SHOW_SCRIM',scrim:{
+      dispatch({type: 'SHOW_SCRIM', scrim:{
         color:'dark',
         opacity:0.5,
         zIndex:'high'
-      }});
-//      dispatch({type: 'SHOW_MODAL'})
-    },
+      }})
+      dispatch({type: 'SHOW_MODAL', modalType: TESTING_MODAL });
+    }
   })
 )(ButtonScaffold);
 

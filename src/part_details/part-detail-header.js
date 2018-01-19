@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleLeft from '@fortawesome/fontawesome-free-solid/faAngleLeft';
 import {Link} from 'react-router-dom';
+import zIndex from '../utils/z-index.js';
 
 import Row from '../layout/row';
 
@@ -37,6 +38,8 @@ const Wrapper = styled.div`
   height:60px;
   display:flex;
   align-items:stretch;
+  position:relative;
+  z-index:${zIndex['mid']};
   grid-area:${props => props.gridarea || 'header'};
 `
 

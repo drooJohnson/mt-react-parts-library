@@ -50,7 +50,8 @@ const width = {
 
 const ButtonBase = styled.button.attrs({
   onClick: props => props.onClick,
-  nature: props => props.nature
+  nature: props => props.nature,
+  width: props => props.width,
 })`
   font-family:proxima nova;
   font-weight:600;
@@ -73,11 +74,9 @@ const ButtonBase = styled.button.attrs({
   }
 `
 
-const Button = ({nature, onClick, children}) => {
-  console.log(onClick);
-  return(
-  <ButtonBase nature={nature} onClick={()=>{onClick()}}>{children}</ButtonBase>
-)}
+const Button = ({nature, onClick, width, children}) => (
+  <ButtonBase nature={nature} onClick={()=>{onClick()}} width={width}>{children}</ButtonBase>
+)
 
 Button.propTypes = {
   nature: PropTypes.oneOf(['default','primary','caution','error','info','success']),

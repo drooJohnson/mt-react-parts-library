@@ -3,7 +3,12 @@ import firebase from 'firebase'
 import 'firebase/firestore' // add this to use Firestore
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
 import { reduxFirestore, firestoreReducer } from 'redux-firestore'
-import zIndex from './utils/z-index'
+
+import bulkSelectionModeReducer from './redux/reducers/bulk-selection-mode';
+import collectionReducer from './redux/reducers/collection';
+import usernameReducer from './redux/reducers/username';
+import modalReducer from './redux/reducers/modal';
+import scrimReducer from './redux/reducers/scrim';
 
 
 var config = {
@@ -17,86 +22,33 @@ var config = {
 
 firebase.initializeApp(config)
 
-let firedb = firebase.firestore();
-
-const initialScrim = {
-  display:'false',
-  opacity:0,
-  color:'dark',
-  zIndex:'high',
-}
-
-const initialCollection = {
-  Name:'',
-  Parts:undefined,
-  id:''
-}
-
-const initialModal = {
-  type:null
-}
+firebase.firestore();
 
 const initialState = {
   store:{
     bulkSelectionMode: false,
-    collection: initialCollection,
+    collection: {
+      Name:'',
+      Parts:undefined,
+      id:''
+    },
     username: 'Test User',
-    modal: initialModal,
-    scrim: initialScrim
-    //partsSelected:[],
-    //currentPage:1
-  }
-}
-
-const username = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
-
-function collection (state = initialState, action) {
-  switch (action.type) {
-    case 'CHANGE_COLLECTION':
-      return action.collection
-    case 'CLEAR_SELECTION':
-      return initialCollection
-    default:
-      return state
-  }
-}
-
-function bulkSelectionMode (state = initialState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
-
-function modal (state = initialState, action) {
-  switch (action.type) {
-    case 'SHOW_MODAL':
-      return Object.assign({}, state, { type: action.modalType })
-    case 'HIDE_MODAL':
-      return initialModal
-    default:
-      return state;
-  }
-}
-
-function scrim (state = initialState, action) {
-  switch (action.type) {
-    case 'SHOW_SCRIM':
-      return Object.assign({}, state, action.scrim, {display:'true'})
-    case 'HIDE_SCRIM':
-      return Object.assign({}, state, {opacity:0,display:'false'})
-    default:
-      return state;
+    modal: {type:null},
+    scrim: {
+      display:'false',
+      opacity:0,
+      color:'dark',
+      zIndex:'high',
+    },
   }
 }
 
 const storeReducer = combineReducers({
-  bulkSelectionMode, collection, username, modal, scrim
+  bulkSelectionMode:bulkSelectionModeReducer,
+  collection:collectionReducer,
+  username:usernameReducer,
+  modal:modalReducer,
+  scrim:scrimReducer
 })
 
 
@@ -117,6 +69,6 @@ const rootFireReducer = combineReducers({
 
 const store = createStoreWithFirebase(rootFireReducer, initialState);
 
-console.log(firedb.collection('parts').doc('4cAn5WllZ4ung9cgmOj8'));
+console.log(store);
 
 export {store};

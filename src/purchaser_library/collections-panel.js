@@ -136,11 +136,11 @@ export default compose(
     (state,props) => ({collections:state.firestore.ordered.collections, parts:state.firestore.ordered.parts, store:state.store}),
     (dispatch) => ({
       onCollectionClick: (collection) => {
-        dispatch({type:'CHANGE_COLLECTION', collection});
+        dispatch({type:'CHANGE_SELECTED_COLLECTION', collection});
         console.log(collection);
       },
       onAllPartsClick: () => {
-        dispatch({type:'CLEAR_SELECTION'});
+        dispatch({type:'CLEAR_SELECTED_COLLECTION'});
       }
 
     })
@@ -153,7 +153,7 @@ export default compose(
     }),
     (dispatch) => ({
       onClick:(collection) => {
-        dispatch({type:'CHANGE_COLLECTION', collection})
+        dispatch({type:'CHANGE_SELECTED_COLLECTION', collection})
       }
     })
   )*/

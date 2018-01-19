@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import zIndex from '../utils/z-index.js';
+import zIndex from '../../utils/z-index.js';
+
+import { HIDE_MODAL, HIDE_SCRIM } from '../../constants/ActionTypes';
 
 const Content = styled.div`
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -25,7 +26,6 @@ const Content = styled.div`
 `
 
 const ModalWrapper = styled.div`
-  display: none;
   position:relative;
   outline: 0;
   width:auto;
@@ -61,7 +61,7 @@ class Modal extends React.Component {
     }
   }
 
-  onOverlayClick() {
+  onOverlayClick = (e) => {
     this.props.onClose();
   }
 
@@ -84,5 +84,11 @@ export default connect(
   (state, props) =>
     ({
       modal: state.store.modal
+    }),
+    (dispatch) => ({
+      onClose: () => {
+        dispatch({type:HIDE_MODAL});
+        dispatch({type:HIDE_SCRIM});
+      }
     })
   )(Modal);
