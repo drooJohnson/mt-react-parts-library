@@ -100,7 +100,7 @@ const SyncButton = styled(Button)`
 class A360Area extends React.Component {
   render(){
     return (
-      <SyncWrapper><SyncButton nature="info">Sync With A360</SyncButton></SyncWrapper>
+      <SyncWrapper><SyncButton nature="info" width="full">Sync With A360</SyncButton></SyncWrapper>
     )
   }
 }
