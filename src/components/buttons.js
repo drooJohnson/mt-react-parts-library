@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
 
 const nature = {
@@ -47,7 +48,10 @@ const width = {
   stretch:'100%',
 }
 
-const Button = styled.button`
+const ButtonBase = styled.button.attrs({
+  onClick: props => props.onClick,
+  nature: props => props.nature
+})`
   font-family:proxima nova;
   font-weight:600;
   font-size:12px;
@@ -69,8 +73,15 @@ const Button = styled.button`
   }
 `
 
+const Button = ({nature, onClick, children}) => {
+  console.log(onClick);
+  return(
+  <ButtonBase nature={nature} onClick={()=>{onClick()}}>{children}</ButtonBase>
+)}
+
 Button.propTypes = {
-  nature: PropTypes.oneOf(['default','primary','caution','error','info','success'])
+  nature: PropTypes.oneOf(['default','primary','caution','error','info','success']),
+  onClick: PropTypes.func,
 }
 
 export default Button

@@ -92,7 +92,7 @@ const SyncWrapper = styled.div`
   grid-area:collections-footer;
 `
 
-const SyncButton = Button.extend`
+const SyncButton = styled(Button)`
   width:100%;
   margin:0;
   justify-content:center;

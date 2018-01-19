@@ -35,12 +35,6 @@ const Count = styled.span`
   text-align:center;
 `
 
-const BarButton = Button.extend`
-  &+&{
-    margin-left:4px;
-  }
-`
-
 class PartsGridSelectionBar extends React.Component {
   static contextTypes = {
     store: PropTypes.object
@@ -57,11 +51,11 @@ class PartsGridSelectionBar extends React.Component {
        <SelectionBar gridarea={this.props.gridarea}>
         <Count>{this.selectNum}</Count><span>{this.selectNum > 1 ? `Parts Selected` : `Part Selected`}</span>
         <BlueLink>Select All</BlueLink>
-          <BarButton nature="info">Duplicate</BarButton>
-          <BarButton nature="info">Archive</BarButton>
-          { (this.props.store.collection.Name !== '') ? <BarButton nature="info">Remove From Collection</BarButton> : null }
-          <BarButton nature="info">Add To Collection</BarButton>
-          <BarButton nature="info">Add To Estimate</BarButton>
+          <Button nature="info">Duplicate</Button>
+          <Button nature="info">Archive</Button>
+          { (this.props.store.collection.Name !== '') ? <Button nature="info">Remove From Collection</Button> : null }
+          <Button nature="info">Add To Collection</Button>
+          <Button nature="info">Add To Estimate</Button>
         <FontAwesomeIcon icon={faTimes} style={{marginLeft:'auto',fontSize:'18px',marginRight:'6px'}}/>
        </SelectionBar>
    )

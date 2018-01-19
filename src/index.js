@@ -11,6 +11,9 @@ import Testing from './pages/testing';
 
 import styled from 'styled-components';
 
+import Modal from './components/modal';
+import Scrim from './components/scrim';
+
 const Page = styled.div`
   overflow:hidden;
   height:100vh;
@@ -29,6 +32,8 @@ ReactDOM.render((
           <Route path="/testing" component={Testing}/>
           <Redirect exact from="/" to="/parts"/>
         </Switch>
+      <Modal/>
+      <Scrim/>
       </Page>
     </Router>
   </Provider>

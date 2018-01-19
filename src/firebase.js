@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import 'firebase/firestore' // add this to use Firestore
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
 import { reduxFirestore, firestoreReducer } from 'redux-firestore'
+import zIndex from './utils/z-index'
 
 
 var config = {
@@ -18,16 +19,30 @@ firebase.initializeApp(config)
 
 let firedb = firebase.firestore();
 
+const initialScrim = {
+  display:'false',
+  opacity:0,
+  color:'dark',
+  zIndex:'high',
+}
+
+const initialCollection = {
+  Name:'',
+  Parts:undefined,
+  id:''
+}
+
+const initialModal = {
+  type:null
+}
+
 const initialState = {
   store:{
-    bulkSelectionMode:false,
-    collection:{
-      Name:'',
-      Parts:undefined,
-      id:''
-    },
-    username:'Test User',
-    showModal:true,
+    bulkSelectionMode: false,
+    collection: initialCollection,
+    username: 'Test User',
+    modal: initialModal,
+    scrim: initialScrim
     //partsSelected:[],
     //currentPage:1
   }
@@ -45,7 +60,7 @@ function collection (state = initialState, action) {
     case 'CHANGE_COLLECTION':
       return action.collection
     case 'CLEAR_SELECTION':
-      return initialState.store.collection
+      return initialCollection
     default:
       return state
   }
@@ -58,15 +73,30 @@ function bulkSelectionMode (state = initialState, action) {
   }
 }
 
-function showModal (state = initialState, action) {
+function modal (state = initialState, action) {
   switch (action.type) {
+    case 'SHOW_MODAL':
+      return Object.assign({}, state, { type: action.modalType })
+    case 'HIDE_MODAL':
+      return initialModal
+    default:
+      return state;
+  }
+}
+
+function scrim (state = initialState, action) {
+  switch (action.type) {
+    case 'SHOW_SCRIM':
+      return Object.assign({}, state, action.scrim, {display:'true'})
+    case 'HIDE_SCRIM':
+      return Object.assign({}, state, {opacity:0,display:'false'})
     default:
       return state;
   }
 }
 
 const storeReducer = combineReducers({
-  bulkSelectionMode, collection, username, showModal
+  bulkSelectionMode, collection, username, modal, scrim
 })
 
 
