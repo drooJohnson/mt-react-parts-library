@@ -82,6 +82,7 @@ const badges = {
 
 const PartBadge = styled.div`
   padding:6px 10px;
+  border-radius:2px;
   border-radius:14px;
   line-height:11px;
   font-size:11px;
