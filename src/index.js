@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 
 import PartsLibrary from './pages/parts-library';
 import PartDetail from './pages/part-detail';
+import PartForm from './pages/firestore-part';
+import CollectionForm from './pages/firestore-collection';
 
 import Testing from './pages/testing';
 
@@ -30,6 +32,8 @@ ReactDOM.render((
           <Route exact path="/parts" component={PartsLibrary}/>
           <Route path="/parts/:id" component={PartDetail}/>
           <Route path="/testing" component={Testing}/>
+          <Route path="/firestore_part" component={PartForm}/>
+          <Route path="firestore_collection" component={CollectionForm}/>
           <Redirect exact from="/" to="/parts"/>
         </Switch>
       <ModalContainer/>
