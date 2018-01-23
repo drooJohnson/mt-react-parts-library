@@ -7,7 +7,6 @@ import Select from '../components/select';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons';
-import zIndex from '../utils/z-index.js';
 
 const CardOverlay = styled.div`
   display:none;

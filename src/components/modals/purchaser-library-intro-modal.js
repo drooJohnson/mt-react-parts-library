@@ -3,10 +3,6 @@ import { hideModal } from '../../redux/actions/modal';
 import Modal from './modal';
 
 class PurchaserLibraryIntroModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   onClose = () => {
     hideModal();
   }

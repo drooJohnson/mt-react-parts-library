@@ -5,8 +5,10 @@ import zIndex from '../utils/z-index';
 import {connect} from 'react-redux';
 
 const colors = {
-  dark:'#000000',
-  light:'#FFFFFF'
+  black:'#000000',
+  dark:'#333333',
+  light:'#ECECEC',
+  white:'#FFFFFF',
 }
 
 // BY DEFAULT, THE SCRIM WILL BE BLACK, 50% OPACITY
