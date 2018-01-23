@@ -39,7 +39,7 @@ const PartCards = (parts) => {
     <React.Fragment>
       {
         parts ? parts.map((part) => (
-          <PartCard key={part.id} part={part} image="../assets/default-preview.png"/>
+          <PartCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`}/>
         )) : <span>Loading...</span>
       }
     </React.Fragment>

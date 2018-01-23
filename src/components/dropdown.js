@@ -49,11 +49,11 @@ class DropDown extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <DropDownBox onClick={()=>{this.props.onClick(this)}} {... this.state} style={{zIndex: this.state.open ? zIndex['mid'] : '0'}}>
+        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} style={{zIndex: this.state.open ? zIndex['mid'] : '0'}}>
           <Value>{this.props.value}</Value>
           <FontAwesomeIcon icon={faAngleDown}/>
         </DropDownBox>
-        { this.state.open ? <ScrimClone onClick={()=>{this.props.onScrimClick(this)}}{...this.state}/> : null }
+        { this.state.open ? <ScrimClone onClick={()=>{this.props.onClick();this.props.onScrimClick(this);}}{...this.state}/> : null }
       </React.Fragment>
     )
   }
@@ -62,7 +62,7 @@ class DropDown extends React.Component {
 export default connect(
   null,
   (dispatch) => ({
-    onClick: (ref) => {
+    scrimToggle: (ref) => {
       console.log("onclick");
       console.log(ref);
       if (ref.state.open === false) {

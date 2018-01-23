@@ -7,6 +7,8 @@ import Select from '../components/select';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons';
+import PopoverWrapper from '../components/popovers/popover-wrapper';
+import RadioGroup from '../components/radios/radio-group';
 
 const CardOverlay = styled.div`
   display:none;
@@ -122,17 +124,20 @@ const CardTop = styled.div`
   background-color:#fafafa;
   border-bottom:1px solid #ededed;
   background-image:${props => props.image ? "url(" + props.image + ")" : "none"};
-  background-size:cover;
+  background-position: center center;
+  background-size: contain;
   position:relative;
 `
 
 const CardBottom = styled.div`
   padding:16px;
+  position:relative;
 `
 
 const CardFooter = styled.div`
   margin-top:24px;
   width:100%;
+  position:relative;
 `
 
 const PriceRow = styled.div`
@@ -157,6 +162,21 @@ const Each = styled.div`
   display:inline-block;
   margin-left:6px;
 `
+let times = [
+  { value: '2wks',  display: '2 Weeks'  },
+  { value: '3wks',  display: '3 Weeks'  },
+  { value: '4wks',  display: '4 Weeks'  },
+  { value: '5wks',  display: '5+ Weeks' }
+]
+
+let quantities = [
+  { value: 1,      display: '1'       },
+  { value: 10,     display: '10'      },
+  { value: 100,    display: '100'     },
+  { value: 1000,   display: '1,000'   },
+  { value: 10000,  display: '10,000'  },
+  { value: 100000, display: '100,000' }
+]
 
 class BobbyPartCard extends React.Component {
   constructor(props){
@@ -176,45 +196,43 @@ class BobbyPartCard extends React.Component {
     this.material = (( this.props.part.material.type || null ) + ( this.props.part.material.grade ? ( " " + this.props.part.material.grade ) : null ));
     this.machineTypes = (this.props.part.machineTypes && this.props.part.machineTypes.length > 0) ? this.props.part.machineTypes.join(", ") : undefined;
     this.materialAndMachineTypes = (this.material && this.machineTypes) ? [this.material,this.machineTypes].join(", ") : (this.material||this.machineTypes);
-  }
-  /*secondaryProcesses = (part) => {
-    if (part.secondaryProcesses) {
-      var i;
-      var array = [];
-      var origin = part.secondaryProcesses;
-      console.log(part.secondaryProcesses);
-      for(i = 0; i < origin.length; i++){
-        array.push(origin[i].name);
-      }
-      return(
-        array.join(", ")
-      )
-    } else {
-      return
+    this.state = {
+      time: times[2],
+      quantity: quantities[2]
     }
   }
-  materialAndMachineType = (part) => {
-    var materialStr, machineTypesStr, output;
-    if ( part.material ) {
-      let { type, grade } = part.material;
-      materialStr = (( type || "" ) + ( grade ? ( " " + grade ) : "" ));
-    }
-    if ( part.machineTypes ) {
-      machineTypesStr = (part.machineTypes.join( ", " ));
-    }
-    if ( materialStr && machineTypesStr ) {
-      output = ( materialStr + ", " + machineTypesStr );
-    } else {
-      output = (materialStr || machineTypesStr);
-    }
 
-    return output;
-  }*/
+  getPartPrice = (prices) => {
+    let { value: timeKey, display: timeDisplay } = this.state.time;
+    let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
+    let price = prices[timeKey][quantityKey][1];
+    return price;
+    // prices = { timeKey: { quantityKey: value } };
+  }
+
+  getPartRange = (prices) => {
+    // prices = { timeKey: { quantityKey: [lowVal, highVal] } };
+    let { value: timeKey, display: timeDisplay } = this.state.time;
+    let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
+    let [lowVal,midVal,highVal] = prices[timeKey][quantityKey];
+    console.log(lowVal+"—"+highVal);
+    return lowVal+"—"+highVal;
+  }
+
+  handleTimeChange = (option) => {
+    this.setState({ time: option })
+  }
+
+  handleQuantityChange = (option) => {
+    this.setState({ quantity: option })
+  }
+
   render(){
     const part = this.props.part;
+    const boundaryId = part.id+"bounds";
     return (
       <CardItem>
-        <CardPart>
+        <CardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
           <CardTop image={this.props.image}>
             <CardOverlay>
               <OverlayButton id={part.id} nature="primary"/>
@@ -228,8 +246,13 @@ class BobbyPartCard extends React.Component {
               <PriceRow>
                 <Price>$Price</Price><Each>ea</Each>
               </PriceRow>
-              <ControlRow><DropDown value="1,000"/><div style={{content:'',display:'inline-block',width:'8px'}}/><DropDown value="4 Wks"/></ControlRow>
-              { false ? <ControlRow><Select value="1,000"/><Select value="4 Wks"/></ControlRow> : null }
+              <ControlRow><PopoverWrapper value={"1,000"} boundaryId={part.partNumber + "_bounds"} boundary={this.popoverBoundary}>
+                <RadioGroup options={times} name={"times"} partId={part.id} checked={this.state.time} handleChange={this.handleTimeChange}/>
+              </PopoverWrapper>
+              <PopoverWrapper value={"4 Wks"} boundaryId={part.partNumber + "_bounds"} boundary={this.popoverBoundary}>
+                <RadioGroup options={quantities} name={"quantities"} partId={part.id} checked={this.state.quantity} handleChange={this.handleQuantityChange}/>
+              </PopoverWrapper></ControlRow>
+              { false ? <ControlRow><DropDown value="1,000"/><div style={{content:'',display:'inline-block',width:'8px'}}/><DropDown value="4 Wks"/></ControlRow> : null }
               <Button nature="default" width="stretch">Add to Estimate</Button>
             </CardFooter>
           </CardBottom>

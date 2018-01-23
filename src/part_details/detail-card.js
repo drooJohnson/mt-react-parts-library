@@ -28,6 +28,11 @@ const PartDetailDescription = styled.p`
   line-height: 18px;
   color:#999999;
   font-style:italic;
+  margin-bottom:0;
+`
+
+const NoData = styled.span`
+  color:#999999;
 `
 
 const DetailHeaderPanel = (props) => (
@@ -113,25 +118,36 @@ const PartDetailsPanel = (props) => (
     { props.details ?
       <DetailsDataTable details={props.details}/>
     :
-      <span>No {props.name} Provided</span>
+      <NoData>No {props.name} Provided</NoData>
     }
 
   </DetailsPanel>
 )
 
-const PriceQuotesPanel = (props) => (
-  <DetailsPanel name="Price Quotes" subtitle="including materials">
-    <div style={{marginBottom:'12px'}}>Quantity</div>
-    <DetailsDataTable details={props.details}/>
-  </DetailsPanel>
-)
+const PriceQuotesPanel = (props) => {
 
-const ModelsPanel = (props) => (
-  <DetailsPanel name="Models">
-    <PrintArea/>
-    <ModelArea/>
+  return(
+  <DetailsPanel name="Price Quotes" subtitle="including materials">
+    { (props.details.length !== 0)?
+      <React.Fragment>
+        <div style={{marginBottom:'12px'}}>Quantity</div>
+        <DetailsDataTable details={props.details}/>
+      </React.Fragment>
+      :
+      <NoData>No Price Quotes Available</NoData>
+    }
+
   </DetailsPanel>
-)
+)}
+
+const ModelsPanel = (props) => {
+  console.log(props);
+  return(
+  <DetailsPanel name="Models">
+    <PrintArea data={props.data.print}/>
+    <ModelArea data={props.data.model}/>
+  </DetailsPanel>
+)}
 
 const OtherFilesPanel = (props) => (
   <DetailsPanel name="Other Files">

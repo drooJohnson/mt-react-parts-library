@@ -113,10 +113,48 @@ const DetailLink = ({id}) => (
   <Link to={`/parts/${id}`}>View Part</Link>
 )
 
+let times = [
+  { value: '2wks',  display: '2 Weeks'  },
+  { value: '3wks',  display: '3 Weeks'  },
+  { value: '4wks',  display: '4 Weeks'  },
+  { value: '5wks',  display: '5+ Weeks' }
+]
+
+let quantities = [
+  { value: 1,      display: '1'       },
+  { value: 10,     display: '10'      },
+  { value: 100,    display: '100'     },
+  { value: 1000,   display: '1,000'   },
+  { value: 10000,  display: '10,000'  },
+  { value: 100000, display: '100,000' }
+]
+
 class PartCard extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      time: times[2],
+      quantity: quantities[2]
+    }
   }
+
+  getPartPrice = (prices) => {
+    let { value: timeKey, display: timeDisplay } = this.state.time;
+    let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
+    let price = prices[timeKey][quantityKey][1];
+    return price;
+    // prices = { timeKey: { quantityKey: value } };
+  }
+
+  getPartRange = (prices) => {
+    // prices = { timeKey: { quantityKey: [lowVal, highVal] } };
+    let { value: timeKey, display: timeDisplay } = this.state.time;
+    let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
+    let [lowVal,midVal,highVal] = prices[timeKey][quantityKey];
+    console.log(lowVal+"—"+highVal);
+    return lowVal+"—"+highVal;
+  }
+  
   render(){
     const part = this.props.part;
     return (
