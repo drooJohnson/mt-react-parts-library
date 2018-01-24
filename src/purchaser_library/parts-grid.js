@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-// import { withContext, getContext, withHandlers, lifecycle } from 'recompose'
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 
 import styled from 'styled-components';
 
 import PartsGridSelectionBar from './parts-grid-selection-bar';
-//import PartCard from './part-card';
-import PartCard from './bobby-part-card';
+import PartCard from './part-card';
 
 const CardGrid = styled.div`
   width: 100%;
@@ -34,12 +32,12 @@ const PartsGridWrapper = styled.div`
   grid-area:${props => props.gridarea};
 `
 
-const PartCards = (parts) => {
+const PartCards = (parts, priceDisplay) => {
   return(
     <React.Fragment>
       {
         parts ? parts.map((part) => (
-          <PartCard key={part.id} part={part} image="../assets/default-preview.png"/>
+          <PartCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} priceDisplay={priceDisplay}/>
         )) : <span>Loading...</span>
       }
     </React.Fragment>
@@ -59,7 +57,7 @@ const FilterPartCards = (partsRefs, parts) => {
     return output;
 }
 
-const PartsGrid = ({ parts, collections, gridarea, store }) => (
+const PartsGrid = ({ parts, collections, gridarea, store, priceDisplay }) => (
   <PartsGridWrapper gridarea={gridarea}>
     {
       store.bulkSelectionMode
@@ -71,9 +69,9 @@ const PartsGrid = ({ parts, collections, gridarea, store }) => (
     <CardGrid>
       {
         ( parts && store.collection.Parts /* if Parts is undefined, All Parts is selected, so no filtering needed */) ?
-        PartCards(FilterPartCards(store.collection.Parts,parts))
+        PartCards(FilterPartCards(store.collection.Parts,parts), priceDisplay)
         :
-        PartCards(parts)
+        PartCards(parts, priceDisplay)
       }
     </CardGrid>
   </PartsGridWrapper>
@@ -83,7 +81,8 @@ PartsGrid.propTypes = {
   parts: PropTypes.array,
   collections: PropTypes.array,
   gridarea: PropTypes.string,
-  store: PropTypes.object
+  store: PropTypes.object,
+  priceDisplay: PropTypes.oneOf(["unit","quantity"])
 };
 
 /*

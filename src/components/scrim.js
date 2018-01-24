@@ -5,11 +5,13 @@ import zIndex from '../utils/z-index';
 import {connect} from 'react-redux';
 
 const colors = {
-  dark:'#000000',
-  light:'#FFFFFF'
+  black:'#000000',
+  dark:'#333333',
+  light:'#F3F3F3',
+  white:'#FFFFFF',
 }
 
-// BY DEFAULT, THE SCRIM WILL BE BLACK, 50% OPACITY
+// BY DEFAULT, THE SCRIM WILL BE BLACK, 70% OPACITY
 
 const ScrimBackdrop = styled.div`
   position:fixed;

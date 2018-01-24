@@ -31,6 +31,10 @@ const PartDetailBase = styled.div`
     ". body .";
 `
 
+const NoData = styled.span`
+  color:#999999;
+`
+
 class PartDetail extends React.Component {
   static contextTypes = {
     store: PropTypes.object
@@ -40,10 +44,11 @@ class PartDetail extends React.Component {
     this.partId = this.props.match.params.id
   }
   details = (part) => {
+    var description, dimensions, tolerance, material, machineTypes;
 
-    var dimensions;
+    description = ( part.description || <NoData>No Description</NoData> );
 
-    if (part.dimensionFormat === "cubic"){
+    /*if (part.dimensionFormat === "cubic"){
       let {length,width,thickness} = part.dimensions;
       dimensions = (length || "No Length Provided") + " × " + (width || "No Width Provided") + " × " + (thickness || "No Thickness Provided") + " " + (part.units || "No Units Provided");
     } else if (part.dimensionFormat === "cylindrical"){
@@ -51,20 +56,21 @@ class PartDetail extends React.Component {
       dimensions = (diameter || "No Diameter Provided") + " " + (part.units || "No Units Provided") + " ∅ x " + (length || "No Length Provided") + " " + (part.units || "No Units Provided");
     } else {
       dimensions = "No Format Data Provided";
-    }
+    }*/
+    dimensions = part.dimensions;
 
-    var tolerance = "±" + (part.minimumTolerance || 'No Tolerance Value Provided') + " " + (part.units || 'Unknown Units');
+    tolerance = "±" + ( part.minimumTolerance || <NoData>No Tolerance Value Provided</NoData> ) + " " + ( part.units || <NoData>Unknown Units</NoData> );
 
     let {grade, type} = part.material;
-    var material = (type||"No Type Provided") + " " + (grade||"No Grade Provided");
+    material = ( type || <NoData>No Type Provided</NoData> ) + " " + ( grade || <NoData>No Grade Provided</NoData> );
 
-    var machineType = (part.machineTypes ? part.machineTypes.join(", ") : "No Machine Types Provided");
+    machineTypes = ( part.machineTypes ? part.machineTypes.join(", ") : <NoData>No Machine Types Provided</NoData> );
 
     return(
       [
         {
           name:'Description',
-          value: part.description
+          value: description
         },{
           name:'Dimensions',
           value: dimensions
@@ -76,7 +82,7 @@ class PartDetail extends React.Component {
           value: material
         },{
           name:'Machine Type',
-          value: machineType
+          value: machineTypes
         }
       ]
     )
@@ -90,7 +96,7 @@ class PartDetail extends React.Component {
     for(i = 0; i < origin.length; i++){
       let obj = {
         name:origin[i].name,
-        value:origin[i].description
+        value:(origin[i].description || <NoData>No Description Provided</NoData>)
       };
         array.push(obj);
     }
@@ -100,7 +106,26 @@ class PartDetail extends React.Component {
   }
 
   customDetails = (part) => {
-    return part.customDetails
+    var i;
+    var array = [];
+    var origin = part.customDetails;
+    console.log(part.customDetails);
+    for(i = 0; i < origin.length; i++){
+      if (origin[i].name === "" && origin[i].description === ""){
+        continue
+      } else {
+        let obj = {
+          name:origin[i].name,
+          value:(origin[i].description || <NoData>No Description Provided</NoData>)
+        };
+        array.push(obj);
+      }
+    }
+    if (array[0]){
+      return array
+    } else {
+      return null
+    }
   }
 
   pricing = (part) => {
@@ -120,6 +145,14 @@ class PartDetail extends React.Component {
     return(
       array
     )
+  }
+
+  models = (part) => {
+    let output = {
+      model: part.assetId+'_model.stp',
+      print: part.assetId+'_print.pdf'
+    }
+    return output;
   }
 
   render() {
@@ -157,7 +190,7 @@ class PartDetail extends React.Component {
             { this.props.parts ?
               <React.Fragment>
                 <div style={{gridArea:'image'}}>
-                  <PartImage/>
+                  <PartImage image={`../assets/${this.props.parts[this.props.match.params.id].assets.thumbnail}`}/>
                 </div>
                 <div style={{gridArea:'details'}}>
                   <DetailHeaderPanel name={this.props.parts[this.props.match.params.id].partNumber}/>
@@ -165,7 +198,7 @@ class PartDetail extends React.Component {
                   <PartDetailsPanel name="Secondary Processes" details={this.secondaryProcesses(part)}/>
                   <PartDetailsPanel name="Custom Details" details={this.customDetails(part)}/>
                   <PriceQuotesPanel details={this.pricing(part)}/>
-                  <ModelsPanel/>
+                  <ModelsPanel data={this.models(part)}/>
                   <OtherFilesPanel/>
                 </div>
               </React.Fragment>

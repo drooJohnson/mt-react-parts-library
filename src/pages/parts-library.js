@@ -29,38 +29,57 @@ const PartsLibraryBase = styled.div`
     ". . ."
     ". body .";
 `
-
-const PartsLibrary = ({collections,parts,store}) => (
-  <PartsLibraryBase>
-      <Navigation gridarea="navigation"/>
-      <Header gridarea="header"/>
-      <Grid
-        gridrows='auto 1fr'
-        gridcolumns='1fr 3fr'
-        gridareas="
-          'collections actions'
-          'collections parts'
-        "
-        gridrowgap='8px'
-        gridcolumngap='16px'
-        style={{
-          gridArea:'body',
-          maxWidth:'1170px',
-          width:'100%',
-          margin:'0 auto',
-          overflow:'hidden',
-          position:'absolute',
-          height:'100%',
-          maxHeight:'100%',
-        }}
-      >
-        <Collections gridarea="collections"/>
-        <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'}/>
-        <PartsGrid gridarea="parts" style={{overflowY:'scroll'}}/>
-      </Grid>
-  </PartsLibraryBase>
-)
-
+class PartsLibrary extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      priceDisplay:'quantity', // CAN BE 'unit' or 'quantity'
+    }
+  }
+  onPriceScaleChange = (pricescale) => {
+    if (pricescale === "unit" || "quantity"){
+       this.setState({
+         priceDisplay:pricescale
+       });
+    } else {
+      console.log("Passed invalid value: "+pricescale+" for pricescale in parts-library.js");
+    }
+  }
+  render(){
+    let props = this.props;
+    let store = this.props.store;
+    return(
+      <PartsLibraryBase>
+          <Navigation gridarea="navigation"/>
+          <Header gridarea="header"/>
+          <Grid
+            gridrows='auto 1fr'
+            gridcolumns='1fr 3fr'
+            gridareas="
+              'collections actions'
+              'collections parts'
+            "
+            gridrowgap='8px'
+            gridcolumngap='16px'
+            style={{
+              gridArea:'body',
+              maxWidth:'1170px',
+              width:'100%',
+              margin:'0 auto',
+              overflow:'hidden',
+              position:'absolute',
+              height:'100%',
+              maxHeight:'100%',
+            }}
+          >
+            <Collections gridarea="collections"/>
+            <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} onPriceScaleChange={this.onPriceScaleChange}/>
+            <PartsGrid gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
+          </Grid>
+      </PartsLibraryBase>
+    )
+  }
+}
 export default compose(
   firestoreConnect(['parts','collections']),
   connect(
