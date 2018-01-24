@@ -53,6 +53,7 @@ const ButtonBase = styled.button.attrs({
   nature: props => props.nature,
   width: props => props.width,
 })`
+  cursor:pointer;
   font-family:proxima nova;
   font-weight:600;
   font-size:12px;
@@ -71,6 +72,9 @@ const ButtonBase = styled.button.attrs({
   display:inline-flex;
   &+&{
     margin-left:4px;
+  }
+  &:focus{
+    outline:none;
   }
 `
 

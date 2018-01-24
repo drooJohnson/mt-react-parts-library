@@ -36,9 +36,13 @@ const HeaderWrapper = styled.button`
   line-height:21px;
   align-self:end;
   grid-area:collections-header;
+  &:focus{
+    outline:none;
+  }
 `
 
 const CollectionInner = styled.div`
+  transition: all 300ms ease;
   position:relative;
   background: ${props => props.active ? '#ffffff' : '#fafafa'};
   padding: 12px;

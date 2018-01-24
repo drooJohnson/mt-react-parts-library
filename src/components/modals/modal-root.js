@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PurchaserLibraryIntroModal from './purchaser-library-intro-modal';
 import TestingModal from './testing-modal';
 
+// eslint-disable-next-line
 import { PURCHASER_LIBRARY_INTRO_MODAL, TESTING_MODAL } from '../../constants/ModalTypes';
 
 const MODAL_COMPONENTS = {
