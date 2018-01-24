@@ -1,29 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+
+import DropDown from '../components/dropdown';
+import Select from '../components/select';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-const CardOverlay = styled.div`
-  display:none;
-  justify-content:center;
-  align-items:center;
-  position: absolute;
-  top: 0;bottom: 0;left: 0;right: 0;
-  height:100%;
-  width:100%;
-  background-color:rgba(0,0,0,0.3);
-`
+import Button from '../components/buttons';
+import RadioGroup from '../components/radios/radio-group';
+import PartCardPrice from './part-card-price';
 
 const CardItem = styled.div`
   width: 100%;
-  height: 320px;
-  &:hover{
-    ${CardOverlay} {
-      display: flex;
-    }
-  }
+  position:relative;
 `
 
 const Card = styled.div`
@@ -33,26 +22,12 @@ const Card = styled.div`
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
 `
 
 const CardPart = Card.extend`
   position:relative;
-  padding:16px;
   display: flex;
-`
-
-const CardOverlayButton = styled.button`
-  font-family:proxima nova;
-  font-weight:600;
-  font-size:12px;
-  letter-spacing:0.5px;
-  -webkit-appearance:none;
-  background-color:#00e7b2;
-  padding:8px 12px;
-  border:solid 1px #00e7b2;
-  border-radius:3px;
-  box-shadow:0 0 24px rgba(0,0,0,0.35);
 `
 
 const badges = {
@@ -84,8 +59,8 @@ const badges = {
 }
 
 const PartBadge = styled.div`
-  justify-self:flex-start;
   padding:6px 10px;
+  border-radius:2px;
   border-radius:14px;
   line-height:11px;
   font-size:11px;
@@ -99,19 +74,90 @@ const PartBadge = styled.div`
   color: ${props => props.nature ? badges[props.nature].textColor : null};
 `
 PartBadge.propTypes = {
-  nature: PropTypes.oneOf(['primary','caution','error','info','success'])
+  nature: PropTypes.oneOf(['primary','caution','error','info','success','default'])
 }
 
 const PartName = styled.h3`
-  justify-self:flex-end;
-  margin-top:auto;
-  font-weight:100;
-  margin-bottom:0;
+  font-weight:bold;
+  font-size:18px;
+  margin-bottom:8px;
 `
 
-const DetailLink = ({id}) => (
-  <Link to={`/parts/${id}`}>View Part</Link>
-)
+const GreyDetail = styled.p`
+  font-size:11px;
+  line-height:11px;
+  color:#797979;
+  margin-bottom:4px;
+  margin-top:0;
+  min-height:11px;
+  &:last-of-type{
+    margin-bottom:0;
+  }
+`
+
+const CardTop = styled.div`
+  width:100%;
+  height:264px;
+  background-color:#fafafa;
+  border-bottom:1px solid #ededed;
+  background-image:${props => props.image ? "url(" + props.image + ")" : "none"};
+  background-position: center center;
+  background-size: contain;
+  position:relative;
+`
+
+const CardBottom = styled.div`
+  padding:16px;
+  position:relative;
+`
+
+const CardFooter = styled.div`
+  margin-top:1px;
+  width:100%;
+  position:relative;
+`
+
+const PriceRow = styled.div`
+  width:100%;
+  margin-bottom:16px;
+`
+
+const ControlRow = styled.div`
+  width:100%;
+  margin-bottom:32px;
+`
+
+const Price = styled.div`
+  font-size:18px;
+  color:#2196F3;
+  display:inline-block;
+`
+
+const Each = styled.div`
+  font-size:14px;
+  color:#797979;
+  display:inline-block;
+  margin-left:6px;
+`
+const CardFill = styled.div`
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background-color:rgba(0,0,0,0.5);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-end;
+`
+
+const RadioBlock = styled.div`
+  padding:16px;
+  background-color:white;
+  margin-bottom:99px;
+  z-index:500;
+  box-shadow:0 4px 8px rgba(0,0,0,0.1);
+  border-radius:2px;
+`
 
 let times = [
   { value: '2wks',  display: '2 Weeks'  },
@@ -129,47 +175,108 @@ let quantities = [
   { value: 100000, display: '100,000' }
 ]
 
-class PartCard extends React.Component {
+class BobbyPartCard extends React.Component {
   constructor(props){
     super(props);
+    this.extractProcesses = () => {
+      var i;
+      var array = [];
+      var origin = this.props.part.secondaryProcesses;
+      for(i = 0; i < origin.length; i++){
+        array.push(origin[i].name);
+      }
+      return(
+        array.join(", ")
+      )
+    }
+    this.secondaryProcesses = ( this.props.part.secondaryProcesses ? this.extractProcesses() : "" );
+    this.material = (( this.props.part.material.type || null ) + ( this.props.part.material.grade ? ( " " + this.props.part.material.grade ) : null ));
+    this.machineTypes = (this.props.part.machineTypes && this.props.part.machineTypes.length > 0) ? this.props.part.machineTypes.join(", ") : undefined;
+    this.materialAndMachineTypes = (this.material && this.machineTypes) ? [this.material,this.machineTypes].join(", ") : (this.material||this.machineTypes);
     this.state = {
       time: times[2],
-      quantity: quantities[2]
+      quantity: quantities[2],
+      open: "",
+      hover: false,
+    }
+  }
+  handleMouseOver = () => {
+    console.log("MOUSE OVER");
+    this.setState({hover:true});
+  }
+
+  handleMouseOut = () => {
+    console.log("MOUSE OUT");
+    this.setState({hover:false});
+  }
+
+  handleTimeClick = () => {
+    if (this.state.open === "time") {
+      this.setState({open:""});
+    } else {
+      this.setState({open:"time"});
     }
   }
 
-  getPartPrice = (prices) => {
-    let { value: timeKey, display: timeDisplay } = this.state.time;
-    let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
-    let price = prices[timeKey][quantityKey][1];
-    return price;
-    // prices = { timeKey: { quantityKey: value } };
+  handleQuantityClick = () => {
+    if (this.state.open === "quantity") {
+      this.setState({open:""});
+    } else {
+      this.setState({open:"quantity"});
+    }
   }
 
-  getPartRange = (prices) => {
-    // prices = { timeKey: { quantityKey: [lowVal, highVal] } };
+  getPartPrices = (prices, priceScale) => {
     let { value: timeKey, display: timeDisplay } = this.state.time;
     let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
-    let [lowVal,midVal,highVal] = prices[timeKey][quantityKey];
-    console.log(lowVal+"—"+highVal);
-    return lowVal+"—"+highVal;
+    return {
+      low: (prices[timeKey][quantityKey][0] * priceScale).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+      median: (prices[timeKey][quantityKey][1] * priceScale).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+      high: (prices[timeKey][quantityKey][2] * priceScale).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+    }
   }
-  
+
+  handleTimeChange = (option) => {
+    this.setState({ time: option })
+  }
+
+  handleQuantityChange = (option) => {
+    this.setState({ quantity: option })
+  }
+
   render(){
     const part = this.props.part;
+    const boundaryId = part.id+"bounds";
+    const priceScale = ( this.props.priceDisplay === "quantity" ? this.state.quantity.value : 1 );
     return (
-      <CardItem>
-        <CardPart>
-          <CardOverlay>
-            <CardOverlayButton>{part.priced ? 'View Results' : 'Price Part'}</CardOverlayButton>
-            <DetailLink id={part.id}/>
-          </CardOverlay>
-          {!part.priced ? <PartBadge nature='caution'>NEEDS PRICING</PartBadge> : null }
-          <PartName>{part.partNumber}</PartName>
+      <CardItem onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+        <CardFill>
+            { (this.state.open !== "") ?
+
+              <RadioBlock><RadioGroup options={(this.state.open === "quantity") ? quantities : times } name={this.state.open} partId={part.id} checked={ (this.state.open === "quantity") ? this.state.quantity : this.state.time } handleChange={ (this.state.open === "quantity") ? this.handleQuantityChange : this.handleTimeChange }/></RadioBlock>
+          : null }
+
+        </CardFill>
+        <CardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
+          <CardTop image={this.props.image}/>
+          <CardBottom>
+            <PartName>{part.partNumber}</PartName>
+            <GreyDetail>{this.materialAndMachineTypes}</GreyDetail>
+            <GreyDetail>{this.secondaryProcesses}</GreyDetail>
+            <CardFooter>
+              <PartCardPrice prices={this.getPartPrices(part.prices,priceScale)} hover={this.state.hover} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ "+this.state.quantity.display }/>
+              { true ? <ControlRow><DropDown onClick={this.handleQuantityClick} value={this.state.quantity.display}/><div style={{content:'',display:'inline-block',width:'8px'}}/><DropDown onClick={this.handleTimeClick} value={this.state.time.display}/></ControlRow> : null }
+              <Button nature="default" width="stretch">Add to Estimate</Button>
+            </CardFooter>
+          </CardBottom>
         </CardPart>
       </CardItem>
     )
   }
 }
-
-export default PartCard;
+BobbyPartCard.propTypes = {
+  part:PropTypes.object,
+  image:PropTypes.string,
+  priceDisplay:PropTypes.oneOf(["unit","quantity"])
+}
+export default BobbyPartCard;

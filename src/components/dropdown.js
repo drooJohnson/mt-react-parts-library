@@ -69,7 +69,7 @@ export default connect(
         console.log(ref.state.open);
         dispatch({type: 'SHOW_SCRIM', scrim:{
           color:'light',
-          opacity:0.75,
+          opacity:0.7,
           zIndex:'low'
         }})
         ref.setState({open:true})

@@ -1,0 +1,22 @@
+<svg width="264px" height="101px" viewBox="0 0 264 101" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="50%" y1="3.64317602%" x2="50%" y2="29.3053505%" id="linearGradient-1">
+            <stop stop-color="#008DFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M0,61 C6.76458598,56.2061134 13.0901068,52.9427516 18.9765625,51.2099148 C64.1154122,37.9220782 75.9453125,0.5078125 132,0.5078125 C188.054688,0.5078125 201.012997,38.7418466 244.108025,51.2099148 C250.839219,53.1573551 257.469878,56.4207168 264,61 L264,102.605469 L264,221 L0,221 L0,61 Z" id="path-2"></path>
+    </defs>
+    <g id="price_card" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0.000000, -121.000000)">
+        <g id="Group-10">
+            <g id="chart" transform="translate(0.000000, 112.000000)">
+                <g id="Rectangle-8" transform="translate(0.000000, 9.000000)">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <use id="Mask" fill="url(#linearGradient-1)" opacity="0.2" xlink:href="#path-2"></use>
+                    <rect fill="#FFFFFF" style="mix-blend-mode: hard-light;" opacity="0.5" mask="url(#mask-3)" x="61" y="-13" width="142" height="178"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

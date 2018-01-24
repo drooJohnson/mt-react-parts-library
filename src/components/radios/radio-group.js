@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const RadioGroup = ({options,name,partId,handleChange,checked}) => {
     //console.log("options:"+options+", name:"+name+", partId:"+partId);
   return(
-    <div>
+    <div style={{position:'relative',zIndex:'500'}}>
       {
         options.map(
           (option)=>(

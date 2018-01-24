@@ -2,10 +2,13 @@ import React from 'react';
 import Styled from 'styled-components';
 
 let buttonSize = '10px';
-let checkSize = '8px';
 let blueColor = '#4a90e2';
 
 const CustomRadio = Styled.div`
+  margin-bottom:8px;
+  &:last-of-type{
+    margin-bottom:0;
+  }
   display:block;
   text-align:left;
 
@@ -23,6 +26,7 @@ const CustomRadio = Styled.div`
   .custom-label
   {
     span{
+    color:#333333;
     font-size:12px;
     line-height:12px;
     font-weight:500;
@@ -30,7 +34,6 @@ const CustomRadio = Styled.div`
     cursor: pointer;
     display: inline-block;
     vertical-align:middle;
-    color: #000000;
     }
   }
 
@@ -56,7 +59,7 @@ const CustomRadio = Styled.div`
     border: 1px solid #ddd;
     border-radius: 100%;
     background: #fff;
-    margin-right: 6px;
+    margin-right: 8px;
   }
 
   [type="radio"]:checked + label:before

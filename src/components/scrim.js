@@ -7,11 +7,11 @@ import {connect} from 'react-redux';
 const colors = {
   black:'#000000',
   dark:'#333333',
-  light:'#ECECEC',
+  light:'#F3F3F3',
   white:'#FFFFFF',
 }
 
-// BY DEFAULT, THE SCRIM WILL BE BLACK, 50% OPACITY
+// BY DEFAULT, THE SCRIM WILL BE BLACK, 70% OPACITY
 
 const ScrimBackdrop = styled.div`
   position:fixed;
