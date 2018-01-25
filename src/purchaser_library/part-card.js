@@ -4,16 +4,36 @@ import PropTypes from 'prop-types';
 import DropDown from '../components/dropdown';
 import Select from '../components/select';
 
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons';
 import RadioGroup from '../components/radios/radio-group';
 import PartCardPrice from './part-card-price';
+import zIndex from '../utils/z-index';
+
+import Loader from './card-loader';
 
 const CardItem = styled.div`
   width: 100%;
   position:relative;
 `
+
+/*const Card = styled.div`
+  background-color:white;
+  height:100%;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.05);
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  filter:contrast(0.75)brightness(1.15);
+  transition:filter 300ms ease;
+  &:hover{
+    box-shadow: 0 3px 8px 0 rgba(0,0,0,0.1);
+    filter:contrast(1.0)brightness(1.0);
+  }
+`*/
 
 const Card = styled.div`
   background-color:white;
@@ -23,6 +43,10 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+  transition:box-shadow 300ms ease;
+  &:hover{
+    box-shadow: 0 3px 8px 0 rgba(0,0,0,0.1);
+  }
 `
 
 const CardPart = Card.extend`
@@ -97,13 +121,16 @@ const GreyDetail = styled.p`
 
 const CardTop = styled.div`
   width:100%;
-  height:264px;
+  height:204px;
   background-color:#fafafa;
   border-bottom:1px solid #ededed;
   background-image:${props => props.image ? "url(" + props.image + ")" : "none"};
+  filter:${props => props.hover ? 'contrast(1.0) brightness(1.0)' : 'contrast(0.8) brightness(1.125)'};
   background-position: center center;
+  background-repeat:no-repeat;
   background-size: contain;
   position:relative;
+  transition:filter 300ms ease;
 `
 
 const CardBottom = styled.div`
@@ -142,7 +169,6 @@ const Each = styled.div`
 const CardFill = styled.div`
   position:absolute;
   top:0;left:0;right:0;bottom:0;
-  background-color:rgba(0,0,0,0.5);
   padding:16px;
   display:flex;
   flex-direction:column;
@@ -150,11 +176,19 @@ const CardFill = styled.div`
   justify-content:flex-end;
 `
 
+const ScreenFill = styled.div`
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background-color:#f3f3f3;
+  opacity:0.7;
+  z-index:${zIndex.low};
+`
+
 const RadioBlock = styled.div`
-  padding:16px;
+  padding:16px 12px;
   background-color:white;
-  margin-bottom:99px;
-  z-index:500;
+  margin-bottom:101px;
+  z-index:${zIndex['mid']};
   box-shadow:0 4px 8px rgba(0,0,0,0.1);
   border-radius:2px;
 `
@@ -195,34 +229,35 @@ class BobbyPartCard extends React.Component {
     this.materialAndMachineTypes = (this.material && this.machineTypes) ? [this.material,this.machineTypes].join(", ") : (this.material||this.machineTypes);
     this.state = {
       time: times[2],
-      quantity: quantities[2],
-      open: "",
+      timeOpen: false,
+      quantity: quantities[3],
+      quantityOpen: false,
       hover: false,
+      loading: false,
+      displayLoader: false,
     }
   }
   handleMouseOver = () => {
-    console.log("MOUSE OVER");
     this.setState({hover:true});
   }
 
   handleMouseOut = () => {
-    console.log("MOUSE OUT");
     this.setState({hover:false});
   }
 
   handleTimeClick = () => {
-    if (this.state.open === "time") {
-      this.setState({open:""});
+    if (this.state.timeOpen) {
+      this.setState({timeOpen:false,quantityOpen:false});
     } else {
-      this.setState({open:"time"});
+      this.setState({timeOpen:true,quantityOpen:false});
     }
   }
 
   handleQuantityClick = () => {
-    if (this.state.open === "quantity") {
-      this.setState({open:""});
+    if (this.state.quantityOpen) {
+      this.setState({quantityOpen:false,timeOpen:false});
     } else {
-      this.setState({open:"quantity"});
+      this.setState({quantityOpen:true,timeOpen:false});
     }
   }
 
@@ -236,36 +271,55 @@ class BobbyPartCard extends React.Component {
     }
   }
 
-  handleTimeChange = (option) => {
-    this.setState({ time: option })
-  }
+  triggerFauxLoader = (value,timeout = 1000) => {
+    if (value.time){
+      this.setState({loading:true,displayLoader:true});
+      setTimeout(()=> {
+        this.setState({displayLoader:false})
+      }, 1300);
+      setTimeout(()=> {
+        this.setState({time:value.time,loading:false})
+      }, timeout);
+    } else if (value.quantity){
+      this.setState({loading:true,displayLoader:true});
+      setTimeout(()=> {
+        this.setState({displayLoader:false})
+      }, 1300);
+      setTimeout(()=> {
+        this.setState({quantity:value.quantity,loading:false})
+      }, timeout);
+    }
 
-  handleQuantityChange = (option) => {
-    this.setState({ quantity: option })
   }
 
   render(){
     const part = this.props.part;
     const boundaryId = part.id+"bounds";
     const priceScale = ( this.props.priceDisplay === "quantity" ? this.state.quantity.value : 1 );
+    const ref = this;
     return (
       <CardItem onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-        <CardFill>
-            { (this.state.open !== "") ?
-
-              <RadioBlock><RadioGroup options={(this.state.open === "quantity") ? quantities : times } name={this.state.open} partId={part.id} checked={ (this.state.open === "quantity") ? this.state.quantity : this.state.time } handleChange={ (this.state.open === "quantity") ? this.handleQuantityChange : this.handleTimeChange }/></RadioBlock>
-          : null }
-
-        </CardFill>
+        { (this.state.quantityOpen || this.state.timeOpen) ?
+          <React.Fragment>
+            <ScreenFill onClick={()=>{this.onScrimClick(this)}}/>
+            {this.state.quantityOpen && <CardFill><RadioBlock><RadioGroup options={quantities} name={"quantity"} partId={part.id} checked={this.state.quantity} submitRef={ref} handleSubmit={this.props.handleQuantityChange}/></RadioBlock></CardFill>}
+            {this.state.timeOpen && <CardFill><RadioBlock><RadioGroup options={times} name={"time"} partId={part.id} checked={this.state.time} submitRef={ref} handleSubmit={this.props.handleTimeChange}/></RadioBlock></CardFill>}
+          </React.Fragment>
+        : null }
+            { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <CardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
-          <CardTop image={this.props.image}/>
+          <CardTop image={this.props.image} hover={this.state.hover}/>
           <CardBottom>
             <PartName>{part.partNumber}</PartName>
             <GreyDetail>{this.materialAndMachineTypes}</GreyDetail>
             <GreyDetail>{this.secondaryProcesses}</GreyDetail>
             <CardFooter>
-              <PartCardPrice prices={this.getPartPrices(part.prices,priceScale)} hover={this.state.hover} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ "+this.state.quantity.display }/>
-              { true ? <ControlRow><DropDown onClick={this.handleQuantityClick} value={this.state.quantity.display}/><div style={{content:'',display:'inline-block',width:'8px'}}/><DropDown onClick={this.handleTimeClick} value={this.state.time.display}/></ControlRow> : null }
+              <PartCardPrice prices={this.getPartPrices(part.prices,priceScale)} hover={this.state.hover} loading={this.state.loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ "+this.state.quantity.display }/>
+              <ControlRow>
+                <DropDown open={this.state.quantityOpen} onClick={this.handleQuantityClick} value={this.state.quantity.display} longestValue={quantities.slice(-1)[0].display}/>
+                <div style={{display:'inline-block',width:'8px'}}/>
+                <DropDown open={this.state.timeOpen} onClick={this.handleTimeClick} value={this.state.time.display} longestValue={times.slice(-1)[0].display}/>
+              </ControlRow>
               <Button nature="default" width="stretch">Add to Estimate</Button>
             </CardFooter>
           </CardBottom>
@@ -279,4 +333,33 @@ BobbyPartCard.propTypes = {
   image:PropTypes.string,
   priceDisplay:PropTypes.oneOf(["unit","quantity"])
 }
-export default BobbyPartCard;
+
+export default connect(
+  null,
+  (dispatch) => ({
+    handleTimeChange: (newValue,originalValue,ref) => {
+      if (originalValue !== newValue){
+        ref.triggerFauxLoader({time: newValue});
+        ref.setState({timeOpen: false, quantityOpen: false })
+        dispatch({type: 'HIDE_SCRIM'})
+      } else {
+        ref.setState({ time: newValue, timeOpen: false, quantityOpen: false })
+        dispatch({type: 'HIDE_SCRIM'})
+      }
+    },
+    handleQuantityChange: (newValue,originalValue,ref) => {
+      if (originalValue !== newValue){
+        ref.triggerFauxLoader({quantity: newValue});
+        ref.setState({quantityOpen: false, timeOpen: false })
+        dispatch({type: 'HIDE_SCRIM'})
+      } else {
+        ref.setState({ quantity: newValue, quantityOpen: false, timeOpen: false })
+        dispatch({type: 'HIDE_SCRIM'})
+      }
+    },
+    onScrimClick: (ref) => {
+      dispatch({type: 'HIDE_SCRIM'})
+      ref.setState({quantityOpen: false, timeOpen: false});
+    }
+  })
+)(BobbyPartCard);

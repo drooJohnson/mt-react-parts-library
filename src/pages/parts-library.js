@@ -33,7 +33,7 @@ class PartsLibrary extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      priceDisplay:'quantity', // CAN BE 'unit' or 'quantity'
+      priceDisplay:"unit", // CAN BE 'unit' or 'quantity'
     }
   }
   onPriceScaleChange = (pricescale) => {
@@ -42,7 +42,7 @@ class PartsLibrary extends React.Component {
          priceDisplay:pricescale
        });
     } else {
-      console.log("Passed invalid value: "+pricescale+" for pricescale in parts-library.js");
+      console.log("Passed invalid value: " + pricescale + " for pricescale in parts-library.js");
     }
   }
   render(){
@@ -73,7 +73,7 @@ class PartsLibrary extends React.Component {
             }}
           >
             <Collections gridarea="collections"/>
-            <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} onPriceScaleChange={this.onPriceScaleChange}/>
+            <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} priceDisplay={this.state.priceDisplay} onPriceScaleChange={this.onPriceScaleChange}/>
             <PartsGrid gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
           </Grid>
       </PartsLibraryBase>

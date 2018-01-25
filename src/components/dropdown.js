@@ -22,12 +22,30 @@ const DropDownBox = styled.span`
   & + &{
     margin-left:8px;
   }
+  &:before{
+    content:"";
+    display:block;
+    border:7px solid transparent;
+    border-bottom:0px solid transparent;
+    border-top:7px solid ${props => props.open ? 'white' : 'transparent'};
+    position:relative;
+    top:-20px;
+    height:1px;
+    width:1px;
+    z-index: ${zIndex['mid']+10};
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,0.1));
+  }
 `
-
 const Value = styled.span`
+  position:absolute;
   font-size:12px;
   font-weight:500;
   margin-right:12px;
+`
+
+const BoxSizer = Value.extend`
+  position:relative;
+  visibility:hidden;
 `
 
 const ScrimClone = styled.span`
@@ -49,11 +67,12 @@ class DropDown extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} style={{zIndex: this.state.open ? zIndex['mid'] : '0'}}>
+        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} open={this.props.open} style={{zIndex: this.props.open ? zIndex['mid'] : '0'}}>
           <Value>{this.props.value}</Value>
+          <BoxSizer>{this.props.longestValue}</BoxSizer>
           <FontAwesomeIcon icon={faAngleDown}/>
         </DropDownBox>
-        { this.state.open ? <ScrimClone onClick={()=>{this.props.onClick();this.props.onScrimClick(this);}}{...this.state}/> : null }
+        { this.props.open && <ScrimClone id="scrimClone" onClick={()=>{this.props.onClick();this.props.onScrimClick(this);}} {...this.state}/> }
       </React.Fragment>
     )
   }
@@ -66,21 +85,21 @@ export default connect(
       console.log("onclick");
       console.log(ref);
       if (ref.state.open === false) {
-        console.log(ref.state.open);
         dispatch({type: 'SHOW_SCRIM', scrim:{
           color:'light',
           opacity:0.7,
           zIndex:'low'
-        }})
+        }});
         ref.setState({open:true})
-      } else {
         console.log(ref.state.open);
-        dispatch({type: 'HIDE_SCRIM'})
+      } else {
+        dispatch({type: 'HIDE_SCRIM'});
         ref.setState({open:false});
+        console.log(ref.state.open);
       }
     },
     onScrimClick: (ref) => {
-      dispatch({type: 'HIDE_SCRIM'})
+      dispatch({type: 'HIDE_SCRIM'});
       ref.setState({open:false});
     }
   })

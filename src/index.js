@@ -26,6 +26,7 @@ ReactDOM.render((
   <Provider store={store}>
     <Router>
       <Page>
+      <Scrim/>
         <Switch>
           <Route exact path="/parts" component={PartsLibrary}/>
           <Route path="/parts/:id" component={PartDetail}/>
@@ -33,7 +34,6 @@ ReactDOM.render((
           <Redirect exact from="/" to="/parts"/>
         </Switch>
       <ModalContainer/>
-      <Scrim/>
       </Page>
     </Router>
   </Provider>

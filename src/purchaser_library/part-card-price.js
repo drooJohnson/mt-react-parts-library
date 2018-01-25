@@ -10,15 +10,35 @@ import Button from '../components/buttons';
 import PopoverWrapper from '../components/popovers/popover-wrapper';
 import RadioGroup from '../components/radios/radio-group';
 
+//  background-image:${props => props.hover ? 'url(assets/chart_hover.svg)' : 'url(assets/chart.svg)'};
+
 const Wrapper = styled.div`
   width:100%;
-  background-image:${props => props.hover ? 'url(assets/chart_hover.svg)' : 'url(assets/chart.svg)'};
+  filter:${props => !props.hover ? 'contrast(0.95) brightness(1.05)' : 'contrast(1) brightness(1)'};
   background-size:cover;
   background-position:top center;
   padding-top:24px;
   margin-bottom:16px;
+  transform:${props => props.loading ? 'translateZ(0) scale(0.8)' : 'translateZ(0) scale(1.0)'};
+  opacity:${props => props.loading ? 0 : 1.0};
+  transition: transform 300ms ease, opacity 300ms ease, filter 300ms ease;
+  backface-visibility: hidden;
 `
-
+const Chart = styled.div`
+  width:100%;
+  background-image:url(assets/chart_hover.svg);
+  filter:${props => !props.hover ? 'saturate(0.35)' : 'saturate(1)'};
+  background-size:cover;
+  background-position:top center;
+  transition: filter 300ms ease;
+  backface-visibility: hidden;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:-10;
+`
 const MedianPrice = styled.div`
   margin-left:auto;
   margin-right:auto;
@@ -84,12 +104,9 @@ const Line = styled.div`
   background-color: #D6D6D6;
 `
 
-const PartCardPrice = ({prices,hover,priceAffix}) => {
-  console.log(prices);
-  console.log(hover);
-  console.log(priceAffix);
+const PartCardPrice = ({prices,hover,priceAffix,loading}) => {
   return(
-  <Wrapper hover={hover}>
+  <Wrapper loading={loading} hover={hover}>
     <MedianPrice>
       ${prices.median}
       <MedianPer>{priceAffix}</MedianPer>
@@ -100,6 +117,7 @@ const PartCardPrice = ({prices,hover,priceAffix}) => {
       <LineWrapper><Line /></LineWrapper>
       <RangePrice>${prices.high}</RangePrice>
     </RangeWrapper>
+    <Chart hover={hover}/>
   </Wrapper>
 )}
 
