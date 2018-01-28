@@ -6,14 +6,15 @@ import { firestoreConnect } from 'react-redux-firebase'
 
 import styled from 'styled-components';
 
-import PartsGridSelectionBar from './parts-grid-selection-bar';
-import PartCard from './part-card';
+import PartsSelectionBar from './parts-selection-bar';
+import PartGridCard from './part-grid-card';
+import PartListCard from './part-list-card';
 
 const CardGrid = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns:1fr 1fr 1fr;
+  grid-template-columns:${props => props.libraryLayout === 'grid' ? '1fr 1fr 1fr' : '1fr'};
   grid-row-gap:8px;
   grid-column-gap:8px;
   grid-auto-flow:row;
@@ -32,16 +33,32 @@ const PartsGridWrapper = styled.div`
   grid-area:${props => props.gridarea};
 `
 
-const PartCards = (parts, priceDisplay) => {
-  return(
-    <React.Fragment>
-      {
-        parts ? parts.map((part) => (
-          <PartCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} priceDisplay={priceDisplay}/>
-        )) : <span>Loading...</span>
-      }
-    </React.Fragment>
-  )
+const PartCards = (parts, priceDisplay, libraryLayout) => {
+  switch(libraryLayout){
+    case 'grid':
+      return(
+        <React.Fragment>
+          {
+            parts ? parts.map((part) => (
+              <PartGridCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} priceDisplay={priceDisplay}/>
+            )) : <span>Loading...</span>
+          }
+        </React.Fragment>
+      )
+    case 'list':
+      return(
+        <React.Fragment>
+          {
+            parts ? parts.map((part) => (
+              <PartListCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} priceDisplay={priceDisplay}/>
+            )) : <span>Loading...</span>
+          }
+        </React.Fragment>
+      )
+    default:
+      return null
+  }
+
 }
 
 const FilterPartCards = (partsRefs, parts) => {
@@ -57,7 +74,7 @@ const FilterPartCards = (partsRefs, parts) => {
     return output;
 }
 
-const PartsGrid = ({ parts, collections, gridarea, store, priceDisplay }) => (
+const Parts = ({ libraryLayout, parts, collections, gridarea, store, priceDisplay }) => (
   <PartsGridWrapper gridarea={gridarea}>
     {
       store.bulkSelectionMode
@@ -66,23 +83,24 @@ const PartsGrid = ({ parts, collections, gridarea, store, priceDisplay }) => (
       :
       null
     }
-    <CardGrid>
+    <CardGrid libraryLayout={libraryLayout}>
       {
         ( parts && store.collection.Parts /* if Parts is undefined, All Parts is selected, so no filtering needed */) ?
-        PartCards(FilterPartCards(store.collection.Parts,parts), priceDisplay)
+        PartCards(FilterPartCards(store.collection.Parts,parts), priceDisplay, libraryLayout)
         :
-        PartCards(parts, priceDisplay)
+        PartCards(parts, priceDisplay, libraryLayout)
       }
     </CardGrid>
   </PartsGridWrapper>
 )
 
-PartsGrid.propTypes = {
+Parts.propTypes = {
   parts: PropTypes.array,
   collections: PropTypes.array,
   gridarea: PropTypes.string,
   store: PropTypes.object,
-  priceDisplay: PropTypes.oneOf(["unit","quantity"])
+  priceDisplay: PropTypes.oneOf(["unit","quantity"]),
+  libraryLayout: PropTypes.oneOf(['grid','list'])
 };
 
 /*
@@ -111,4 +129,4 @@ export default compose(
       store: state.store
     })
   )
-)(PartsGrid)
+)(Parts)

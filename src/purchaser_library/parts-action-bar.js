@@ -45,7 +45,7 @@ class PartsActionBar extends React.Component {
           <Title>{this.props.collectionName}</Title>
           <Pagination style={{marginLeft:'auto'}}/>
           <VerticalRule/>
-          <ListGridSwitch active={this.props.active}/>
+          <ListGridSwitch active={this.props.libraryLayout}/>
         </BarRow>
         <BarRow>
           <p>Want to get a sense of what your part will cost? Explore network pricing by adjusting parameters below.</p>

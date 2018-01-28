@@ -2,7 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Select from '../components/select';
 import Button from '../components/buttons';
 
 import { connect } from 'react-redux';
@@ -39,7 +38,6 @@ const ModalScrimButton = connect(
 const Testing = () => (
   <Div>
     <ModalScrimButton/>
-    <Select/>
     <p>{this}</p>
   </Div>
 )

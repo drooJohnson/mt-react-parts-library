@@ -7,7 +7,7 @@ import { compose } from 'redux';
 
 import Grid from '../layout/grid';
 
-import PartsGrid from '../purchaser_library/parts-grid.js';
+import Parts from '../purchaser_library/parts.js';
 import Collections from '../purchaser_library/collections-panel.js';
 import Navigation from '../navigation.js';
 import Header from '../purchaser_library/header.js';
@@ -73,8 +73,8 @@ class PartsLibrary extends React.Component {
             }}
           >
             <Collections gridarea="collections"/>
-            <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} priceDisplay={this.state.priceDisplay} onPriceScaleChange={this.onPriceScaleChange}/>
-            <PartsGrid gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
+            <PartsActionBar libraryLayout={this.props.libraryLayout} gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} priceDisplay={this.state.priceDisplay} onPriceScaleChange={this.onPriceScaleChange}/>
+            <Parts libraryLayout={this.props.libraryLayout} gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
           </Grid>
       </PartsLibraryBase>
     )
@@ -87,7 +87,8 @@ export default compose(
       ({
         collections: state.firestore.ordered.collections,
         parts: state.firestore.ordered.parts,
-        store: state.store
+        store: state.store,
+        libraryLayout: state.store.libraryLayout,
       })
   )
 )(PartsLibrary)

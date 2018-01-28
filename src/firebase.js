@@ -9,6 +9,7 @@ import collectionReducer from './redux/reducers/collection';
 import usernameReducer from './redux/reducers/username';
 import modalReducer from './redux/reducers/modal';
 import scrimReducer from './redux/reducers/scrim';
+import libraryLayoutReducer from './redux/reducers/library-layout';
 
 
 var config = {
@@ -40,6 +41,7 @@ const initialState = {
       color:'dark',
       zIndex:'high',
     },
+    libraryLayout:'list'
   }
 }
 
@@ -48,7 +50,8 @@ const storeReducer = combineReducers({
   collection:collectionReducer,
   username:usernameReducer,
   modal:modalReducer,
-  scrim:scrimReducer
+  scrim:scrimReducer,
+  libraryLayout:libraryLayoutReducer,
 })
 
 
@@ -68,7 +71,5 @@ const rootFireReducer = combineReducers({
 })
 
 const store = createStoreWithFirebase(rootFireReducer, initialState);
-
-console.log(store);
 
 export {store};

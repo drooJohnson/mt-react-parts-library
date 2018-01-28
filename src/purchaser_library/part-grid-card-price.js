@@ -2,26 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import DropDown from '../components/dropdown';
-import Select from '../components/select';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/buttons';
-import PopoverWrapper from '../components/popovers/popover-wrapper';
 import RadioGroup from '../components/radios/radio-group';
 
 //  background-image:${props => props.hover ? 'url(assets/chart_hover.svg)' : 'url(assets/chart.svg)'};
 
 const Wrapper = styled.div`
   width:100%;
-  filter:${props => !props.hover ? 'contrast(0.95) brightness(1.05)' : 'contrast(1) brightness(1)'};
+  filter:${props => props.hover ? 'contrast(1.0) brightness(1.0)' : 'contrast(0.5) brightness(1.3)'};
   background-size:cover;
   background-position:top center;
   padding-top:24px;
   margin-bottom:16px;
   transform:${props => props.loading ? 'translateZ(0) scale(0.8)' : 'translateZ(0) scale(1.0)'};
   opacity:${props => props.loading ? 0 : 1.0};
-  transition: transform 300ms ease, opacity 300ms ease, filter 300ms ease;
+  transition: transform 400ms ease, opacity 400ms ease, filter 400ms ease;
   backface-visibility: hidden;
 `
 const Chart = styled.div`
@@ -104,7 +102,7 @@ const Line = styled.div`
   background-color: #D6D6D6;
 `
 
-const PartCardPrice = ({prices,hover,priceAffix,loading}) => {
+const PartGridCardPrice = ({prices,hover,priceAffix,loading}) => {
   return(
   <Wrapper loading={loading} hover={hover}>
     <MedianPrice>
@@ -121,4 +119,4 @@ const PartCardPrice = ({prices,hover,priceAffix,loading}) => {
   </Wrapper>
 )}
 
-export default PartCardPrice;
+export default PartGridCardPrice;

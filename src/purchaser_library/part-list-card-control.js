@@ -19,7 +19,7 @@ const ControlBlock = styled.div`
   border-radius:2px;
 `
 
-class PartCardControl extends React.Component{
+class PartListCardControl extends React.Component{
   constructor(props){
     super(props);
   }
@@ -49,8 +49,8 @@ class PartCardControl extends React.Component{
   }
 }
 
-PartCardControl.propTypes={
+PartListCardControl.propTypes={
   open:PropTypes.string.isRequired;
 }
 
-export default PartCardControl;
+export default PartListCardControl;

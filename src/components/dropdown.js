@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
 import zIndex from '../utils/z-index.js';
-
+import { CSSTransitionGroup } from 'react-transition-group'
 import { connect } from 'react-redux';
 
 // eslint-disable-next-line
@@ -21,19 +21,6 @@ const DropDownBox = styled.span`
   position:relative;
   & + &{
     margin-left:8px;
-  }
-  &:before{
-    content:"";
-    display:block;
-    border:7px solid transparent;
-    border-bottom:0px solid transparent;
-    border-top:7px solid ${props => props.open ? 'white' : 'transparent'};
-    position:relative;
-    top:-20px;
-    height:1px;
-    width:1px;
-    z-index: ${zIndex['mid']+10};
-    filter:drop-shadow(0 1px 1px rgba(0,0,0,0.1));
   }
 `
 const Value = styled.span`
@@ -85,11 +72,11 @@ export default connect(
       console.log("onclick");
       console.log(ref);
       if (ref.state.open === false) {
-        dispatch({type: 'SHOW_SCRIM', scrim:{
-          color:'light',
-          opacity:0.7,
-          zIndex:'low'
-        }});
+        //dispatch({type: 'SHOW_SCRIM', scrim:{
+        //  color:'light',
+        //  opacity:0.7,
+        //  zIndex:'low'
+        //}});
         ref.setState({open:true})
         console.log(ref.state.open);
       } else {
