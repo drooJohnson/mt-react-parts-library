@@ -46,7 +46,6 @@ class PartsLibrary extends React.Component {
     }
   }
   render(){
-    let props = this.props;
     let store = this.props.store;
     return(
       <PartsLibraryBase>

@@ -38,7 +38,7 @@ class RadioGroup extends React.Component{
     this.setState({value:option});
   }
   render(){
-    let {options,name,partId,handleSubmit,checked,submitRef} = this.props;
+    let {options,name,partId,handleSubmit,submitRef} = this.props;
     return(
       <div style={{position:'relative',zIndex:'200'}}>
         <RadioGroupGrid>

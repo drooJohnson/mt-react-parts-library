@@ -1,12 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import DropDown from '../components/dropdown';
-
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/buttons';
-import RadioGroup from '../components/radios/radio-group';
 
 //  background-image:${props => props.hover ? 'url(assets/chart_hover.svg)' : 'url(assets/chart.svg)'};
 

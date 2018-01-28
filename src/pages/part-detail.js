@@ -9,7 +9,7 @@ import Grid from '../layout/grid';
 
 import Navigation from '../navigation.js';
 import Header from '../part_details/part-detail-header';
-import PartImage from '../part_details/part-image';
+import {PartImage} from '../part_details/part-image';
 import {DetailHeaderPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel} from '../part_details/detail-card';
 import styled from 'styled-components';
 

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
 import zIndex from '../utils/z-index.js';
-import { CSSTransitionGroup } from 'react-transition-group'
 import { connect } from 'react-redux';
 
 // eslint-disable-next-line

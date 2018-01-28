@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import DropDown from '../components/dropdown';
 
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {keyframes} from 'styled-components';
 import Button from '../components/buttons';
 import RadioGroup from '../components/radios/radio-group';
 import PartListCardPrice from './part-list-card-price';
@@ -127,12 +125,6 @@ const ListCardLeft = styled.div`
   grid-area:details;
 `;
 
-const ListCardMiddle = styled.div`
-  padding:0;
-  position:relative;
-  flex-grow:1;
-`;
-
 const ListCardRight = styled.div`
   padding:16px;
   position:relative;
@@ -141,42 +133,12 @@ const ListCardRight = styled.div`
   grid-area:controls;
 `;
 
-const PriceRow = styled.div`
-  width:100%;
-  margin-bottom:16px;
-`;
-
 const ControlRow = styled.div`
   text-align:right;
   margin-bottom:16px;
 `;
 
-const Price = styled.div`
-  font-size:18px;
-  color:#2196F3;
-  display:inline-block;
-`;
-
-const Each = styled.div`
-  font-size:14px;
-  color:#797979;
-  display:inline-block;
-  margin-left:6px;
-`;
-
 let duration = 300;
-
-let cardFillDefaultStyle = {
-  opacity: 0,
-  display: 'none',
-}
-
-let cardFillTransitionStyles = {
-  entering: { opacity: 0, display: 'flex' },
-  entered:  { opacity: 1, display: 'flex' },
-  exiting: { opacity: 1, display: 'flex' },
-  exited: { opacity: 0, display: 'flex' },
-}
 
 const CardFill = styled.div`
   position:absolute;
@@ -354,8 +316,8 @@ class PartListCard extends React.Component {
   }
 
   getPartPrices = (prices, priceScale) => {
-    let { value: timeKey, display: timeDisplay } = this.state.time;
-    let { value: quantityKey, display: quantityDisplay } = this.state.quantity;
+    let { value: timeKey} = this.state.time;
+    let { value: quantityKey} = this.state.quantity;
     return {
       low: (prices[timeKey][quantityKey][0] * priceScale).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
       median: (prices[timeKey][quantityKey][1] * priceScale).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
@@ -385,7 +347,6 @@ class PartListCard extends React.Component {
 
   render(){
     const part = this.props.part;
-    const boundaryId = part.id+"bounds";
     const priceScale = ( this.props.priceDisplay === "quantity" ? this.state.quantity.value : 1 );
     const ref = this;
     return (

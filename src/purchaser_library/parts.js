@@ -79,7 +79,7 @@ const Parts = ({ libraryLayout, parts, collections, gridarea, store, priceDispla
     {
       store.bulkSelectionMode
       ?
-      <PartsGridSelectionBar/>
+      <PartsSelectionBar/>
       :
       null
     }
