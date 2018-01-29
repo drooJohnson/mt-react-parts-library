@@ -76,13 +76,13 @@ const PartBadge = styled.div`
   border:solid 1px black;
   flex-grow:0;
   /* Adapt Colors based on badge type prop */
-  background-color: ${props => props.nature ? badges[props.nature].backgroundColor : null};
-  border-color: ${props => props.nature ? badges[props.nature].borderColor : null};
-  color: ${props => props.nature ? badges[props.nature].textColor : null};
+  background-color: ${props => props.type ? badges[props.type].backgroundColor : null};
+  border-color: ${props => props.type ? badges[props.type].borderColor : null};
+  color: ${props => props.type ? badges[props.type].textColor : null};
 `;
 
 PartBadge.propTypes = {
-  nature: PropTypes.oneOf(['primary','caution','error','info','success','default'])
+  type: PropTypes.oneOf(['primary','caution','error','info','success','default'])
 };
 
 const PartName = styled.h3`
@@ -365,7 +365,7 @@ class PartGridCard extends React.Component {
                 <div style={{display:'inline-block',width:'8px'}}/>
                 <DropDown open={this.state.timeOpen} onClick={this.handleTimeClick} value={this.state.time.display} longestValue={times.slice(-1)[0].display}/>
               </ControlRow>
-              <Button nature="default" width="stretch">Add to Estimate</Button>
+              <Button type="default" width="stretch">Add to Estimate</Button>
             </GridCardFooter>
           </GridCardBottom>
         </GridCardPart>

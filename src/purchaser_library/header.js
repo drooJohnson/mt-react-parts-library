@@ -34,7 +34,7 @@ class Header extends React.Component {
           <RightWrapper>
             <Search/>
             <VerticalRule/>
-            <Button nature='success'>+ New Part</Button>
+            <Button type='success'>+ New Part</Button>
           </RightWrapper>
         </Row>
       </Wrapper>

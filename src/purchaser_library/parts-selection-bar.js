@@ -51,11 +51,11 @@ class PartsGridSelectionBar extends React.Component {
        <SelectionBar gridarea={this.props.gridarea}>
         <Count>{this.selectNum}</Count><span>{this.selectNum > 1 ? `Parts Selected` : `Part Selected`}</span>
         <BlueLink>Select All</BlueLink>
-          <Button nature="info">Duplicate</Button>
-          <Button nature="info">Archive</Button>
-          { (this.props.store.collection.Name !== '') ? <Button nature="info">Remove From Collection</Button> : null }
-          <Button nature="info">Add To Collection</Button>
-          <Button nature="info">Add To Estimate</Button>
+          <Button type="info">Duplicate</Button>
+          <Button type="info">Archive</Button>
+          { (this.props.store.collection.Name !== '') ? <Button type="info">Remove From Collection</Button> : null }
+          <Button type="info">Add To Collection</Button>
+          <Button type="info">Add To Estimate</Button>
         <FontAwesomeIcon icon={faTimes} style={{marginLeft:'auto',fontSize:'18px',marginRight:'6px'}}/>
        </SelectionBar>
    )

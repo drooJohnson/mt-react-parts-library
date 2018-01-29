@@ -16,7 +16,7 @@ const Div = styled.div`
 class ButtonScaffold extends React.Component {
   render(){
     return(
-      <Button nature="primary" onClick={()=>{this.props.onClick()}}>SUMMON MODAL</Button>
+      <Button type="primary" onClick={()=>{this.props.onClick()}}>SUMMON MODAL</Button>
     )
   }
 }

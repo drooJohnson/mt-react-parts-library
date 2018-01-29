@@ -94,12 +94,12 @@ const PartBadge = styled.div`
   border:solid 1px black;
   flex-grow:0;
   /* Adapt Colors based on badge type prop */
-  background-color: ${props => props.nature ? badges[props.nature].backgroundColor : null};
-  border-color: ${props => props.nature ? badges[props.nature].borderColor : null};
-  color: ${props => props.nature ? badges[props.nature].textColor : null};
+  background-color: ${props => props.type ? badges[props.type].backgroundColor : null};
+  border-color: ${props => props.type ? badges[props.type].borderColor : null};
+  color: ${props => props.type ? badges[props.type].textColor : null};
 `
 PartBadge.propTypes = {
-  nature: PropTypes.oneOf(['primary','caution','error','info','success'])
+  type: PropTypes.oneOf(['primary','caution','error','info','success'])
 }
 
 const PartName = styled.h3`
@@ -164,7 +164,7 @@ class PartCard extends React.Component {
             <CardOverlayButton>{part.priced ? 'View Results' : 'Price Part'}</CardOverlayButton>
             <DetailLink id={part.id}/>
           </CardOverlay>
-          {!part.priced ? <PartBadge nature='caution'>NEEDS PRICING</PartBadge> : null }
+          {!part.priced ? <PartBadge type='caution'>NEEDS PRICING</PartBadge> : null }
           <PartName>{part.partNumber}</PartName>
         </CardPart>
       </CardItem>

@@ -50,7 +50,7 @@ class RadioGroup extends React.Component{
             ) }
           </RadioGroupLeft>
           <RadioGroupRight>
-            <Button style={{padding:'8px 20px',}} nature="info" onClick={()=>{handleSubmit(this.state.value,this.originalValue,submitRef)}}>Apply</Button>
+            <Button style={{padding:'8px 20px',}} type="info" onClick={()=>{handleSubmit(this.state.value,this.originalValue,submitRef)}}>Apply</Button>
           </RadioGroupRight>
         </RadioGroupGrid>
       </div>
