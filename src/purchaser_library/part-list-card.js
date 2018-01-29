@@ -10,8 +10,9 @@ import RadioGroup from '../components/radios/radio-group';
 import PartListCardPrice from './part-list-card-price';
 import zIndex from '../utils/z-index';
 
-import Loader from './card-loader';
+import Loader from './list-card-loader';
 import { Transition } from 'react-transition-group';
+import TetherComponent from 'react-tether';
 
 const ListCardItem = styled.div`
   width: 100%;
@@ -154,12 +155,14 @@ const CardFill = styled.div`
 const RadioBlock = styled.div`
   padding:16px 12px;
   background-color:white;
-  margin-bottom:101px;
   z-index:${zIndex['mid']};
   box-shadow:0 4px 8px rgba(0,0,0,0.1);
   transition: opacity ${duration}ms ease, transform ${duration}ms ease;
   border-radius:2px;
   opacity: 0;
+  max-width:268px;
+  margin:12px;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.1));
 `;
 
 let times = [
@@ -195,18 +198,17 @@ let radioBlockDefaultStyle = {
   transform:'translateY(-10px) translateZ(0)',
   display:'none',
 }
+
 const Arrow = styled.div`
   content:'';
   display:block;
   border:8px solid transparent;
   border-top:8px solid white;
   position:absolute;
-  left:${props => props.fromLeft}px;
-  bottom:-15px;
+  left:50%;
   height:1px;
   width:1px;
   z-index:${zIndex['mid']+10};
-  filter:drop-shadow(0 1px 1px rgba(0,0,0,0.1));
 `
 
 let radioBlockTransitionStyles = {
@@ -232,34 +234,61 @@ const ScreenFill = ({inProp,partId,scrimOpacity,onClick}) => (
   </Transition>
 )
 
-const TimeInput = ({inProp,partId,checked,submitRef,handleSubmit}) => (
-  //<CardFill /*style={{...cardFillDefaultStyle,...cardFillTransitionStyles[state]}}*/ key={partId + "time"}>
-    <Transition appear={true} in={inProp} timeout={{enter:0,exit:duration}}>
-      {(state) => (
-        <RadioBlock style={{...radioBlockDefaultStyle,...radioBlockTransitionStyles[state]}}>
-          <RadioGroup options={times} name={"time"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
-          <Arrow fromLeft={131}/>
-        </RadioBlock>
-      )}
-    </Transition>
-  //</CardFill>
+const TimeInput = ({open,onClick,value,longestValue,inProp,partId,checked,submitRef,handleSubmit}) => (
+
+  <TetherComponent
+          style={{zIndex:200}}
+          attachment="top center"
+          constraints={[{
+            to: 'scrollParent',
+            pin: true},{
+              to: 'scrollParent',
+            attachment: 'together'
+          }]}
+        >
+          { /* First child: This is what the item will be tethered to */}
+          <DropDown open={open} onClick={onClick} value={value} longestValue={longestValue}/>
+          { /* Second child: If present, this item will be tethered to the the first child */}
+          {
+            open &&
+            <Transition  in={inProp} timeout={{enter:0,exit:duration}}>
+              {(state) => (
+                <RadioBlock style={{...radioBlockDefaultStyle,...radioBlockTransitionStyles[state]}}>
+                  <Arrow className="popoverArrowTop" fromLeft={131}/>
+                  <RadioGroup options={times} name={"time"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
+                  <Arrow className="popoverArrowBottom" fromLeft={131}/>
+                </RadioBlock>
+              )}
+            </Transition>
+          }
+        </TetherComponent>
 )
 
-const QuantityInput = ({inProp,partId,checked,submitRef,handleSubmit}) => (
-  //<Transition appear={true} in={inProp} timeout={duration}>
-    //{(state) => (
-      //<CardFill /*style={{...cardFillDefaultStyle,...cardFillTransitionStyles[state]}}*/ key={partId + "quantity"}>
-        <Transition appear={true} in={inProp} timeout={{enter:0,exit:duration}}>
-          {(state) => (
-            <RadioBlock style={{...radioBlockDefaultStyle,...radioBlockTransitionStyles[state]}}>
-              <RadioGroup options={quantities} name={"quantity"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
-              <Arrow fromLeft={32}/>
-            </RadioBlock>
-          )}
-        </Transition>
-      //</CardFill>
-    //)}
-  //</Transition>
+const QuantityInput = ({open,onClick,value,longestValue,inProp,partId,checked,submitRef,handleSubmit}) => (
+  <TetherComponent
+          style={{zIndex:200}}
+          attachment="top center"
+          constraints={[{
+            to: 'window',
+            attachment: 'together'
+          }]}
+        >
+          { /* First child: This is what the item will be tethered to */}
+          <DropDown open={open} onClick={onClick} value={value} longestValue={longestValue}/>
+          { /* Second child: If present, this item will be tethered to the the first child */}
+          {
+            open &&
+            <Transition  in={inProp} timeout={{enter:0,exit:duration}}>
+              {(state) => (
+                <RadioBlock style={{...radioBlockDefaultStyle,...radioBlockTransitionStyles[state]}}>
+                  <Arrow className="popoverArrowTop" fromLeft={131}/>
+<RadioGroup options={quantities} name={"quantity"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
+                  <Arrow className="popoverArrowBottom" fromLeft={131}/>
+                </RadioBlock>
+              )}
+            </Transition>
+          }
+        </TetherComponent>
 )
 
 class PartListCard extends React.Component {
@@ -314,7 +343,6 @@ class PartListCard extends React.Component {
       this.setState({quantityOpen:true,timeOpen:false, scrimOpacity: '0.7'});
     }
   }
-
   getPartPrices = (prices, priceScale) => {
     let { value: timeKey} = this.state.time;
     let { value: quantityKey} = this.state.quantity;
@@ -330,18 +358,18 @@ class PartListCard extends React.Component {
       this.setState({loading:true,displayLoader:true});
       setTimeout(()=> {
         this.setState({displayLoader:false})
-      }, 1300);
+      }, 1000);
       setTimeout(()=> {
         this.setState({time:value.time,loading:false})
-      }, timeout);
+      }, 1000);
     } else if (value.quantity){
       this.setState({loading:true,displayLoader:true});
       setTimeout(()=> {
         this.setState({displayLoader:false})
-      }, 1300);
+      }, 1000);
       setTimeout(()=> {
         this.setState({quantity:value.quantity,loading:false})
-      }, timeout);
+      }, 1000);
     }
   }
 
@@ -353,8 +381,6 @@ class PartListCard extends React.Component {
       <ListCardItem onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
           <React.Fragment>
             <ScreenFill inProp={this.state.quantityOpen||this.state.timeOpen} partId={part.id} scrimOpacity={this.state.scrimOpacity} onClick={()=>{this.props.onScrimClick(this)}}/>
-            <QuantityInput inProp={this.state.quantityOpen} partId={part.id} checked={this.state.quantity} submitRef={ref} handleSubmit={this.props.handleQuantityChange}/>
-            <TimeInput inProp={this.state.timeOpen} partId={part.id} checked={this.state.time} submitRef={ref} handleSubmit={this.props.handleTimeChange}/>
           </React.Fragment>
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <ListCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
@@ -367,9 +393,9 @@ class PartListCard extends React.Component {
           <PartListCardPrice gridArea={'pricing'} prices={this.getPartPrices(part.prices,priceScale)} hover={this.state.hover} loading={this.state.loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ "+this.state.quantity.display }/>
           <ListCardRight>
             <ControlRow>
-              <DropDown open={this.state.quantityOpen} onClick={this.handleQuantityClick} value={this.state.quantity.display} longestValue={quantities.slice(-1)[0].display}/>
+              <QuantityInput open={this.state.quantityOpen} onClick={this.handleQuantityClick} value={this.state.quantity.display} longestValue={quantities.slice(-1)[0].display} inProp={this.state.quantityOpen} partId={part.id} checked={this.state.quantity} submitRef={ref} handleSubmit={this.props.handleQuantityChange}/>
               <div style={{display:'inline-block',width:'8px'}}/>
-              <DropDown open={this.state.timeOpen} onClick={this.handleTimeClick} value={this.state.time.display} longestValue={times.slice(-1)[0].display}/>
+              <TimeInput open={this.state.timeOpen} onClick={this.handleTimeClick} value={this.state.time.display} longestValue={times.slice(-1)[0].display} inProp={this.state.timeOpen} partId={part.id} checked={this.state.time} submitRef={ref} handleSubmit={this.props.handleTimeChange}/>
             </ControlRow>
             <Button type="default">Add to Estimate</Button>
           </ListCardRight>

@@ -10,7 +10,7 @@ import RadioGroup from '../components/radios/radio-group';
 import PartGridCardPrice from './part-grid-card-price';
 import zIndex from '../utils/z-index';
 
-import Loader from './card-loader';
+import Loader from './grid-card-loader';
 import { Transition } from 'react-transition-group';
 
 const GridCardItem = styled.div`

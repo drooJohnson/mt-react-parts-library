@@ -25,74 +25,28 @@
     h1,h2,h3,h4,h5,h6{
       margin:0;
     }
-    .popper {
-      background: #FFFFFF;
-      color: white;
-      border-radius: 2px;
-      max-width: 100%;
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-      padding: 5px;
+    .tether-element-attached-top .popoverArrowTop{
+      z-index:190;
+      top:-14px;
+      border:8px solid transparent;
+      border-bottom:8px solid white;
+    }
+    .tether-element-attached-top .popoverArrowBottom{
+      bottom:-14px;
+      border:8px solid transparent;
+    }
+    .tether-element-attached-bottom .popoverArrowBottom{
+      bottom:-14px;
+      border:8px solid transparent;
+      border-top:8px solid white;
+    }
+    .tether-element-attached-bottom .popoverArrowTop{
+      top:-14px;
+      border:8px solid transparent;
     }
 
-    .popper .popper__arrow {
-      width: 0;
-      height: 0;
-      border-style: solid;
-      position: absolute;
-      margin: 10px;
-      filter: box-shadow(0 3px 2px rgba(0,0,0,0.1));
-    }
-
-    .popper[data-placement^="top"] {
-      margin-bottom: 10px;
-    }
-
-    .popper[data-placement^="top"] .popper__arrow {
-      border-width: 8px 8px 0 8px;
-      border-color: #222 transparent transparent transparent;
-      bottom: -8px;
-      left: calc(50% - 8px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .popper[data-placement^="bottom"] {
-      margin-top: 10px;
-    }
-
-    .popper[data-placement^="bottom"] .popper__arrow {
-      border-width: 0 8px 8px 8px;
-      border-color: transparent transparent #222 transparent;
-      top: -8px;
-      left: calc(50% - 10px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .popper[data-placement^="right"] {
-      margin-left: 10px;
-    }
-
-    .popper[data-placement^="right"] .popper__arrow {
-      border-width: 8px 8px 8px 0;
-      border-color: transparent #222 transparent transparent;
-      left: -8px;
-      top: calc(50% - 10px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    .popper[data-placement^="left"] {
-      margin-right: 10px;
-    }
-
-    .popper[data-placement^="left"] .popper__arrow {
-      border-width: 8px 0 8px 8px;
-      border-color: transparent transparent transparent #222;
-      right: -8px;
-      top: calc(50% - 10px);
-      margin-left: 0;
-      margin-right: 0;
+    .tether-pinned-right .popoverArrowTop, .tether-pinned-right .popoverArrowBottom{
+      left:70%;      
     }
     </style>
     <!--

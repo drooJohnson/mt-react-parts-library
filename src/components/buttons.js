@@ -6,13 +6,13 @@ import colors from '../utils/colors';
 import gradients from '../utils/gradients';
 
 
-const brandColor = {colors.teal};
-const successColor = {colors.green};
-const darkColor = {colors.greyDarkest};
-const lightColor = {colors.greyLightest};
-const infoColor = {colors.blue};
-const warningColor = {colors.yellow};
-const errorColor = {colors.red};
+const brandColor = colors.teal;
+const successColor = colors.green;
+const darkColor = colors.greyDarkest;
+const lightColor = colors.greyLightest;
+const infoColor = colors.blue;
+const warningColor = colors.yellow;
+const errorColor = colors.red;
 
 const type = {
   brand:{
@@ -149,6 +149,10 @@ const ButtonBase = styled.button.attrs({
     background-image:none;
     background-color: ${props => props.type ? type[props.type].backgroundColor.active : '#FFFFFF'};
   }
+  &:disabled,&:[disabled]{
+    opacity:0.33;
+    cursor:default;
+  }
 `
 
 const GhostButtonBase = styled.button.attrs({
@@ -196,21 +200,29 @@ const GhostButtonBase = styled.button.attrs({
     background-image:none;
     background-color: ${props => props.type ? type[props.type].backgroundColor.active : '#FFFFFF'};
   }
-`
-
-const Button = ({type, onClick, width, size, style, children}) => (
-  { (style === 'ghost') ?
-    <GhostButtonBase type={type} onClick={()=>{onClick()}} width={width} size={size}>{children}</GhostButtonBase>
-    :
-    <ButtonBase type={type} onClick={()=>{onClick()}} width={width} size={size}>{children}</ButtonBase>
+  &:disabled,&:[disabled]{
+    opacity:0.33;
+    cursor:default;
   }
-)
+`;
+
+const Button = ({type, onClick, width, size, ghost, children}) => {
+  if (ghost){
+    return(
+      <GhostButtonBase type={type} onClick={()=>{onClick()}} width={width} size={size}>{children}</GhostButtonBase>
+    )
+  } else {
+    return(
+      <ButtonBase type={type} onClick={()=>{onClick()}} width={width} size={size}>{children}</ButtonBase>
+    )
+  }
+}
 
 Button.propTypes = {
   type: PropTypes.oneOf(['brand','dark','primary','info','default','warning','error','success']),
-  width: PropTypes.oneOf(['full','block','fullwidth','stretch'])
+  width: PropTypes.oneOf(['full','block','fullwidth','stretch']),
   size: PropTypes.oneOf(['micro','small','medium','large']),
-  style: PropTypes.oneOf(['ghost']),
+  ghost: PropTypes.bool,
   onClick: PropTypes.func,
 }
 
