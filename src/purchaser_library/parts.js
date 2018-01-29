@@ -33,14 +33,14 @@ const PartsGridWrapper = styled.div`
   grid-area:${props => props.gridarea};
 `
 
-const PartCards = (parts, priceDisplay, libraryLayout) => {
+const PartCards = (parts, priceDisplay, libraryLayout, hoverOverlayEnabled) => {
   switch(libraryLayout){
     case 'grid':
       return(
         <React.Fragment>
           {
             parts ? parts.map((part) => (
-              <PartGridCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} priceDisplay={priceDisplay}/>
+              <PartGridCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} hoverOverlayEnabled={hoverOverlayEnabled} priceDisplay={priceDisplay}/>
             )) : <span>Loading...</span>
           }
         </React.Fragment>
@@ -50,7 +50,7 @@ const PartCards = (parts, priceDisplay, libraryLayout) => {
         <React.Fragment>
           {
             parts ? parts.map((part) => (
-              <PartListCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} priceDisplay={priceDisplay}/>
+              <PartListCard key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} hoverOverlayEnabled={hoverOverlayEnabled} priceDisplay={priceDisplay}/>
             )) : <span>Loading...</span>
           }
         </React.Fragment>
@@ -86,9 +86,9 @@ const Parts = ({ libraryLayout, parts, collections, gridarea, store, priceDispla
     <CardGrid libraryLayout={libraryLayout}>
       {
         ( parts && store.collection.Parts /* if Parts is undefined, All Parts is selected, so no filtering needed */) ?
-        PartCards(FilterPartCards(store.collection.Parts,parts), priceDisplay, libraryLayout)
+        PartCards(FilterPartCards(store.collection.Parts,parts), priceDisplay, libraryLayout, true)
         :
-        PartCards(parts, priceDisplay, libraryLayout)
+        PartCards(parts, priceDisplay, libraryLayout, true)
       }
     </CardGrid>
   </PartsGridWrapper>
