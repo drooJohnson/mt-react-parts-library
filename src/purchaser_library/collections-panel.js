@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 
 import styled from 'styled-components';
 import Button from '../components/buttons.js';
@@ -36,6 +38,7 @@ const HeaderWrapper = styled.button`
   line-height:21px;
   align-self:end;
   grid-area:collections-header;
+  cursor:pointer;
   &:focus{
     outline:none;
   }
@@ -54,6 +57,7 @@ const CollectionInner = styled.div`
   box-shadow:0 -1px 0 #cccccc;
   width: 100%;
   text-align: left;
+  cursor:pointer;
 `
 
 const Name = styled.span`
@@ -84,7 +88,7 @@ class CollectionsHeader extends React.Component {
     return (
       <HeaderWrapper>
         <span>COLLECTIONS</span>
-        <span style={{marginLeft:'auto'}}>+</span>
+        <span style={{marginLeft:'auto'}}><FontAwesomeIcon icon={faPlus}/></span>
       </HeaderWrapper>
     )
   }
