@@ -199,6 +199,9 @@ let radioBlockDefaultStyle = {
   display:'none',
 }
 
+let loadTimeMin = 1000;
+let loadTimeMax = 3000;
+
 const Arrow = styled.div`
   content:'';
   display:block;
@@ -291,6 +294,51 @@ const QuantityInput = ({open,onClick,value,longestValue,inProp,partId,checked,su
         </TetherComponent>
 )
 
+const CardOverlay = styled.div`
+  display: flex;
+  opacity: 0.0;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.4);
+  transition:opacity 300ms ease;
+  &:hover,&:focus{
+    opacity:1.0;
+  }
+`
+
+const CardOverlayButton = styled.button`
+  font-family:proxima nova;
+  font-weight:600;
+  font-size:12px;
+  letter-spacing:0.5px;
+  -webkit-appearance:none;
+  background-color:#00e7b2;
+  padding:8px 12px;
+  border:solid 1px #00e7b2;
+  border-radius:3px;
+  box-shadow:0 0 24px rgba(0,0,0,0.35);
+`
+
+const CardOverlaySelectionButton = styled.div`
+  width:16px;
+  height:16px;
+  background-color:transparent;
+  position:absolute;
+  top:8px;
+  left:8px;
+  border:1px solid #ffffff;
+  border-radius:100%;
+  cursor:pointer;
+  transition:background-color 150ms ease;
+  &:hover{
+    background-color:rgba(255,255,255,0.2);
+  }
+`
+
 class PartListCard extends React.Component {
   constructor(props){
     super(props);
@@ -353,23 +401,24 @@ class PartListCard extends React.Component {
     }
   }
 
-  triggerFauxLoader = (value,timeout = 1000) => {
+  triggerFauxLoader = (value,min,max) => {
+    let timeout = Math.random() * (max - min) + min;
     if (value.time){
       this.setState({loading:true,displayLoader:true});
       setTimeout(()=> {
         this.setState({displayLoader:false})
-      }, 1000);
+      }, timeout);
       setTimeout(()=> {
         this.setState({time:value.time,loading:false})
-      }, 1000);
+      }, timeout);
     } else if (value.quantity){
       this.setState({loading:true,displayLoader:true});
       setTimeout(()=> {
         this.setState({displayLoader:false})
-      }, 1000);
+      }, timeout);
       setTimeout(()=> {
         this.setState({quantity:value.quantity,loading:false})
-      }, 1000);
+      }, timeout);
     }
   }
 
@@ -384,7 +433,9 @@ class PartListCard extends React.Component {
           </React.Fragment>
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <ListCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
-          <ListCardImage image={this.props.image} hover={this.state.hover}/>
+          <ListCardImage image={this.props.image} hover={this.state.hover}>
+            { this.props.hoverOverlayEnabled ? <CardOverlay hover={this.state.hover}><Button type="success" size="micro">Edit Part</Button><CardOverlaySelectionButton/></CardOverlay> : null }
+          </ListCardImage>
           <ListCardLeft>
             <PartName>{part.partNumber}</PartName>
             <GreyDetail>{this.materialAndMachineTypes}</GreyDetail>
@@ -415,7 +466,7 @@ export default connect(
   (dispatch) => ({
     handleTimeChange: (newValue,originalValue,ref) => {
       if (originalValue !== newValue){
-        ref.triggerFauxLoader({time: newValue});
+        ref.triggerFauxLoader({time: newValue},loadTimeMin,loadTimeMax);
         ref.setState({timeOpen: false, quantityOpen: false, scrimOpacity: '0.0' })
         dispatch({type: 'HIDE_SCRIM'})
       } else {
@@ -425,7 +476,7 @@ export default connect(
     },
     handleQuantityChange: (newValue,originalValue,ref) => {
       if (originalValue !== newValue){
-        ref.triggerFauxLoader({quantity: newValue});
+        ref.triggerFauxLoader({quantity: newValue},loadTimeMin,loadTimeMax);
         ref.setState({quantityOpen: false, timeOpen: false, scrimOpacity: '0.0' })
         dispatch({type: 'HIDE_SCRIM'})
       } else {

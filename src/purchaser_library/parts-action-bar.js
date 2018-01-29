@@ -18,12 +18,14 @@ const ActionBarWrapper = styled.div`
   box-shadow:0 1px 2px rgba(0,0,0,0.1);
   grid-area: ${props => props.gridarea || ''};
 `
+
 const BarRow = styled.div`
   width:100%;
   display:flex;
   justify-content:flex-start;
   align-items:center;
 `
+
 const Title = styled.div`
   font-weight:600;
   letter-spacing:1px;
@@ -36,7 +38,9 @@ const HelperLink = styled.span`
   color:#4A90E2;
   font-size:12px;
   text-decoration:underline;
+  cursor:pointer;
 `
+
 class PartsActionBar extends React.Component {
   render(){
     return (
@@ -44,7 +48,7 @@ class PartsActionBar extends React.Component {
         <BarRow>
           <Title>{this.props.collectionName}</Title>
           <Pagination style={{marginLeft:'auto'}}/>
-          <VerticalRule/>
+          <VerticalRule style={{height:'26px',marginLeft:'12px',marginRight:'12px'}}/>
           <ListGridSwitch active={this.props.libraryLayout}/>
         </BarRow>
         <BarRow>

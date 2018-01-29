@@ -31,6 +31,7 @@ const Nav = styled.nav.attrs({
 `
 
 const Link = styled(RouterNavLink)`
+  cursor:pointer;
   transition: all 300ms ease;
   display:inline-block;
   min-width:100px;
@@ -52,6 +53,7 @@ const Link = styled(RouterNavLink)`
 `
 
 const DisabledLink = styled.li`
+  cursor:not-allowed;
   transition: all 300ms ease;
   display:inline-block;
   min-width:100px;

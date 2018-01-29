@@ -4,7 +4,11 @@ import Styled from 'styled-components';
 let blueColor = '#4a90e2';
 
 const CustomRadio = Styled.div`
+  cursor:pointer;
   margin-bottom:8px;
+  label{
+    cursor:pointer;
+  }
   &:last-of-type{
     margin-bottom:0;
   }
@@ -73,7 +77,7 @@ const Radio = ({name, option, label, handleChange, checked, original}) => {
   let inputId = option.value + name;
   return(
     <CustomRadio original={original} style={{fontFamily:"proxima nova"}}>
-      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked} original={original}/>
+      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked}/>
       <label for={inputId}>
         <span>{label}</span>
       </label>
@@ -82,15 +86,20 @@ const Radio = ({name, option, label, handleChange, checked, original}) => {
 }
 
 const CustomInlineRadio = Styled.div`
+  cursor:pointer;
   display:inline-block;
   text-align:left;
   margin-right:24px;
+  label{
+    cursor:pointer;
+  }
   &:last-of-type{
     margin-right:0;
   }
   [type="radio"]:checked,
   [type="radio"]:not(:checked)
   {
+    cursor:pointer;
     box-sizing:border-box;
     position:absolute;
     left:-9999px;
@@ -129,6 +138,7 @@ const CustomInlineRadio = Styled.div`
   [type="radio"]:checked + label:before,
   [type="radio"]:not(:checked) + label:before
   {
+    cursor:pointer;
     box-sizing:border-box;
     display:inline-block;
     content: '';

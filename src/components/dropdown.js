@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { TESTING_MODAL } from '../constants/ModalTypes';
 
 const DropDownBox = styled.span`
+  cursor:pointer;
   height:28px;
   padding:8px;
   border:1px solid #C6C6C6;
@@ -18,8 +19,12 @@ const DropDownBox = styled.span`
   justify-content:space-between;
   align-items:center;
   position:relative;
+  transition:box-shadow 150ms ease;
   & + &{
     margin-left:8px;
+  }
+  &:hover,&:focus{
+    box-shadow:0 0 2px 0 #00e7b2;
   }
 `
 const Value = styled.span`
@@ -68,20 +73,11 @@ export default connect(
   null,
   (dispatch) => ({
     scrimToggle: (ref) => {
-      console.log("onclick");
-      console.log(ref);
       if (ref.state.open === false) {
-        //dispatch({type: 'SHOW_SCRIM', scrim:{
-        //  color:'light',
-        //  opacity:0.7,
-        //  zIndex:'low'
-        //}});
         ref.setState({open:true})
-        console.log(ref.state.open);
       } else {
         dispatch({type: 'HIDE_SCRIM'});
         ref.setState({open:false});
-        console.log(ref.state.open);
       }
     },
     onScrimClick: (ref) => {
