@@ -30,7 +30,7 @@ class Header extends React.Component {
     return (
       <Wrapper>
         <Row>
-          <Title>Title</Title>
+          <Title>Parts Library</Title>
           <RightWrapper>
             <Search/>
             <VerticalRule/>

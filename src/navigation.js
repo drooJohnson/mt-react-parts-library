@@ -102,8 +102,8 @@ class Navigation extends React.Component {
           <Logo/>
           <LinkList style={{marginLeft:0,marginRight:'auto'}}>
             <Link to="/parts">Parts</Link>
-            <DisabledLink>Jobs</DisabledLink>
-            <DisabledLink>Machines</DisabledLink>
+            <DisabledLink>Estimates</DisabledLink>
+            <DisabledLink>Orders</DisabledLink>
           </LinkList>
           <LinkList>
             <UserDropdown name={this.props.store.username}/>
