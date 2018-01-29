@@ -77,7 +77,7 @@ const Radio = ({name, option, label, handleChange, checked, original}) => {
   let inputId = option.value + name;
   return(
     <CustomRadio original={original} style={{fontFamily:"proxima nova"}}>
-      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked} original={original}/>
+      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked}/>
       <label for={inputId}>
         <span>{label}</span>
       </label>
