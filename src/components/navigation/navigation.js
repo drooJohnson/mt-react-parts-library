@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import VerticalRule from './components/vertical-rule';
+import VerticalRule from '../vertical-rule';
 import { NavLink as RouterNavLink, Link as RouterLink } from 'react-router-dom';
-import UserDropdown from './components/navigation/user-dropdown';
+import UserDropdown from './user-dropdown';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import zIndex from './utils/z-index';
-import Row from './layout/row';
+import zIndex from '../../components/utils/z-index';
+import Row from '../../components/layout/row';
 
 // COMPONENTS ASSUME THEIR OWN NAME AS THEIR GRID-AREA VALUE UNLESS EXPLICITLY ASSIGNED OTHERWISE!
 

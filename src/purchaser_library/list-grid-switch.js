@@ -39,19 +39,6 @@ export default compose(
       onGridClick: () => {
         dispatch({type:'TO_GRID'});
       }
-
     })
-  )/*
-  connect(
-    (state)=> ({
-      collections:state.firestore.ordered.collections,
-      parts:state.firestore.ordered.parts,
-      store:state.store
-    }),
-    (dispatch) => ({
-      onClick:(collection) => {
-        dispatch({type:'CHANGE_SELECTED_COLLECTION', collection})
-      }
-    })
-  )*/
+  )
 )(ListGridSwitch)

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import VerticalRule from '../components/vertical-rule';
 import ListGridSwitch from './list-grid-switch';
-import Pagination from '../components/pagination';
+import Pagination from './pagination';
 import {InlineRadio} from '../components/radios/radio';
 
 import { compose } from 'redux';

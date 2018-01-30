@@ -5,11 +5,11 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import Grid from '../layout/grid';
+import Grid from '../components/layout/grid';
 
 import Parts from '../purchaser_library/parts.js';
 import Collections from '../purchaser_library/collections-panel.js';
-import Navigation from '../navigation.js';
+import Navigation from '../components/navigation/navigation.js';
 import Header from '../purchaser_library/header.js';
 import PartsActionBar from '../purchaser_library/parts-action-bar.js';
 import styled from 'styled-components';

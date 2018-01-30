@@ -17,12 +17,8 @@ const LoaderWrapper = styled.div`
 `
 
 const SpriteKeyframes = keyframes`
-0%{
-  background-position:0 0;
-}
-100% {
-  background-position: -416px 0;
-}
+  0%   {background-position:0 0;}
+  100% {background-position: -416px 0;}
 `
 
 const Animation = styled.div`
@@ -45,18 +41,12 @@ const LoaderText = styled.div`
   font-weight:600;
   text-align:center;
 `
-class CardLoader extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      enabled:false
-    }
-  }
-  render(){
-    return(
-      <LoaderWrapper><Animation></Animation><LoaderText>Calculating Network Pricing</LoaderText></LoaderWrapper>
-    )
-  }
-}
+
+const CardLoader = () => (
+  <LoaderWrapper>
+    <Animation></Animation>
+    <LoaderText>Calculating Network Pricing</LoaderText>
+  </LoaderWrapper>
+)
 
 export default CardLoader;

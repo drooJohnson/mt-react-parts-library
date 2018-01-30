@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import VerticalRule from '../components/vertical-rule';
-import zIndex from '../utils/z-index.js';
-import Row from '../layout/row';
+import zIndex from '../components/utils/z-index';
+import Row from '../components/layout/row';
 
-import Search from '../inputs/search';
+import Search from '../components/inputs/search';
 import Button from '../components/buttons';
 
 const Title = styled.h1`

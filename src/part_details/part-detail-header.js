@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleLeft from '@fortawesome/fontawesome-free-solid/faAngleLeft';
 import {Link} from 'react-router-dom';
-import zIndex from '../utils/z-index.js';
+import zIndex from '../components/utils/z-index';
 
-import Row from '../layout/row';
+import Row from '../components/layout/row';
 
 const Back = styled(Link)`
   color:#9b9b9b;
