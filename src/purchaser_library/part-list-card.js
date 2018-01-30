@@ -6,6 +6,7 @@ import DropDown from '../components/dropdown';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { keyframes } from 'styled-components';
 import Button from '../components/buttons';
 import RadioGroup from '../components/radios/radio-group';
 import PartListCardPrice from './part-list-card-price';
@@ -115,13 +116,18 @@ const PartPreview = styled.div`
   grid-area: image;
   background-color: #fafafa;
   overflow: hidden;
+  display:flex;
+  justify-content: center;
+  align-items:center;
 `
 
 const ListCardImage = styled.img`
+  opacity: ${props => props.imageLoading ? '0.0' : '1.0' };
   display:block;
   height:100%;
   width:100%;
   object-fit: contain;
+  transition:opacity 300ms ease;
 `;
 
 const ListCardLeft = styled.div`
@@ -315,6 +321,39 @@ const CardOverlay = styled.div`
   }
 `
 
+const LoadingSpinnerAnimation = keyframes`
+  0%{
+    transform:rotateZ(0deg);
+  }
+  100%{
+    transform:rotateZ(360deg);
+  }
+`
+
+const LoadingSpinner = styled.div`
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  &:after{
+    content:"";
+    position:relative;
+    width:24px;
+    height:24px;
+    min-width:24px;
+    min-height:24px;
+    border:4px solid transparent;
+    border-top-color: #00e7b2;
+    border-left-color: #00e7b2;
+    border-radius:100%;
+    animation:${LoadingSpinnerAnimation} 1000ms linear infinite;
+  }
+`
+
 const CardOverlayButton = styled.button`
   font-family:proxima nova;
   font-weight:600;
@@ -343,6 +382,7 @@ const CardOverlaySelectionButton = styled.div`
     background-color:rgba(255,255,255,0.2);
   }
 `
+
 const OverlayLink = styled(Link)`
   text-decoration:none;
 `
@@ -377,7 +417,8 @@ class PartListCard extends React.Component {
       hover: false,
       loading: false,
       displayLoader: false,
-      scrimOpacity:0
+      scrimOpacity:0,
+      imageLoading: true,
     }
   }
   handleMouseOver = () => {
@@ -413,6 +454,11 @@ class PartListCard extends React.Component {
     }
   }
 
+  imageLoaded = () => {
+    console.log("imageLoaded!");
+    this.setState({imageLoading:false});
+  }
+
   triggerFauxLoader = (value,min,max) => {
     let timeout = Math.random() * (max - min) + min;
     if (value.time){
@@ -446,7 +492,8 @@ class PartListCard extends React.Component {
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <ListCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
           <PartPreview hover={this.state.hover}>
-            <ListCardImage src={this.props.image}/>
+            { this.state.imageLoading && <LoadingSpinner/> }
+            <ListCardImage src={this.props.image} onLoad={this.imageLoaded} imageLoading={this.state.imageLoading}/>
             { this.props.hoverOverlayEnabled &&
               <CardOverlay hover={this.state.hover}>
                 <PartOverlayDetailsButton id={part.id}>Edit Part</PartOverlayDetailsButton>
