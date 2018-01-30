@@ -105,19 +105,23 @@ const GreyDetail = styled.p`
   }
 `;
 
-const ListCardImage = styled.div`
-  width:136px;
-  height:108px;
-  background-color:#fafafa;
-  border-right:1px solid #ededed;
-  background-image:${props => props.image ? "url(" + props.image + ")" : "none"};
-  filter:${props => props.hover ? 'contrast(1.0) brightness(1.0)' : 'contrast(0.5) brightness(1.3)'};
-  background-position: center center;
-  background-repeat:no-repeat;
-  background-size: contain;
-  position:relative;
-  transition:filter 300ms ease;
-  grid-area:image;
+const PartPreview = styled.div`
+  width: 136px;
+  height: 108px;
+  border-right: 1px solid #ededed;
+  filter: ${props => props.hover ? 'contrast(1.0) brightness(1.0)' : 'contrast(0.5) brightness(1.3)'};
+  position: relative;
+  transition: filter 300ms ease;
+  grid-area: image;
+  background-color: #fafafa;
+  overflow: hidden;
+`
+
+const ListCardImage = styled.img`
+  display:block;
+  height:100%;
+  width:100%;
+  object-fit: contain;
 `;
 
 const ListCardLeft = styled.div`
@@ -441,14 +445,15 @@ class PartListCard extends React.Component {
           </React.Fragment>
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <ListCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
-          <ListCardImage image={this.props.image} hover={this.state.hover}>
+          <PartPreview hover={this.state.hover}>
+            <ListCardImage src={this.props.image}/>
             { this.props.hoverOverlayEnabled &&
-                <CardOverlay hover={this.state.hover}>
-                  <PartOverlayDetailsButton id={part.id}>Edit Part</PartOverlayDetailsButton>
-                  <CardOverlaySelectionButton/>
-                </CardOverlay>
+              <CardOverlay hover={this.state.hover}>
+                <PartOverlayDetailsButton id={part.id}>Edit Part</PartOverlayDetailsButton>
+                <CardOverlaySelectionButton/>
+              </CardOverlay>
             }
-          </ListCardImage>
+          </PartPreview>
           <ListCardLeft>
             <PartName>{part.partNumber}</PartName>
             <GreyDetail>{this.materialAndMachineTypes}</GreyDetail>

@@ -118,6 +118,24 @@ const GridCardTop = styled.div`
   transition:filter 300ms ease;
 `;
 
+const PartPreview = styled.div`
+  width:100%;
+  height:204px;
+  background-color:#fafafa;
+  border-bottom:1px solid #ededed;
+  filter:${props => props.hover ? 'contrast(1.0) brightness(1.0)' : 'contrast(0.5) brightness(1.3)'};
+  position:relative;
+  transition:filter 300ms ease;
+`
+
+const GridCardImage = styled.img`
+
+  display:block;
+  height:100%;
+  width:100%;
+  object-fit: contain;
+`
+
 const GridCardBottom = styled.div`
   padding:16px;
   position:relative;
@@ -399,14 +417,15 @@ class PartGridCard extends React.Component {
           </React.Fragment>
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <GridCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
-          <GridCardTop image={this.props.image} hover={this.state.hover}>
+          <PartPreview hover={this.state.hover}>
+            <GridCardImage src={this.props.image}/>
             { this.props.hoverOverlayEnabled &&
                 <CardOverlay hover={this.state.hover}>
                   <PartOverlayDetailsButton id={part.id}>Edit Part</PartOverlayDetailsButton>
                   <CardOverlaySelectionButton/>
                 </CardOverlay>
             }
-          </GridCardTop>
+          </PartPreview>
           <GridCardBottom>
             <PartName>{part.partNumber}</PartName>
             <GreyDetail>{this.materialAndMachineTypes}</GreyDetail>
