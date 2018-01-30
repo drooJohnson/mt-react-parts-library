@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DropDown from '../components/dropdown';
 
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../components/buttons';
@@ -277,19 +278,6 @@ const CardOverlay = styled.div`
   }
 `
 
-const CardOverlayButton = styled.button`
-  font-family:proxima nova;
-  font-weight:600;
-  font-size:12px;
-  letter-spacing:0.5px;
-  -webkit-appearance:none;
-  background-color:#00e7b2;
-  padding:8px 12px;
-  border:solid 1px #00e7b2;
-  border-radius:3px;
-  box-shadow:0 0 24px rgba(0,0,0,0.35);
-`
-
 const CardOverlaySelectionButton = styled.div`
   width:22px;
   height:22px;
@@ -305,6 +293,14 @@ const CardOverlaySelectionButton = styled.div`
     background-color:rgba(255,255,255,0.2);
   }
 `
+
+const OverlayLink = styled(Link)`
+  text-decoration:none;
+`
+
+const PartOverlayDetailsButton = ({id,children}) => (
+  <OverlayLink to={`/parts/${id}`}><Button type="success" size="small" style={{fontSize:'12px'}}>{children}</Button></OverlayLink>
+)
 
 class PartGridCard extends React.Component {
   constructor(props){
@@ -404,7 +400,12 @@ class PartGridCard extends React.Component {
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <GridCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
           <GridCardTop image={this.props.image} hover={this.state.hover}>
-            { this.props.hoverOverlayEnabled ? <CardOverlay hover={this.state.hover}><Button type="success" size="small" style={{fontSize:'12px'}}>Edit Part</Button><CardOverlaySelectionButton/></CardOverlay> : null }
+            { this.props.hoverOverlayEnabled &&
+                <CardOverlay hover={this.state.hover}>
+                  <PartOverlayDetailsButton id={part.id}>Edit Part</PartOverlayDetailsButton>
+                  <CardOverlaySelectionButton/>
+                </CardOverlay>
+            }
           </GridCardTop>
           <GridCardBottom>
             <PartName>{part.partNumber}</PartName>

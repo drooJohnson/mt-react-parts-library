@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DropDown from '../components/dropdown';
 
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../components/buttons';
@@ -324,8 +325,8 @@ const CardOverlayButton = styled.button`
 `
 
 const CardOverlaySelectionButton = styled.div`
-  width:16px;
-  height:16px;
+  width:12px;
+  height:12px;
   background-color:transparent;
   position:absolute;
   top:8px;
@@ -338,6 +339,13 @@ const CardOverlaySelectionButton = styled.div`
     background-color:rgba(255,255,255,0.2);
   }
 `
+const OverlayLink = styled(Link)`
+  text-decoration:none;
+`
+
+const PartOverlayDetailsButton = ({id,children}) => (
+  <OverlayLink to={`/parts/${id}`}><Button type="success" size="micro" style={{fontSize:'12px'}}>{children}</Button></OverlayLink>
+)
 
 class PartListCard extends React.Component {
   constructor(props){
@@ -434,7 +442,12 @@ class PartListCard extends React.Component {
             { (this.state.displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
         <ListCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+"bounds"}>
           <ListCardImage image={this.props.image} hover={this.state.hover}>
-            { this.props.hoverOverlayEnabled ? <CardOverlay hover={this.state.hover}><Button type="success" size="micro">Edit Part</Button><CardOverlaySelectionButton/></CardOverlay> : null }
+            { this.props.hoverOverlayEnabled &&
+                <CardOverlay hover={this.state.hover}>
+                  <PartOverlayDetailsButton id={part.id}>Edit Part</PartOverlayDetailsButton>
+                  <CardOverlaySelectionButton/>
+                </CardOverlay>
+            }
           </ListCardImage>
           <ListCardLeft>
             <PartName>{part.partNumber}</PartName>
