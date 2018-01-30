@@ -49,6 +49,7 @@ ReactDOM.render((
       <Scrim/>
         <Switch>
           <Route exact path="/" component={PartsLibrary}/>
+          <Route exact path="/parts" component={PartsLibrary}/>
           <Route exact path="/parts/:id" component={PartDetail}/>
           <Route exact path="/testing" component={Testing}/>
         </Switch>
