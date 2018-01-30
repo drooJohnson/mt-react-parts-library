@@ -13,6 +13,9 @@ import styled from 'styled-components';
 
 import ModalContainer from './components/modals/modal-root.js';
 import Scrim from './components/scrim';
+import { hotjar } from 'react-hotjar';
+
+hotjar.initialize(762713, 6);
 
 const Page = styled.div`
   overflow:hidden;
@@ -22,16 +25,32 @@ const Page = styled.div`
     font-family:'proxima nova';
   }
 `
-ReactDOM.render((
+/*ReactDOM.render((
   <Provider store={store}>
     <Router>
       <Page>
       <Scrim/>
         <Switch>
           <Route exact path="/parts" component={PartsLibrary}/>
-          <Route path="/parts/:id" component={PartDetail}/>
-          <Route path="/testing" component={Testing}/>
+          <Route exact path="/parts/:id" component={PartDetail}/>
+          <Route exact path="/testing" component={Testing}/>
           <Redirect exact from="/" to="/parts"/>
+        </Switch>
+      <ModalContainer/>
+      </Page>
+    </Router>
+  </Provider>
+), document.getElementById('root'));*/
+
+ReactDOM.render((
+  <Provider store={store}>
+    <Router>
+      <Page>
+      <Scrim/>
+        <Switch>
+          <Route exact path="/" component={PartsLibrary}/>
+          <Route exact path="/parts/:id" component={PartDetail}/>
+          <Route exact path="/testing" component={Testing}/>
         </Switch>
       <ModalContainer/>
       </Page>
