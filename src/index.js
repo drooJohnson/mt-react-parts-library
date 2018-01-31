@@ -13,9 +13,6 @@ import styled from 'styled-components';
 
 import ModalContainer from './components/modals/modal-root.js';
 import Scrim from './components/scrim';
-import { hotjar } from 'react-hotjar';
-
-hotjar.initialize(762713, 6);
 
 const Page = styled.div`
   overflow:hidden;
