@@ -53,6 +53,8 @@ const MedianLabel = styled.div`
 `
 
 const RangeWrapper = styled.div`
+  margin-left:8px;
+  margin-right:8px;
   display: flex;
   justify-content: stretch;
   align-items: center;

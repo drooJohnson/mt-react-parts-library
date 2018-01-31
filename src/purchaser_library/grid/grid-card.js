@@ -187,8 +187,8 @@ const ScreenFill = ({ inProp, partId, scrimOpacity, onClick }) => (
 // CONTAINS THE DROPDOWNS
 
 const ControlRow = styled.div`
-  text-align: right;
-  margin-bottom: 16px;
+  text-align: left;
+  margin-bottom: 32px;
 `
 
 class PartGridCard extends React.Component {
