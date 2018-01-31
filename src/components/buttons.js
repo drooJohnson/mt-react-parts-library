@@ -115,7 +115,7 @@ const ButtonBase = styled.button.attrs({
 })`
   cursor: pointer;
   font-family: proxima nova;
-  font-weight: 600;
+  font-weight: 500;
   -webkit-appearance: none;
   border: solid 1px rgba(0,0,0,0.15);
   border-radius: 2px;

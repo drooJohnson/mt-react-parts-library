@@ -28,7 +28,6 @@ const BarRow = styled.div`
 
 const Title = styled.div`
   font-weight:600;
-  letter-spacing:1px;
   align-self:center;
   padding-top:1px;
   text-transform:uppercase;
