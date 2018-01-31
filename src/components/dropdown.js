@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
-import zIndex from '../utils/z-index.js';
+import zIndex from '../components/utils/z-index';
 import { connect } from 'react-redux';
 
 // eslint-disable-next-line

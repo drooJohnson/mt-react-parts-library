@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import zIndex from '../../utils/z-index.js';
+import zIndex from '../../components/utils/z-index';
 
 import { HIDE_MODAL, HIDE_SCRIM } from '../../constants/ActionTypes';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import zIndex from '../utils/z-index';
+import zIndex from '../components/utils/z-index';
 import {connect} from 'react-redux';
 
 const colors = {
