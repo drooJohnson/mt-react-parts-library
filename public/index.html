@@ -13,6 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" rel="stylesheet" type="text/css">
     <link href="index.css" rel="stylesheet" type="text/css">
     <style>
+    /* Global-ish Styles */
     *{box-sizing:border-box}
     html,body{
       background-color:#ececec;
@@ -26,28 +27,68 @@
     h1,h2,h3,h4,h5,h6{
       margin:0;
     }
-    .tether-element-attached-top .popoverArrowTop{
+
+    /* Parts Library Grid Popover Styles */
+    .tether-element-attached-top .gridRadioBlock .popoverArrowTop{
       z-index:190;
-      top:-14px;
-      border:8px solid transparent;
+      top:-16px;
+      border: 8px solid transparent;
       border-bottom:8px solid white;
+      border-top-width:0;
     }
-    .tether-element-attached-top .popoverArrowBottom{
-      bottom:-14px;
-      border:8px solid transparent;
+    .tether-element-attached-top .gridRadioBlock .popoverArrowBottom{
+      bottom:-16px;
+      border: 8px solid transparent;
     }
-    .tether-element-attached-bottom .popoverArrowBottom{
-      bottom:-14px;
-      border:8px solid transparent;
+    .tether-element-attached-bottom .gridRadioBlock .popoverArrowBottom{
+      bottom:-16px;
+      border: 8px solid transparent;
       border-top:8px solid white;
+      border-bottom-width:0;
     }
-    .tether-element-attached-bottom .popoverArrowTop{
-      top:-14px;
-      border:8px solid transparent;
+    .tether-element-attached-bottom .gridRadioBlock .popoverArrowTop{
+      top:-16px;
+      border: 8px solid transparent;
     }
 
-    .tether-pinned-right .popoverArrowTop, .tether-pinned-right .popoverArrowBottom{
+    .tether-pinned-right .gridRadioBlock .popoverArrowTop, .tether-pinned-right .gridRadioBlock .popoverArrowBottom{
       left:70%;
+    }
+
+    /* Parts Library List Popover Styles */
+    .tether-element-attached-top .listRadioBlockWrapper .popoverArrowTop {
+      border: 8px solid transparent;
+      border-bottom: 8px solid white;
+      border-top: 0 solid transparent;
+    }
+    .tether-element-attached-top .listRadioBlockWrapper .popoverArrowBottom {
+      border-top: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 0 solid transparent;
+      border-left: 0 solid transparent;
+    }
+    .tether-element-attached-bottom .listRadioBlockWrapper .popoverArrowTop {
+      border-top: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 0 solid transparent;
+      border-left: 0 solid transparent;
+    }
+    .tether-element-attached-bottom .listRadioBlockWrapper .popoverArrowBottom {
+      border: 8px solid transparent;
+      border-bottom: 0 solid transparent;
+      border-top: 8px solid white;
+    }
+
+    .tether-pinned-right .listRadioBlockWrapper .popoverArrowBottom,
+    .tether-pinned-right .listRadioBlockWrapper .popoverArrowTop {
+      margin-left:35%;
+    }
+
+    .tether-element-attached-top .listRadioBlockWrapper{
+      margin-top:4px;
+    }
+    .tether-element-attached-bottom .listRadioBlockWrapper{
+      margin-bottom:4px;
     }
     </style>
     <!--

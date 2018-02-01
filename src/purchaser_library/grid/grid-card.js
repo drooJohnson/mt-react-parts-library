@@ -125,6 +125,7 @@ const RadioBlock = styled.div`
   border-radius: 2px;
   opacity: 0;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+  position:relative;
 `
 
 const Arrow = styled.div`
@@ -144,7 +145,7 @@ const TimeInput = ({ times, inProp, partId, checked, submitRef, handleSubmit }) 
   <CardFill key={partId + "time"}>
     <Transition appear={true} in={inProp} timeout={{ enter: 0, exit: duration }}>
       {( state ) => (
-        <RadioBlock style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
+        <RadioBlock className={'gridRadioBlock'} style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
           <RadioGroup options={times} name={"time"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
           <Arrow fromLeft={131}/>
         </RadioBlock>
@@ -157,7 +158,7 @@ const QuantityInput = ({ quantities, inProp, partId, checked, submitRef, handleS
   <CardFill key={partId + "quantity"}>
     <Transition appear={true} in={inProp} timeout={{ enter: 0, exit: duration }}>
       {( state ) => (
-        <RadioBlock style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
+        <RadioBlock className={'gridRadioBlock'} style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
           <RadioGroup options={quantities} name={"quantity"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
           <Arrow fromLeft={32}/>
         </RadioBlock>
