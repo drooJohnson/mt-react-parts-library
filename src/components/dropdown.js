@@ -19,7 +19,7 @@ const DropDownBox = styled.span`
   justify-content:space-between;
   align-items:center;
   position:relative;
-  transition:box-shadow 150ms ease;
+  transition:${props => props.open ? 'box-shadow 150ms ease, z-index 0ms 0ms ease' : 'box-shadow 150ms ease, z-index 0ms 300ms ease' };
   & + &{
     margin-left:8px;
   }
@@ -58,7 +58,7 @@ class DropDown extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} open={this.props.open} style={{zIndex: this.props.open ? zIndex['mid'] : '0'}}>
+        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} open={this.props.open} style={{zIndex: this.props.open ? zIndex['low'] : '0'}}>
           <Value>{this.props.value}</Value>
           <BoxSizer>{this.props.longestValue}</BoxSizer>
           <FontAwesomeIcon icon={faAngleDown}/>
