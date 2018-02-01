@@ -100,18 +100,18 @@ class PartContainer extends React.Component {
     if ( value.time ){
       this.setState({loading: true, displayLoader: true});
       setTimeout(()=> {
-        this.setState({displayLoader: false})
-      }, timeout);
+        this.setState({selectedTime: value.time})
+      }, 50);
       setTimeout(()=> {
-        this.setState({selectedTime: value.time, loading: false})
+        this.setState({displayLoader: false, loading: false})
       }, timeout);
     } else if ( value.quantity ){
       this.setState({loading: true, displayLoader: true});
       setTimeout(()=> {
-        this.setState({displayLoader: false})
-      }, timeout);
+        this.setState({selectedQuantity: value.quantity})
+      }, 50);
       setTimeout(()=> {
-        this.setState({selectedQuantity: value.quantity, loading: false})
+        this.setState({displayLoader: false, loading: false})
       }, timeout);
     }
   }
@@ -160,43 +160,53 @@ PartContainer.propTypes = {
 export default connect(
   null,
   (dispatch) => ({
-    handleTimeChange: ( newValue, originalValue, ref ) => {
+    handleTimeChange: ( newValue, originalValue, ref, delay = 0 ) => {
       if ( originalValue !== newValue ){
+
         ref.triggerFauxLoader({ time: newValue }, loadTimeMin, loadTimeMax );
         ref.setState({ scrimOpacity: '0.0' })
         setTimeout(()=> {
           ref.setState({ quantityOpen: false, timeOpen: false });
-        }, 300);
+        }, delay);
         dispatch({ type: 'HIDE_SCRIM' })
+
       } else {
+
         ref.setState({ selectedTime: newValue, scrimOpacity: '0.0' })
         setTimeout(()=> {
           ref.setState({ quantityOpen: false, timeOpen: false });
-        }, 300);
+        }, delay);
         dispatch({ type: 'HIDE_SCRIM' })
+
       }
     },
 
-    handleQuantityChange: ( newValue, originalValue, ref ) => {
+    handleQuantityChange: ( newValue, originalValue, ref, delay ) => {
       if ( originalValue !== newValue ){
+
         ref.triggerFauxLoader({ quantity: newValue }, loadTimeMin, loadTimeMax );
         ref.setState({ scrimOpacity: '0.0' })
         setTimeout(()=> {
           ref.setState({ quantityOpen: false, timeOpen: false });
-        }, 300);
+        }, delay);
         dispatch({ type: 'HIDE_SCRIM' })
+
       } else {
+
         ref.setState({ selectedQuantity: newValue, scrimOpacity: '0.0' })
         setTimeout(()=> {
           ref.setState({ quantityOpen: false, timeOpen: false });
-        }, 300);
+        }, delay);
         dispatch({ type: 'HIDE_SCRIM' })
+
       }
     },
 
     onScrimClick: ( ref ) => {
+
       dispatch({ type: 'HIDE_SCRIM' })
       ref.setState({ quantityOpen: false, timeOpen: false, scrimOpacity: '0.0' });
+
     }
   })
 )( PartContainer );

@@ -35,48 +35,40 @@ let screenFillTransitionStyles = {
 
 let radioBlockDefaultStyle = {
   opacity: 0.0,
-  transform: 'translateY(-10px) translateZ(0)',
-  display: 'none',
+  display: 'block',
 }
-
-/*let radioBlockTransitionStyles = {
-  entering: { opacity: 0.0, display: 'block', transform: 'translateY(10px)  translateZ(0)' },
-  entered:  { opacity: 1.0, display: 'block', transform: 'translateY(0px)   translateZ(0)' },
-  exiting:  { opacity: 0.0, display: 'block', transform: 'translateY(-10px) translateZ(0)' },
-  exited:   { opacity: 0.0, display: 'none',  transform: 'translateY(-10px) translateZ(0)' },
-}*/
 
 let radioBlockEntrance = keyframes`
   0%{
-    display:block;
-    transform:translateY(10px) translateZ(0);
+    display:flex;
+    transform:translateY(-10px)  translateZ(0) scale(0.95);
     opacity:0.0;
   }
   100%{
-    display:block;
-    transform:translateY(0) translateZ(0);
+    display:flex;
+    transform:translateY(0px)  translateZ(0);
     opacity:1.0;
   }
 `
 
 let radioBlockExit = keyframes`
   0%{
-    display:block;
-    transform:translateY(0) translateZ(0);
+    display:flex;
+    transform:translateY(0px)  translateZ(0);
     opacity:1.0;
   }
   100%{
-    display:block;
-    transform:translateY(-10px) translateZ(0);
+    display:flex;
+    transform:translateY(-10px)  translateZ(0) scale(0.95);
     opacity:0.0;
   }
 `
 
 let radioBlockTransitionStyles = {
-  entering: { },
-  entered:  { animation:`${radioBlockEntrance} 300ms ease 0s 1 normal both`, display:'block'},
-  exiting:  { animation:`${radioBlockExit} 300ms ease 0s 1 normal both`, display:'block'},
-  exited:   { animation:`${radioBlockExit} 300ms ease 0s 1 normal both`, display:'block'},
+  entering: { animation:`${radioBlockEntrance} ${duration}ms ease 0s 1 normal both`, display:'flex' },
+  entered:  { display: 'flex', opacity:'1.0' },
+  exiting:  { animation:`${radioBlockExit} ${duration}ms ease 0s 1 normal both`, display:'flex' },
+  exited:   { display:'none' },
 }
 
 // Presentational Components
@@ -161,79 +153,91 @@ const RadioBlock = styled.div`
   padding: 16px 12px;
   background-color: white;
   z-index: ${zIndex['mid']};
-  transition: opacity ${duration}ms ease, transform ${duration}ms ease;
   border-radius: 2px;
-  opacity: 0;
+  opacity: 1.0;
   max-width: 268px;
-  margin: 12px;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
   animation-fill-mode:both;
+  position:relative;
+`
+
+const RadioBlockWrapper = styled.div`
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 `
 
 const Arrow = styled.div`
   content: '';
   display: block;
-  border: px solid transparent;
-  border-top: 8px solid white;
-  position: absolute;
+  border: 8px solid transparent;
   left: 50%;
-  height: 1px;
-  width: 1px;
   z-index: ${zIndex['mid']+10};
 `
 
-const TimeInput = ({ times, open, onClick, value, longestValue, inProp, partId, checked, submitRef, handleSubmit }) => (
+const TimeInput = ({ times, open, onClick, value, longestValue, partId, checked, submitRef, handleSubmit }) => (
 
   <TetherComponent
           style={{zIndex: 200}}
           attachment="top center"
-          constraints={[{
-            to: 'scrollParent',
-            pin: true},{
-            to: 'scrollParent',
-            attachment: 'together'
-          }]}>
+          targetAttachment="bottom center"
+          constraints={[
+            {
+              to: 'scrollParent',
+              pin: ['right','left']
+            },
+            {
+              to: 'scrollParent',
+              attachment: 'together'
+            }
+          ]}>
           { /* First child: This is what the item will be tethered to */}
           <DropDown open={open} onClick={onClick} value={value} longestValue={longestValue}/>
           { /* Second child: If present, this item will be tethered to the the first child */}
-          { open &&
-            <Transition appear={true} in={inProp} timeout={{enter: 0, exit: duration}}>
+             <Transition mountOnEnter={true} unmountOnExit={true} appear={false} in={open} timeout={{enter: 300, exit: duration}}>
               {(state) => (
-                <RadioBlock style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
-                  <Arrow className="popoverArrowTop" fromLeft={131}/>
-                  <RadioGroup options={times} name={"time"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
-                  <Arrow className="popoverArrowBottom" fromLeft={131}/>
-                </RadioBlock>
+                <RadioBlockWrapper className={'listRadioBlockWrapper'} style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
+                  <Arrow className="popoverArrowTop"/>
+                  <RadioBlock className={'listRadioBlock'}>
+                    <RadioGroup options={times} name={"time"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
+                  </RadioBlock>
+                  <Arrow className="popoverArrowBottom"/>
+                </RadioBlockWrapper>
               )}
             </Transition>
-          }
         </TetherComponent>
 )
 
-const QuantityInput = ({ quantities, open, onClick, value, longestValue, inProp, partId, checked, submitRef, handleSubmit }) => (
+const QuantityInput = ({ quantities, open, onClick, value, longestValue, partId, checked, submitRef, handleSubmit }) => (
   <TetherComponent
           style={{zIndex: 200}}
           attachment="top center"
-          constraints={[{
-            to: 'scrollParent',
-            pin: true},{
-            to: 'scrollParent',
-            attachment: 'together'
-          }]}>
+          targetAttachment="bottom center"
+          constraints={[
+            {
+              to: 'scrollParent',
+              pin: ['right','left']
+            },
+            {
+              to: 'scrollParent',
+              attachment: 'together'
+            }
+          ]}>
           { /* First child: This is what the item will be tethered to */}
           <DropDown open={open} onClick={onClick} value={value} longestValue={longestValue}/>
-          { /* Second child: If present, this item will be tethered to the the first child */}
-          { open &&
-            <Transition appear={true} in={inProp} timeout={{enter: 10, exit: duration}}>
+          { /* Second child: If present, this item will be tethered to the the first child */ }
+            <Transition mountOnEnter={true} unmountOnExit={true} appear={true} in={open} timeout={{enter: 300, exit: duration}}>
               {(state) => (
-                <RadioBlock style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
-                  <Arrow className="popoverArrowTop" fromLeft={131}/>
-<RadioGroup options={quantities} name={"quantity"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
-                  <Arrow className="popoverArrowBottom" fromLeft={131}/>
-                </RadioBlock>
+                <RadioBlockWrapper className={'listRadioBlockWrapper'} style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
+                  <Arrow className="popoverArrowTop"/>
+                  <RadioBlock className={'listRadioBlock'}>
+                    <RadioGroup options={quantities} name={"quantity"} partId={partId} checked={checked} submitRef={submitRef} handleSubmit={handleSubmit}/>
+                  </RadioBlock>
+                  <Arrow className="popoverArrowBottom"/>
+                </RadioBlockWrapper>
               )}
-            </Transition>
-          }
+             </Transition>
         </TetherComponent>
 )
 
@@ -294,9 +298,9 @@ class PartListCard extends React.Component {
           <PartListCardPrice gridArea={'pricing'} prices={prices(part.prices,priceScale)} hover={hover} loading={loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ " + selectedQuantity.display }/>
           <ListCardRight>
             <ControlRow>
-              <QuantityInput open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display} inProp={quantityOpen} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
+              <QuantityInput open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
               <div style={{display: 'inline-block', width: '8px'}}/>
-              <TimeInput open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display} inProp={timeOpen} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
+              <TimeInput open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
             </ControlRow>
             <Button type="default">Add to Estimate</Button>
           </ListCardRight>
