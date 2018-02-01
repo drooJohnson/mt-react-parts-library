@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DropDown from '../../components/dropdown';
 
+import {keyframes} from 'styled-components';
 import styled from 'styled-components';
 import Button from '../../components/buttons';
 import RadioGroup from '../../components/radios/radio-group';
@@ -38,11 +39,44 @@ let radioBlockDefaultStyle = {
   display: 'none',
 }
 
-let radioBlockTransitionStyles = {
+/*let radioBlockTransitionStyles = {
   entering: { opacity: 0.0, display: 'block', transform: 'translateY(10px)  translateZ(0)' },
   entered:  { opacity: 1.0, display: 'block', transform: 'translateY(0px)   translateZ(0)' },
   exiting:  { opacity: 0.0, display: 'block', transform: 'translateY(-10px) translateZ(0)' },
   exited:   { opacity: 0.0, display: 'none',  transform: 'translateY(-10px) translateZ(0)' },
+}*/
+
+let radioBlockEntrance = keyframes`
+  0%{
+    display:block;
+    transform:translateY(10px) translateZ(0);
+    opacity:0.0;
+  }
+  100%{
+    display:block;
+    transform:translateY(0) translateZ(0);
+    opacity:1.0;
+  }
+`
+
+let radioBlockExit = keyframes`
+  0%{
+    display:block;
+    transform:translateY(0) translateZ(0);
+    opacity:1.0;
+  }
+  100%{
+    display:block;
+    transform:translateY(-10px) translateZ(0);
+    opacity:0.0;
+  }
+`
+
+let radioBlockTransitionStyles = {
+  entering: { },
+  entered:  { animation:`${radioBlockEntrance} 300ms ease 0s 1 normal both`, display:'block'},
+  exiting:  { animation:`${radioBlockExit} 300ms ease 0s 1 normal both`, display:'block'},
+  exited:   { animation:`${radioBlockExit} 300ms ease 0s 1 normal both`, display:'block'},
 }
 
 // Presentational Components
@@ -127,13 +161,13 @@ const RadioBlock = styled.div`
   padding: 16px 12px;
   background-color: white;
   z-index: ${zIndex['mid']};
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: opacity ${duration}ms ease, transform ${duration}ms ease;
   border-radius: 2px;
   opacity: 0;
   max-width: 268px;
   margin: 12px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  animation-fill-mode:both;
 `
 
 const Arrow = styled.div`
@@ -163,7 +197,7 @@ const TimeInput = ({ times, open, onClick, value, longestValue, inProp, partId, 
           <DropDown open={open} onClick={onClick} value={value} longestValue={longestValue}/>
           { /* Second child: If present, this item will be tethered to the the first child */}
           { open &&
-            <Transition in={inProp} timeout={{enter: 0, exit: duration}}>
+            <Transition appear={true} in={inProp} timeout={{enter: 0, exit: duration}}>
               {(state) => (
                 <RadioBlock style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
                   <Arrow className="popoverArrowTop" fromLeft={131}/>
@@ -181,14 +215,16 @@ const QuantityInput = ({ quantities, open, onClick, value, longestValue, inProp,
           style={{zIndex: 200}}
           attachment="top center"
           constraints={[{
-            to: 'window',
+            to: 'scrollParent',
+            pin: true},{
+            to: 'scrollParent',
             attachment: 'together'
           }]}>
           { /* First child: This is what the item will be tethered to */}
           <DropDown open={open} onClick={onClick} value={value} longestValue={longestValue}/>
           { /* Second child: If present, this item will be tethered to the the first child */}
           { open &&
-            <Transition in={inProp} timeout={{enter: 0, exit: duration}}>
+            <Transition appear={true} in={inProp} timeout={{enter: 10, exit: duration}}>
               {(state) => (
                 <RadioBlock style={{...radioBlockDefaultStyle, ...radioBlockTransitionStyles[state]}}>
                   <Arrow className="popoverArrowTop" fromLeft={131}/>
@@ -211,7 +247,7 @@ const ScreenFillScrim = styled.div`
   bottom: 0;
   transition: opacity ${duration*0.8}ms ease;
   background-color: #f3f3f3;
-  z-index:  d${zIndex.low};
+  z-index: ${zIndex.low};
 `;
 
 const ScreenFill = ({ inProp, partId, scrimOpacity, onClick }) => (
@@ -258,9 +294,9 @@ class PartListCard extends React.Component {
           <PartListCardPrice gridArea={'pricing'} prices={prices(part.prices,priceScale)} hover={hover} loading={loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ " + selectedQuantity.display }/>
           <ListCardRight>
             <ControlRow>
-              <QuantityInput open={quantityOpen} onClick={handleQuantityClick} value={this.props.selectedQuantity.display} longestValue={quantities.slice(-1)[0].display} inProp={quantityOpen} partId={part.id} checked={this.props.selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
+              <QuantityInput open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display} inProp={quantityOpen} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
               <div style={{display: 'inline-block', width: '8px'}}/>
-              <TimeInput open={timeOpen} onClick={handleTimeClick} value={this.props.selectedTime.display} longestValue={times.slice(-1)[0].display} inProp={timeOpen} partId={part.id} checked={this.props.selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
+              <TimeInput open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display} inProp={timeOpen} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
             </ControlRow>
             <Button type="default">Add to Estimate</Button>
           </ListCardRight>

@@ -124,6 +124,7 @@ const RadioBlock = styled.div`
   transition: opacity ${duration}ms ease, transform ${duration}ms ease;
   border-radius: 2px;
   opacity: 0;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
 `
 
 const Arrow = styled.div`
@@ -137,7 +138,6 @@ const Arrow = styled.div`
   height: 1px;
   width: 1px;
   z-index: ${zIndex['mid']+10};
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
 `
 
 const TimeInput = ({ times, inProp, partId, checked, submitRef, handleSubmit }) => (

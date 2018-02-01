@@ -68,7 +68,7 @@ class PartContainer extends React.Component {
 
   handleTimeClick = () => {
     if ( this.state.timeOpen ) {
-      this.setState({timeOpen: false, quantityOpen: false, scrimOpacity: '0.7'});
+      this.setState({timeOpen: false, quantityOpen: false, scrimOpacity: '0.0'});
     } else {
       this.setState({timeOpen: true, quantityOpen: false, scrimOpacity: '0.7'});
     }
@@ -76,7 +76,7 @@ class PartContainer extends React.Component {
 
   handleQuantityClick = () => {
     if ( this.state.quantityOpen ) {
-      this.setState({quantityOpen: false, timeOpen: false, scrimOpacity: '0.7'});
+      this.setState({quantityOpen: false, timeOpen: false, scrimOpacity: '0.0'});
     } else {
       this.setState({quantityOpen: true, timeOpen: false, scrimOpacity: '0.7'});
     }
@@ -163,10 +163,16 @@ export default connect(
     handleTimeChange: ( newValue, originalValue, ref ) => {
       if ( originalValue !== newValue ){
         ref.triggerFauxLoader({ time: newValue }, loadTimeMin, loadTimeMax );
-        ref.setState({ timeOpen: false, quantityOpen: false, scrimOpacity: '0.0' })
+        ref.setState({ scrimOpacity: '0.0' })
+        setTimeout(()=> {
+          ref.setState({ quantityOpen: false, timeOpen: false });
+        }, 300);
         dispatch({ type: 'HIDE_SCRIM' })
       } else {
-        ref.setState({ selectedTime: newValue, timeOpen: false, quantityOpen: false, scrimOpacity: '0.0' })
+        ref.setState({ selectedTime: newValue, scrimOpacity: '0.0' })
+        setTimeout(()=> {
+          ref.setState({ quantityOpen: false, timeOpen: false });
+        }, 300);
         dispatch({ type: 'HIDE_SCRIM' })
       }
     },
@@ -174,10 +180,16 @@ export default connect(
     handleQuantityChange: ( newValue, originalValue, ref ) => {
       if ( originalValue !== newValue ){
         ref.triggerFauxLoader({ quantity: newValue }, loadTimeMin, loadTimeMax );
-        ref.setState({ quantityOpen: false, timeOpen: false, scrimOpacity: '0.0' })
+        ref.setState({ scrimOpacity: '0.0' })
+        setTimeout(()=> {
+          ref.setState({ quantityOpen: false, timeOpen: false });
+        }, 300);
         dispatch({ type: 'HIDE_SCRIM' })
       } else {
-        ref.setState({ selectedQuantity: newValue, quantityOpen: false, timeOpen: false, scrimOpacity: '0.0' })
+        ref.setState({ selectedQuantity: newValue, scrimOpacity: '0.0' })
+        setTimeout(()=> {
+          ref.setState({ quantityOpen: false, timeOpen: false });
+        }, 300);
         dispatch({ type: 'HIDE_SCRIM' })
       }
     },
