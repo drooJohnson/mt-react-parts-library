@@ -27,8 +27,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "now-start": "npm run build && mv build/index.html build/200.html && serve ./build --single",
+    "now-start": "serve ./build --single",
     "build": "react-scripts build",
+    "now-build": "npm run build && mv build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "surge-deploy": "npm run build && mv build/index.html build/200.html && surge build",
     "eject": "react-scripts eject"
