@@ -50,11 +50,11 @@ ReactDOM.render((
       <Scrim/>
         <Switch>
           <Route exact path="/parts/:id" render={routeProps => <PartDetail {...routeProps}/>}/>
-          <Route exact path="/library#list" render={routeProps => <PartsLibrary {...routeProps}/>}/>
-          <Route exact path="/library#grid" render={routeProps => <PartsLibrary {...routeProps}/>}/>
+          <Route exact path="/library/list" render={routeProps => <PartsLibrary {...routeProps}/>}/>
+          <Route exact path="/library/grid" render={routeProps => <PartsLibrary {...routeProps}/>}/>
           <Route exact path="/library" render={routeProps => <PartsLibrary {...routeProps}/>}/>
           <Redirect to={{
-            pathname: "/library#"+libraryLayout,
+            pathname: "/library/"+libraryLayout,
           }}/>
         </Switch>
       <ModalContainer/>

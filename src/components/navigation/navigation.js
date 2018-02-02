@@ -103,7 +103,7 @@ class Navigation extends React.Component {
         <Row>
           <Logo/>
           <LinkList style={{marginLeft:0,marginRight:'auto'}}>
-            <Link to="/library">Parts</Link>
+            <Link to="library/" className="active">Parts</Link>
             <DisabledLink>Estimates</DisabledLink>
             <DisabledLink>Orders</DisabledLink>
           </LinkList>

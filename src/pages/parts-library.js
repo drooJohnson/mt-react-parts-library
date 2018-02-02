@@ -39,8 +39,8 @@ class PartsLibrary extends React.Component {
   componentWillMount(){
     console.log(this.props.location.hash);
     console.log(this.props.libraryLayout);
-    if(this.props.location.pathname !== '/library#'+this.props.libraryLayout){
-      this.props.history.push('/library#'+this.props.libraryLayout);
+    if(this.props.location.pathname !== '/library/'+this.props.libraryLayout){
+      this.props.history.push('/library/'+this.props.libraryLayout);
     }
   }
   onPriceScaleChange = (pricescale) => {
@@ -53,7 +53,7 @@ class PartsLibrary extends React.Component {
     }
   }
   onLayoutChange = (newLayout) => {
-    this.props.history.push('/library#'+newLayout);
+    this.props.history.push('/library/'+newLayout);
   }
   render(){
     console.log(this);
