@@ -47,7 +47,7 @@ const initialState = {
       color:'dark',
       zIndex:'high',
     },
-    libraryLayout:'list'
+    libraryLayout:'grid'
   }
 }
 

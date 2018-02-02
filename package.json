@@ -30,6 +30,7 @@
     "now-start": "serve --single",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "surge-deploy": "npm run build && mv build/index.html build/200.html && surge build",
     "eject": "react-scripts eject"
   }
 }
