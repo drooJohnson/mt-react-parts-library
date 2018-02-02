@@ -2,8 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-//  background-image: ${props => props.hover ? 'url(assets/chart_hover.svg)' : 'url(assets/chart.svg)'};
-
 const Wrapper = styled.div`
   flex-grow: 1;
   filter: ${props => props.hover ? 'contrast(1.0) brightness(1.0)' : 'contrast(0.5) brightness(1.3)'};

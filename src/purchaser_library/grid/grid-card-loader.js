@@ -26,7 +26,7 @@ const Animation = styled.div`
   top: 122px;
   width: 138px;
   height: 164px;
-  background: url('assets/loader_sprite.png') right center;
+  background: url('../assets/loader_sprite.png') right center;
   background-size: cover;
   animation:${SpriteKeyframes} 1500ms steps(3) infinite;
 `
