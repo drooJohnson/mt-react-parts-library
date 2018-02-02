@@ -165,9 +165,9 @@ class PartDetail extends React.Component {
       <PartDetailBase>
         <Navigation gridarea="navigation"/>
         { this.props.parts ?
-          <Header gridarea="header" partname={this.props.parts[this.props.match.params.id].partNumber}/>
+          <Header gridarea="header" libraryLayout={this.props.store.libraryLayout} partname={this.props.parts[this.props.match.params.id].partNumber}/>
         :
-          <Header gridarea="header" partname="loading..."/>
+          <Header gridarea="header" libraryLayout={this.props.store.libraryLayout} partname="loading..."/>
         }
         <Grid
           gridrows='auto'

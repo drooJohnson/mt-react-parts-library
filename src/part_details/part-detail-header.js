@@ -54,7 +54,10 @@ class Header extends React.Component {
       <Wrapper>
         <Row>
           <LeftWrapper>
-            <Back to="/parts">
+            <Back to={{
+              pathname:"/parts",
+              search:this.props.libraryLayout
+            }}>
               <FontAwesomeIcon icon={faAngleLeft} style={{marginRight:'12px'}}/>
               BACK
             </Back>

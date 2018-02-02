@@ -22,8 +22,27 @@ class ListGridSwitch extends React.Component {
   render(){
     return(
       <SwitchWrapper active={this.props.active}>
-        <FontAwesomeIcon onClick={this.props.onListClick} icon={faAlignJustify} style={{fontSize:24, color: this.props.active === 'list' ? '#4eeeb9' : '#CCCCCC',}}/>
-        <FontAwesomeIcon onClick={this.props.onGridClick} icon={faThLarge} style={{fontSize:24,marginLeft:12, color: this.props.active === 'grid' ? '#4eeeb9' : '#CCCCCC',}}/>
+        <FontAwesomeIcon onClick={()=>{
+                this.props.onListClick()
+                this.props.onLayoutChange('list')
+              }}
+               icon={faAlignJustify}
+               style={{
+                 fontSize:24,
+                 color: (this.props.active === 'list' ? '#4eeeb9' : '#CCCCCC')
+               }}
+             />
+        <FontAwesomeIcon onClick={()=>{
+                this.props.onGridClick()
+                this.props.onLayoutChange('grid')
+              }}
+               icon={faThLarge}
+               style={{
+                 fontSize:24,
+                 marginLeft:12,
+                 color: (this.props.active === 'grid' ? '#4eeeb9' : '#CCCCCC')
+               }}
+             />
       </SwitchWrapper>
     )
   }
@@ -32,7 +51,7 @@ class ListGridSwitch extends React.Component {
 export default compose(
   connect(
     null,
-    (dispatch) => ({
+    (dispatch, props) => ({
       onListClick: () => {
         dispatch({type:'TO_LIST'});
       },

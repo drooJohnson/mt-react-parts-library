@@ -36,6 +36,13 @@ class PartsLibrary extends React.Component {
       priceDisplay:"unit", // CAN BE 'unit' or 'quantity'
     }
   }
+  componentWillMount(){
+    console.log(this.props.location.hash);
+    console.log(this.props.libraryLayout);
+    if(this.props.location.pathname !== '/library#'+this.props.libraryLayout){
+      this.props.history.push('/library#'+this.props.libraryLayout);
+    }
+  }
   onPriceScaleChange = (pricescale) => {
     if (pricescale === "unit" || "quantity"){
        this.setState({
@@ -45,7 +52,11 @@ class PartsLibrary extends React.Component {
       console.log("Passed invalid value: " + pricescale + " for pricescale in parts-library.js");
     }
   }
+  onLayoutChange = (newLayout) => {
+    this.props.history.push('/library#'+newLayout);
+  }
   render(){
+    console.log(this);
     let store = this.props.store;
     return(
       <PartsLibraryBase>
@@ -72,7 +83,7 @@ class PartsLibrary extends React.Component {
             }}
           >
             <Collections gridarea="collections"/>
-            <PartsActionBar libraryLayout={this.props.libraryLayout} gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} priceDisplay={this.state.priceDisplay} onPriceScaleChange={this.onPriceScaleChange}/>
+            <PartsActionBar libraryLayout={this.props.libraryLayout} gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} priceDisplay={this.state.priceDisplay} onPriceScaleChange={this.onPriceScaleChange} onLayoutChange={this.onLayoutChange}/>
             <Parts libraryLayout={this.props.libraryLayout} gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
           </Grid>
       </PartsLibraryBase>
@@ -89,5 +100,13 @@ export default compose(
         store: state.store,
         libraryLayout: state.store.libraryLayout,
       })
-  )
+  ,(dispatch) => ({
+    toList: () => {
+      dispatch({type:'TO_LIST'});
+    },
+    toGrid: () => {
+      dispatch({type:'TO_GRID'});
+    }
+  })
+)
 )(PartsLibrary)
