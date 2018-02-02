@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 `
 const Chart = styled.div`
   width: 100%;
-  background-image: url(./assets/chart_hover.svg);
+  background-image: url(../assets/chart_hover.svg);
   filter: ${props => !props.hover ? 'saturate(0.35)' : 'saturate(1)'};
   background-size: cover;
   background-position: top center;
