@@ -119,6 +119,8 @@ const ListCardLeft = styled.div`
   position: relative;
   flex-grow: 1;
   grid-area: details;
+  display: flex;
+  flex-direction: column;
 `
 
 const ListCardRight = styled.div`
@@ -145,6 +147,31 @@ const GreyDetail = styled.p`
   &:last-of-type{
     margin-bottom: 0;
   }
+`
+
+// Price Feedback Link
+
+const BlueLink = styled.a`
+  font-size: 11px;
+  color: #4a90e2;
+  text-decoration: underline;
+  cursor: pointer;
+`
+
+const PriceFeedback = styled.div`
+  display: block;
+  margin-top: auto;
+  visibility: ${props => props.hover ? 'visible' : 'hidden' };
+  opacity: ${props => props.hover ? '1.0' : '0.0' };
+  transition: ${props => props.hover ? 'opacity 300ms ease' : 'opacity 300ms ease, visibility 0ms 300ms ease' };
+`
+
+const IntercomIcon = styled.img`
+  margin-left: 4px;
+  color: #137DE5;
+  width: 11px;
+  height: 13px;
+  vertical-align: bottom;
 `
 
 // CUSTOM SELECT POPOVERS
@@ -294,7 +321,9 @@ class PartListCard extends React.Component {
             <PartName>{part.partNumber}</PartName>
             <GreyDetail>{materialAndMachineTypes}</GreyDetail>
             <GreyDetail>{secondaryProcesses}</GreyDetail>
-          </ListCardLeft>
+            <PriceFeedback hover={hover}>
+              <BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
+            </PriceFeedback>          </ListCardLeft>
           <PartListCardPrice gridArea={'pricing'} prices={prices(part.prices,priceScale)} hover={hover} loading={loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ " + selectedQuantity.display }/>
           <ListCardRight>
             <ControlRow>
