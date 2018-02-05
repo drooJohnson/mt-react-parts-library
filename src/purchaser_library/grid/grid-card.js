@@ -71,11 +71,40 @@ const GridCardPart = GridCard.extend`
   display: flex;
 `
 
+
+// Bluetext
+
+const BlueLink = styled.a`
+  font-size: 11px;
+  color: #4a90e2;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-bottom: 12px;
+`
+
+const PriceFeedback = styled.div`
+  margin-bottom: 12px;
+  display: block;
+  visibility: ${props => props.hover ? 'visible' : 'hidden' };
+  opacity: ${props => props.hover ? '1.0' : '0.0' };
+  transition: ${props => props.hover ? 'opacity 300ms ease' : 'opacity 300ms ease, visibility 0ms 300ms ease' };
+`
+
+const IntercomIcon = styled.img`
+  margin-left: 4px;
+  color: #137DE5;
+  width: 11px;
+  height: 13px;
+  vertical-align: bottom;
+`
 // CUSTOM CARD-BOUND SCRIM
 
 const CardFill = styled.div`
   position: absolute;
-  top: 0;left: 0;right: 0;bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -189,7 +218,7 @@ const ScreenFill = ({ inProp, partId, scrimOpacity, onClick }) => (
 
 const ControlRow = styled.div`
   text-align: left;
-  margin-bottom: 32px;
+  margin-bottom: 8px;
 `
 
 class PartGridCard extends React.Component {
@@ -226,6 +255,9 @@ class PartGridCard extends React.Component {
                   <div style={{display: 'inline-block', width: '8px'}}/>
                   <DropDown open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display}/>
                 </ControlRow>
+                <PriceFeedback hover={hover}>
+                  <BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
+                </PriceFeedback>
                 <Button type="default" width="stretch">Add to Estimate</Button>
               </GridCardFooter>
             </GridCardBottom>
