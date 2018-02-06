@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Button from '../../components/buttons';
 import RadioGroup from '../../components/radios/radio-group';
 import PartListCardPrice from './part-list-card-price';
+import PartListNoPrice from './part-list-no-price';
 import PartPreview from './list-part-preview';
 import zIndex from '../../components/utils/z-index';
 
@@ -156,6 +157,11 @@ const BlueLink = styled.a`
   color: #4a90e2;
   text-decoration: underline;
   cursor: pointer;
+`
+
+const GreyText = styled.span`
+  font-size: 12px;
+  color: #333333;
 `
 
 const PriceFeedback = styled.div`
@@ -321,16 +327,23 @@ class PartListCard extends React.Component {
             <PartName>{part.partNumber}</PartName>
             <GreyDetail>{materialAndMachineTypes}</GreyDetail>
             <GreyDetail>{secondaryProcesses}</GreyDetail>
-            <PriceFeedback hover={hover}>
+            { part.pricingAvailable && <PriceFeedback hover={hover}>
               <BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
-            </PriceFeedback>          </ListCardLeft>
-          <PartListCardPrice gridArea={'pricing'} prices={prices(part.prices,priceScale)} hover={hover} loading={loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ " + selectedQuantity.display }/>
+            </PriceFeedback> }
+          </ListCardLeft>
+          { part.pricingAvailable ? <PartListCardPrice gridArea={'pricing'} prices={prices(priceScale)} hover={hover} loading={loading} priceAffix={ (this.props.priceDisplay === "unit") ? "ea" : "/ " + selectedQuantity.display }/> : <PartListNoPrice gridArea={'pricing'} hover={hover} loading={loading}/> }
           <ListCardRight>
-            <ControlRow>
-              <QuantityInput open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
-              <div style={{display: 'inline-block', width: '8px'}}/>
-              <TimeInput open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
-            </ControlRow>
+            { part.pricingAvailable ?
+              <ControlRow>
+                <QuantityInput open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
+                <div style={{display: 'inline-block', width: '8px'}}/>
+                <TimeInput open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
+              </ControlRow>
+              :
+              <ControlRow style={{height:'28px',display:'flex',alignItems:'center',justifyContent:'flex-end'}}>
+                <BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink> <GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
+              </ControlRow>
+            }
             <Button type="default">Add to Estimate</Button>
           </ListCardRight>
         </ListCardPart>

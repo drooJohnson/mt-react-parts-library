@@ -7,8 +7,11 @@ import styled from 'styled-components';
 import Button from '../../components/buttons';
 import RadioGroup from '../../components/radios/radio-group';
 import PartGridCardPrice from './part-grid-card-price';
+import PartGridNoPrice from './part-grid-no-price';
 import PartPreview from './grid-part-preview';
 import zIndex from '../../components/utils/z-index';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 
 import Loader from './grid-card-loader';
 import { Transition } from 'react-transition-group';
@@ -44,6 +47,19 @@ let radioBlockTransitionStyles = {
   exited:   { opacity: 0.0, display: 'none',  transform: 'translateY(-10px) translateZ(0)' },
 }
 
+let popoverBlockDefaultStyle = {
+  opacity: 0.0,
+  transform: 'translateY(-10px) translateZ(0)',
+  display: 'none',
+}
+
+let popoverBlockTransitionStyles = {
+  entering: { opacity: 0.0, display: 'block', transform: 'translateY(10px)  translateZ(0)' },
+  entered:  { opacity: 1.0, display: 'block', transform: 'translateY(0px)   translateZ(0)' },
+  exiting:  { opacity: 0.0, display: 'block', transform: 'translateY(-10px) translateZ(0)' },
+  exited:   { opacity: 0.0, display: 'none',  transform: 'translateY(-10px) translateZ(0)' },
+}
+
 // Presentational Components
 
 const GridCardItem = styled.div`
@@ -71,7 +87,6 @@ const GridCardPart = GridCard.extend`
   display: flex;
 `
 
-
 // Bluetext
 
 const BlueLink = styled.a`
@@ -80,6 +95,11 @@ const BlueLink = styled.a`
   text-decoration: underline;
   cursor: pointer;
   margin-bottom: 12px;
+`
+
+const GreyText = styled.span`
+  font-size: 12px;
+  color: #333333;
 `
 
 const PriceFeedback = styled.div`
@@ -97,6 +117,7 @@ const IntercomIcon = styled.img`
   height: 13px;
   vertical-align: bottom;
 `
+
 // CUSTOM CARD-BOUND SCRIM
 
 const CardFill = styled.div`
@@ -154,7 +175,7 @@ const RadioBlock = styled.div`
   border-radius: 2px;
   opacity: 0;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
-  position:relative;
+  position: relative;
 `
 
 const Arrow = styled.div`
@@ -164,6 +185,40 @@ const Arrow = styled.div`
   border-top: 8px solid white;
   position: absolute;
   left: ${props => props.fromLeft}px;
+  bottom: -15px;
+  height: 1px;
+  width: 1px;
+  z-index: ${zIndex['mid']+10};
+`
+
+// TEXT POPOVERS
+
+const PopoverBlock = styled.div`
+  padding: 16px 12px;
+  background-color: white;
+  margin-bottom: 155px;
+  z-index: ${zIndex['mid']};
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity ${duration}ms ease, transform ${duration}ms ease;
+  border-radius: 2px;
+  opacity: 0;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+  position: relative;
+`
+
+const PopoverText = styled.p`
+  color: #666666;
+  font-size: 12px;
+  line-height: 16px;
+`
+
+const CenterArrow = styled.div`
+  content: '';
+  display: block;
+  border: 8px solid transparent;
+  border-top: 8px solid white;
+  position: absolute;
+  left: ;
   bottom: -15px;
   height: 1px;
   width: 1px;
@@ -196,11 +251,31 @@ const QuantityInput = ({ quantities, inProp, partId, checked, submitRef, handleS
   </CardFill>
 )
 
+const CardPopover = ({ inProp, partId }) => (
+  <CardFill key={partId + "quantity"}>
+    <Transition appear={true} in={inProp} timeout={{ enter: 0, exit: duration }}>
+      {( state ) => (
+        <PopoverBlock className={'gridPopoverBlock'} style={{...popoverBlockDefaultStyle, ...popoverBlockTransitionStyles[state]}}>
+          <FontAwesomeIcon icon={faTimes}/>
+          <PopoverText>A predicted price may not be available for a part depending on a few factors. Make sure your part has a 3D file, material type/grade, and tolerance in part details. If a price is still not available, we may not be able to generate a price on your part details.</PopoverText>
+            <PriceFeedback hover={true}>
+              <BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
+            </PriceFeedback>
+          <CenterArrow/>
+        </PopoverBlock>
+      )}
+    </Transition>
+  </CardFill>
+)
+
 // CUSTOM SCREEN-BOUND SCRIM USED TO CATCH CLICK EVENTS OUTSIDE OF THE MODAL/INPUT BEING HOISTED BY THE SCRIM.
 
 const ScreenFillScrim = styled.div`
   position: fixed;
-  top: 0;left: 0;right: 0;bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   transition: opacity ${duration*0.8}ms ease;
   background-color: #f3f3f3;
   z-index: ${zIndex.low};
@@ -249,15 +324,21 @@ class PartGridCard extends React.Component {
               <GreyDetail>{materialAndMachineTypes}</GreyDetail>
               <GreyDetail>{secondaryProcesses}</GreyDetail>
               <GridCardFooter>
-                <PartGridCardPrice prices={prices(part.prices,priceScale)} hover={hover} loading={loading} priceAffix={ (priceDisplay === "unit") ? "ea" : "/ "+selectedQuantity.display }/>
-                <ControlRow>
-                  <DropDown open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display}/>
-                  <div style={{display: 'inline-block', width: '8px'}}/>
-                  <DropDown open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display}/>
-                </ControlRow>
-                <PriceFeedback hover={hover}>
+                { part.pricingAvailable ? <PartGridCardPrice prices={prices(priceScale)} hover={hover} loading={loading} priceAffix={ (priceDisplay === "unit") ? "ea" : "/ "+selectedQuantity.display }/> : <PartGridNoPrice hover={hover} loading={loading}/> }
+                { part.pricingAvailable ?
+                  <ControlRow>
+                    <DropDown open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display}/>
+                    <div style={{display: 'inline-block', width: '8px'}}/>
+                    <DropDown open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display}/>
+                  </ControlRow>
+                  :
+                  <ControlRow style={{height:'53px',textAlign:'center'}}>
+                    <BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink><GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
+                  </ControlRow>
+                }
+                { part.pricingAvailable && <PriceFeedback hover={hover}>
                   <BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
-                </PriceFeedback>
+                </PriceFeedback> }
                 <Button type="default" width="stretch">Add to Estimate</Button>
               </GridCardFooter>
             </GridCardBottom>
