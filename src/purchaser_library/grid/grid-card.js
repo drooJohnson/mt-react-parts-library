@@ -12,6 +12,7 @@ import PartPreview from './grid-part-preview'
 import zIndex from '../../components/utils/z-index'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes'
+import { Link } from 'react-router-dom';
 
 import Loader from './grid-card-loader'
 import { Transition } from 'react-transition-group'
@@ -363,7 +364,7 @@ class PartGridCard extends React.Component {
 								</ControlRow>
 								:
 								<ControlRow style={{height:'53px',textAlign:'center'}}>
-									<BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink><GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
+									<Link to={`/parts/${part.id}`}><BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink></Link><GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
 								</ControlRow>
 							}
 							{ part.pricingAvailable &&
