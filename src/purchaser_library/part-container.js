@@ -83,6 +83,18 @@ class PartContainer extends React.Component {
     }
   }
 
+  handlePopoverClick = () => {
+    if ( this.state.priceUnavailableOpen ) {
+      this.setState({priceUnavailableOpen: false, scrimOpacity: '0.0'})
+    } else {
+      this.setState({priceUnavailableOpen: true, scrimOpacity: '0.7'})
+    }
+  }
+
+  handlePopoverClose = () => {
+    this.setState({priceUnavailableOpen: false, scrimOpacity: '0.0'})
+  }
+
   getPartPrices = ( priceScale ) => {
     // CHECK IF PART HAS PRICES AT ALL
     let {prices,pricingAvailable} = this.props.part;
@@ -133,6 +145,8 @@ class PartContainer extends React.Component {
                           handleQuantityChange,
                         handleTimeClick: this.handleTimeClick,
                         handleQuantityClick: this.handleQuantityClick,
+                        handlePopoverClick: this.handlePopoverClick,
+                        handlePopoverClose: this.handlePopoverClose,
                           onScrimClick,
                           hoverOverlayEnabled,
                         materialAndMachineTypes: this.materialAndMachineTypes,
@@ -146,9 +160,9 @@ class PartContainer extends React.Component {
 
     switch(libraryLayout){
       case 'grid':
-        return ( <GridCard {...passedProps} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} /> )
+        return ( <GridCard {...passedProps} priceUnavailableOpen={this.state.priceUnavailableOpen} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} /> )
       case 'list':
-        return ( <ListCard {...passedProps} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} /> )
+        return ( <ListCard {...passedProps} priceUnavailableOpen={this.state.priceUnavailableOpen} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} /> )
       default:
         return undefined
     }
@@ -211,9 +225,19 @@ export default connect(
 
     onScrimClick: ( ref ) => {
 
+      console.log("SCRIM CLICKED");
       dispatch({ type: 'HIDE_SCRIM' })
       ref.setState({ quantityOpen: false, timeOpen: false, priceUnavailableOpen: false, scrimOpacity: '0.0' });
 
+    },
+
+    scrimToggle: ( ref ) => {
+      if (ref.state.open === false) {
+        ref.setState({open:true})
+      } else {
+        dispatch({type: 'HIDE_SCRIM'});
+        ref.setState({open:false});
+      }
     }
   })
 )( PartContainer );

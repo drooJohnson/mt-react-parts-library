@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import zIndex from '../../components/utils/z-index'
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -49,18 +51,55 @@ const BlueLink = styled.a`
 	cursor: pointer;
 `
 
-const PartGridNoPrice = ({ hover, loading }) => {
-	return(
-		<Wrapper loading={loading} hover={hover}>
-			<GreyText>PREDICTED PRICE<br/>NOT AVAILABLE</GreyText>
-			<BlueLink>Why?</BlueLink>
-			<Chart hover={hover}/>
-		</Wrapper>
-	)}
+const ScrimClone = styled.span`
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index: ${zIndex['low']+1};
+`
 
+class PartGridNoPrice extends React.Component {
+	constructor(props){
+		super(props)
+		this.state = {
+			open: false,
+		}
+	}
+	render(){
+		let {open, hover, loading, handlePopoverClick} = this.props;
+		return(
+			<React.Fragment>
+			<Wrapper loading={loading} hover={hover}>
+				<GreyText>PREDICTED PRICE<br/>NOT AVAILABLE</GreyText>
+				<BlueLink onClick={()=>{handlePopoverClick();this.props.scrimToggle(this);}}>Why?</BlueLink>
+				<Chart hover={hover}/>
+			</Wrapper>
+			{ this.props.open && <ScrimClone id="scrimClone" onClick={()=>{handlePopoverClick();this.props.onScrimClick(this);}} {...this.state}/> }
+			</React.Fragment>
+	)
+}
+}
 PartGridNoPrice.propTypes = {
 	hover: PropTypes.bool,
 	loading: PropTypes.bool,
 }
 
-export default PartGridNoPrice
+export default connect(
+  null,
+  (dispatch) => ({
+    scrimToggle: (ref) => {
+      if (ref.state.open === false) {
+        ref.setState({open:true})
+      } else {
+        dispatch({type: 'HIDE_SCRIM'});
+        ref.setState({open:false});
+      }
+    },
+    onScrimClick: (ref) => {
+      dispatch({type: 'HIDE_SCRIM'});
+      ref.setState({open:false});
+    }
+  })
+)(PartGridNoPrice);
