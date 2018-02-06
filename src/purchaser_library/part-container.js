@@ -48,13 +48,14 @@ class PartContainer extends React.Component {
 
     this.state = {
       selectedTime: times[2],          // Which of the possible options in times[] is selected
-      timeOpen: false,         // Is the time input open?
+      timeOpen: false,                 // Is the time input open?
       selectedQuantity: quantities[3], // Which of the possible options in quantities[] is selected
-      quantityOpen: false,     // Is the quantity input open?
-      hover: false,            // Is the card being hovered?
-      loading: false,          // Is the pricing data still being calculated?
-      displayLoader: false,    // Should the full-card loader be displayed?
-      scrimOpacity: 0,         // How opaque is the scrim?
+      quantityOpen: false,             // Is the quantity input open?
+      priceUnavailableOpen: false,     // Is the "Predicted Price Unavaialble" explainer popover open?
+      hover: false,                    // Is the card being hovered?
+      loading: false,                  // Is the pricing data still being calculated?
+      displayLoader: false,            // Should the full-card loader be displayed?
+      scrimOpacity: 0,                 // How opaque is the scrim?
     }
   }
 
@@ -82,16 +83,22 @@ class PartContainer extends React.Component {
     }
   }
 
-  getPartPrices = ( prices, priceScale ) => {
-    // GET THE LOW, MEDIAN, AND HIGH PRICES FOR CURRENTLY SELECTED TIME AND QUANTITY.
-    // REQUIRES THAT THE "PRICES" OBJECT FROM THE PART IS ALSO PASSED IN, ALONG WITH THE PRICE SCALE.
-    // IT ALSO AUTOMATICALLY ENFORCES TWO DECIMAL PLACES, AND ADDS COMMAS WHERE APPROPRIATE IN THE NUMBERS.
-    let { value: timeKey } = this.state.selectedTime;
-    let { value: quantityKey } = this.state.selectedQuantity;
-    return {
-      low: ( prices[timeKey][quantityKey][0] * priceScale ).toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-      median: ( prices[timeKey][quantityKey][1] * priceScale ).toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-      high: ( prices[timeKey][quantityKey][2] * priceScale ).toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+  getPartPrices = ( priceScale ) => {
+    // CHECK IF PART HAS PRICES AT ALL
+    let {prices,pricingAvailable} = this.props.part;
+    if (pricingAvailable){
+      // GET THE LOW, MEDIAN, AND HIGH PRICES FOR CURRENTLY SELECTED TIME AND QUANTITY.
+      // REQUIRES THAT THE "PRICES" OBJECT FROM THE PART IS ALSO PASSED IN, ALONG WITH THE PRICE SCALE.
+      // IT ALSO AUTOMATICALLY ENFORCES TWO DECIMAL PLACES, AND ADDS COMMAS WHERE APPROPRIATE IN THE NUMBERS.
+      let { value: timeKey } = this.state.selectedTime;
+      let { value: quantityKey } = this.state.selectedQuantity;
+      return {
+        low: ( prices[timeKey][quantityKey][0] * priceScale ).toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+        median: ( prices[timeKey][quantityKey][1] * priceScale ).toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+        high: ( prices[timeKey][quantityKey][2] * priceScale ).toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      }
+    } else {
+      return null;
     }
   }
 
@@ -205,7 +212,7 @@ export default connect(
     onScrimClick: ( ref ) => {
 
       dispatch({ type: 'HIDE_SCRIM' })
-      ref.setState({ quantityOpen: false, timeOpen: false, scrimOpacity: '0.0' });
+      ref.setState({ quantityOpen: false, timeOpen: false, priceUnavailableOpen: false, scrimOpacity: '0.0' });
 
     }
   })
