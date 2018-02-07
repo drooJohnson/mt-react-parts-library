@@ -11,6 +11,7 @@ import PartListCardPrice from './part-list-card-price'
 import PartListNoPrice from './part-list-no-price'
 import PartPreview from './list-part-preview'
 import zIndex from '../../components/utils/z-index'
+import { Link } from 'react-router-dom'
 
 import Loader from './list-card-loader'
 import { Transition } from 'react-transition-group'
@@ -348,7 +349,7 @@ class PartListCard extends React.Component {
 							</ControlRow>
 							:
 							<ControlRow style={{height:'28px',display:'flex',alignItems:'center',justifyContent:'flex-end'}}>
-								<BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink> <GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
+								<Link to={`/parts/${part.id}`}><BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink></Link><GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
 							</ControlRow>
 						}
 						<Button type="default">Add to Estimate</Button>

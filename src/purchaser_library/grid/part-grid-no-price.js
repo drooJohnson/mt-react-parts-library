@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import zIndex from '../../components/utils/z-index'
+import { Link } from 'react-router-dom'
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -72,7 +73,7 @@ class PartGridNoPrice extends React.Component {
 		return(
 			<React.Fragment>
 			<Wrapper loading={loading} hover={hover}>
-				<GreyText>PREDICTED PRICE<br/>NOT AVAILABLE</GreyText>
+				<GreyText>REQUEST ESTIMATE<br/>FOR PRICING</GreyText>
 				<BlueLink onClick={()=>{handlePopoverClick();this.props.scrimToggle(this);}}>Why?</BlueLink>
 				<Chart hover={hover}/>
 			</Wrapper>

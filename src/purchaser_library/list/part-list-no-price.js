@@ -6,6 +6,7 @@ import { Transition } from 'react-transition-group'
 import TetherComponent from 'react-tether'
 import zIndex from '../../components/utils/z-index'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 let duration = 300;
 
@@ -176,7 +177,7 @@ const PopoverTrigger = ({ open, handlePopoverClick, handlePopoverClose, partId, 
 					<CenterArrow className="popoverArrowTop"/>
 					<PopoverBlock className={'listPopoverBlock'}>
 						<CloseSVG style={{display:'block',marginLeft:'auto',marginRight:'0',cursor:'pointer'}} onClick={handlePopoverClose}/>
-						<PopoverText>A predicted price may not be available for a part depending on a few factors. Make sure your part has a 3D file, material type/grade, and tolerance in part details. If a price is still not available, we may not be able to generate a price on your part details.</PopoverText>
+						<PopoverText>Predicted prices are not yet available for all parts. If you have completed your <Link style={{color:'#4a90e2',fontSize:'12px',lineHeight:'16px'}} to={`/parts/${partId}`}>part details</Link> and are still not able to see a predicted price, request an estimate and we'll send pricing as quickly as we can, typically under 24 hours.</PopoverText>
 						<PriceFeedback hover={true}>
 							<BlueLink style={{fontSize:'12px',textDecoration:'none'}}>Feel free to chat with us</BlueLink> <IntercomIcon src="../assets/icons/intercom.svg"/>
 						</PriceFeedback>
@@ -224,7 +225,7 @@ class PartListNoPrice extends React.Component {
 		return(
 			<React.Fragment>
 			<Wrapper loading={loading} hover={hover}>
-				<GreyText>PREDICTED PRICE<br/>NOT AVAILABLE</GreyText>
+				<GreyText>REQUEST ESTIMATE<br/>FOR PRICING</GreyText>
 				<PopoverTrigger open={open} handlePopoverClose={handlePopoverClose} handlePopoverClick={()=>{handlePopoverClick();this.props.scrimToggle(this);}}>Why?</PopoverTrigger>
 				<Chart hover={hover}/>
 			</Wrapper>
