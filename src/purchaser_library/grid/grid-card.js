@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import DropDown from '../../components/dropdown'
 
 import styled from 'styled-components'
+import {keyframes} from 'styled-components'
 import Button from '../../components/buttons'
 import RadioGroup from '../../components/radios/radio-group'
 import PartGridCardPrice from './part-grid-card-price'
@@ -59,19 +60,28 @@ let popoverBlockTransitionStyles = {
 	exited:   { opacity: 0.0, display: 'none',  transform: 'translateY(10px) translateZ(0)' },
 }
 
+let gridCardEnter = keyframes`
+	0%{
+		transform:scale(0.95);
+		opacity:0.0;
+	}
+	99%{
+		transform:scale(1.0);
+		opacity:1.0;
+	}
+	100%{
+		transform:none;
+	}
+`
 // Presentational Components
 
-let gridCardItemDefaultStyle = {
-	opacity: 0.0,
-	transform: 'scale(0.95)',
-	transition: 'opacity 300ms ease, transform 300ms ease'
-}
-
-let gridCardItemTransitionStyles = {
-	entering: { opacity: 0.0, transform: 'scale(0.95)' },
-	entered:  { opacity: 1.0, transform: 'scale(1.0)' },
-	exiting:  { opacity: 0.0, transform: 'scale(0.95)' },
-	exited:   { opacity: 0.0, transform: 'scale(0.95)' },
+const gridCardItemTransitionStyles = (state) => {
+	switch(state){
+		case 'entering':
+			return { opacity: 0.0 }
+		case 'entered':
+			return { animation: `${gridCardEnter} 300ms ease 0ms 1 normal backwards` }
+	}
 }
 
 const GridCardItem = styled.div`
@@ -346,12 +356,10 @@ class PartGridCard extends React.Component {
 		} = this.props
 
 		const priceScale = ( priceDisplay === 'quantity' ? selectedQuantity.value : 1 )
-		console.log(part);
-		console.log(staggerDelay);
 		return (
 			<Transition appear={true} in={true} timeout={{ enter: staggerDelay, exit: duration }}>
 				{(state) => (
-					<GridCardItem style={{...gridCardItemDefaultStyle, ...gridCardItemTransitionStyles[state]}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+					<GridCardItem style={gridCardItemTransitionStyles(state)} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
 						<React.Fragment>
 							<ScreenFill inProp={quantityOpen||timeOpen||priceUnavailableOpen} partId={part.id} scrimOpacity={scrimOpacity} onClick={()=>{onScrimClick(this)}}/>
 							<QuantityInput inProp={quantityOpen} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>

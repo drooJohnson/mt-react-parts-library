@@ -32,7 +32,7 @@ const CardGrid = styled.div`
   overflow-y: scroll;
 `
 
-let animationStagger = 75;
+let animationStagger = 100;
 
 // Filter out parts that aren't present in PartsRefs.
 const FilterPartCards = ( partsRefs, parts ) => {
