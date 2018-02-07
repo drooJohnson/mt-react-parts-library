@@ -44,27 +44,19 @@ class PartDetail extends React.Component {
     this.partId = this.props.match.params.id
   }
   details = (part) => {
+
     var description, dimensions, tolerance, material, machineTypes;
 
-    description = ( part.description || <NoData>No Description</NoData> );
+    description = [( part.description !== "" ? part.description : <NoData>No Description</NoData> )];
 
-    /*if (part.dimensionFormat === "cubic"){
-      let {length,width,thickness} = part.dimensions;
-      dimensions = (length || "No Length Provided") + " × " + (width || "No Width Provided") + " × " + (thickness || "No Thickness Provided") + " " + (part.units || "No Units Provided");
-    } else if (part.dimensionFormat === "cylindrical"){
-      let {diameter,length} = part.dimensions;
-      dimensions = (diameter || "No Diameter Provided") + " " + (part.units || "No Units Provided") + " ∅ x " + (length || "No Length Provided") + " " + (part.units || "No Units Provided");
-    } else {
-      dimensions = "No Format Data Provided";
-    }*/
     dimensions = part.dimensions;
 
-    tolerance = "±" + ( part.minimumTolerance || <NoData>No Tolerance Value Provided</NoData> ) + " " + ( part.units || <NoData>Unknown Units</NoData> );
+    tolerance = [( part.minimumTolerance !== "" ? "±" + part.minimumTolerance : <NoData>No Tolerance Value Provided</NoData> )," ",( part.minimumToleranceUnits !== "" ? part.minimumToleranceUnits : <NoData>Unknown Units</NoData> )];
 
     let {grade, type} = part.material;
-    material = ( type || <NoData>No Type Provided</NoData> ) + " " + ( grade || <NoData>No Grade Provided</NoData> );
+    material = [( type !== "" ? type : [<NoData>No Type Provided</NoData>] )," ",( grade !== "" ? grade : <NoData>No Grade Provided</NoData> )];
 
-    machineTypes = ( part.machineTypes ? part.machineTypes.join(", ") : <NoData>No Machine Types Provided</NoData> );
+    machineTypes = [( part.machineTypes[0] !== "" ? part.machineTypes.join(", ") : <NoData>No Machine Types Provided</NoData> )];
 
     return(
       [
@@ -92,24 +84,28 @@ class PartDetail extends React.Component {
     var i;
     var array = [];
     var origin = part.secondaryProcesses;
-    console.log(part.secondaryProcesses);
     for(i = 0; i < origin.length; i++){
-      let obj = {
-        name:origin[i].name,
-        value:(origin[i].description || <NoData>No Description Provided</NoData>)
-      };
+      if (origin[i].name === "" && origin[i].description === ""){
+        continue
+      } else {
+        let obj = {
+          name:origin[i].name,
+          value:(origin[i].description || <NoData>No Description Provided</NoData>)
+        };
         array.push(obj);
+      }
     }
-    return(
-      array
-    )
+    if (array[0]){
+      return array
+    } else {
+      return [{name:<NoData style={{fontWeight:'normal'}}>No Secondary Processes Provided</NoData>,description:null}]
+    }
   }
 
   customDetails = (part) => {
     var i;
     var array = [];
     var origin = part.customDetails;
-    console.log(part.customDetails);
     for(i = 0; i < origin.length; i++){
       if (origin[i].name === "" && origin[i].description === ""){
         continue
@@ -132,7 +128,6 @@ class PartDetail extends React.Component {
     var i;
     var array = [];
     var origin = part.prices;
-    console.log(part.prices);
     for(i = 0; i < origin.length; i++){
       let priceUSD = origin[i].price_in_cents * 0.01;
       let price = "$" + priceUSD.toFixed(2) + " per part";
@@ -159,7 +154,6 @@ class PartDetail extends React.Component {
     var part;
     if (this.props.parts) {
       part = this.props.parts[this.props.match.params.id];
-      console.log(part);
     }
     return(
       <PartDetailBase>

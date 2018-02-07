@@ -91,29 +91,33 @@ const DetailValue = styled.dd`
   margin:0;
 `
 
-const Detail = (props) => (
+const Detail = (props) => {
+  return(
   <React.Fragment>
     <DetailName>{props.name}</DetailName>
     <DetailValue>{props.value}</DetailValue>
   </React.Fragment>
-)
+)}
 
-const DetailsPanel = (props) => (
+const DetailsPanel = (props) => {
+  return(
   <Card>
     <PanelHeading>{props.name} { props.subtitle ? <PanelSubhead>{props.subtitle}</PanelSubhead> : null }</PanelHeading>
     {props.children}
   </Card>
-)
+)}
 
-const DetailsDataTable = (props) => (
+const DetailsDataTable = (props) => {
+  return(
   <DetailsTable>
     {props.details.map((detail)=>(
       <Detail name={detail.name} value={detail.value}/>
     ))}
   </DetailsTable>
-)
+)}
 
-const PartDetailsPanel = (props) => (
+const PartDetailsPanel = (props) => {
+  return(
   <DetailsPanel name={props.name}>
     { props.details ?
       <DetailsDataTable details={props.details}/>
@@ -122,10 +126,9 @@ const PartDetailsPanel = (props) => (
     }
 
   </DetailsPanel>
-)
+)}
 
 const PriceQuotesPanel = (props) => {
-
   return(
   <DetailsPanel name="Price Quotes" subtitle="including materials">
     { (props.details.length !== 0)?
@@ -141,7 +144,6 @@ const PriceQuotesPanel = (props) => {
 )}
 
 const ModelsPanel = (props) => {
-  console.log(props);
   return(
   <DetailsPanel name="Models">
     <PrintArea data={props.data.print}/>
