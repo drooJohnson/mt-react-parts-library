@@ -83,7 +83,7 @@ const ListCardItem = styled.div`
 const ListCard = styled.div`
 	background-color: white;
 	max-height: 108px;
-	box-shadow: 0 2px 6px 0 rgba(0,0,0,0.05);
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
 	justify-content: stretch;
 	align-items: stretch;
 	transition: box-shadow 300ms ease;

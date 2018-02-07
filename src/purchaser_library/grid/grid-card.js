@@ -72,7 +72,7 @@ const GridCardItem = styled.div`
 const GridCard = styled.div`
 	background-color: white;
 	height: 100%;
-	box-shadow: 0 2px 6px 0 rgba(0,0,0,0.05);
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
