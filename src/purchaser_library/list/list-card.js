@@ -75,6 +75,19 @@ let radioBlockTransitionStyles = {
 
 // Presentational Components
 
+let listCardItemDefaultStyle = {
+	opacity: 0.0,
+	transform: 'scale(0.95)',
+	transition: 'opacity 300ms ease, transform 300ms ease'
+}
+
+let listCardItemTransitionStyles = {
+	entering: { opacity: 0.0, transform: 'scale(0.95)' },
+	entered:  { opacity: 1.0, transform: 'scale(1.0)' },
+	exiting:  { opacity: 0.0, transform: 'scale(0.95)' },
+	exited:   { opacity: 0.0, transform: 'scale(0.95)' },
+}
+
 const ListCardItem = styled.div`
 	width: 100%;
 	position: relative;
@@ -314,12 +327,14 @@ class PartListCard extends React.Component {
 			handleQuantityChange, handleTimeClick, handleQuantityClick, handlePopoverClick, handlePopoverClose,
 			onScrimClick, scrimOpacity, hover, hoverOverlayEnabled,
 			materialAndMachineTypes, secondaryProcesses, prices, loading,
-			priceDisplay, times, quantities, submitRef
+			priceDisplay, times, quantities, submitRef, staggerDelay
 		} = this.props
 
 		const priceScale = ( priceDisplay === 'quantity' ? selectedQuantity.value : 1 )
 		return (
-			<ListCardItem onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+			<Transition appear={true} in={true} timeout={{ enter: staggerDelay, exit: duration }}>
+			{(state) => (
+			<ListCardItem style={{...listCardItemDefaultStyle, ...listCardItemTransitionStyles[state]}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
 				<React.Fragment>
 					<ScreenFill inProp={ quantityOpen || timeOpen || priceUnavailableOpen } partId={part.id} scrimOpacity={scrimOpacity} onClick={()=>{onScrimClick(this)}}/>
 				</React.Fragment>
@@ -356,6 +371,8 @@ class PartListCard extends React.Component {
 					</ListCardRight>
 				</ListCardPart>
 			</ListCardItem>
+		)}
+	</Transition>
 		)
 	}
 }

@@ -32,6 +32,8 @@ const CardGrid = styled.div`
   overflow-y: scroll;
 `
 
+let animationStagger = 75;
+
 // Filter out parts that aren't present in PartsRefs.
 const FilterPartCards = ( partsRefs, parts ) => {
     var idArray = partsRefs.map((part) => (part.id)) // Create array of the parts refs' ids. The parts refs' come from a collection, which is how I've modeled that one-to-many relationship.
@@ -48,7 +50,7 @@ const PartCards = ( parts, priceDisplay, libraryLayout, hoverOverlayEnabled ) =>
   return(
     <React.Fragment>
       { parts
-        ? parts.map((part) => (<PartContainer key={part.id} part={part} image={ part.assets.thumbnail === "" ? `../assets/placeholder.png` : `../assets/${part.assets.thumbnail}`} hoverOverlayEnabled={hoverOverlayEnabled} priceDisplay={priceDisplay} libraryLayout={libraryLayout}/>))
+        ? parts.map((part, index) => (<PartContainer key={part.id} staggerDelay={(index + 1) * animationStagger} part={part} image={ part.assets.thumbnail === "" ? `../assets/placeholder.png` : `../assets/${part.assets.thumbnail}`} hoverOverlayEnabled={hoverOverlayEnabled} priceDisplay={priceDisplay} libraryLayout={libraryLayout}/>))
         : <span>Loading...</span>
       }
     </React.Fragment>
