@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import DropDown from '../../components/dropdown'
 
 import styled from 'styled-components'
+import {keyframes} from 'styled-components'
 import Button from '../../components/buttons'
 import RadioGroup from '../../components/radios/radio-group'
 import PartGridCardPrice from './part-grid-card-price'
@@ -59,7 +60,29 @@ let popoverBlockTransitionStyles = {
 	exited:   { opacity: 0.0, display: 'none',  transform: 'translateY(10px) translateZ(0)' },
 }
 
+let gridCardEnter = keyframes`
+	0%{
+		transform:scale(0.95);
+		opacity:0.0;
+	}
+	99%{
+		transform:scale(1.0);
+		opacity:1.0;
+	}
+	100%{
+		transform:none;
+	}
+`
 // Presentational Components
+
+const gridCardItemTransitionStyles = (state) => {
+	switch(state){
+		case 'entering':
+			return { opacity: 0.0 }
+		case 'entered':
+			return { animation: `${gridCardEnter} 300ms ease 0ms 1 normal backwards` }
+	}
+}
 
 const GridCardItem = styled.div`
 	width: 100%;
@@ -329,51 +352,55 @@ class PartGridCard extends React.Component {
 			handleQuantityChange, handleTimeClick, handleQuantityClick, handlePopoverClick, handlePopoverClose,
 			onScrimClick, scrimOpacity, hover, hoverOverlayEnabled,
 			materialAndMachineTypes, secondaryProcesses, prices, loading,
-			priceDisplay, times, quantities, submitRef
+			priceDisplay, times, quantities, submitRef, staggerDelay
 		} = this.props
 
 		const priceScale = ( priceDisplay === 'quantity' ? selectedQuantity.value : 1 )
 		return (
-			<GridCardItem onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-				<React.Fragment>
-					<ScreenFill inProp={quantityOpen||timeOpen||priceUnavailableOpen} partId={part.id} scrimOpacity={scrimOpacity} onClick={()=>{onScrimClick(this)}}/>
-					<QuantityInput inProp={quantityOpen} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
-					<TimeInput inProp={timeOpen} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
-					<CardPopover inProp={priceUnavailableOpen} partId={part.id} handlePopoverClose={handlePopoverClose}/>
-				</React.Fragment>
-				{ displayLoader && <CardFill><Loader></Loader></CardFill> }
-				<GridCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+'bounds'}>
-					<PartPreview hover={hover} image={image} hoverOverlayEnabled={hoverOverlayEnabled} part={part}/>
-					<GridCardBottom>
-						<PartName>{part.partNumber}</PartName>
-						<GreyDetail>{materialAndMachineTypes}</GreyDetail>
-						<GreyDetail>{secondaryProcesses}</GreyDetail>
-						<GridCardFooter>
-							{ part.pricingAvailable ?
-								<PartGridCardPrice prices={prices(priceScale)} hover={hover} loading={loading} priceAffix={ (priceDisplay === 'unit') ? 'ea' : '/ '+selectedQuantity.display }/>
-								:
-								<PartGridNoPrice open={priceUnavailableOpen} hover={hover} loading={loading} handlePopoverClick={handlePopoverClick}/>
-							}
-							{ part.pricingAvailable ?
-								<ControlRow>
-									<DropDown open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display}/>
-									<div style={{display: 'inline-block', width: '8px'}}/>
-									<DropDown open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display}/>
-								</ControlRow>
-								:
-								<ControlRow style={{height:'53px',textAlign:'center'}}>
-									<Link to={`/parts/${part.id}`}><BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink></Link><GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
-								</ControlRow>
-							}
-							{ part.pricingAvailable &&
-								<PriceFeedback hover={hover}>
-									<BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
-								</PriceFeedback> }
-							<Button type="default" width="stretch">Add to Estimate</Button>
-						</GridCardFooter>
-					</GridCardBottom>
-				</GridCardPart>
-			</GridCardItem>
+			<Transition appear={true} in={true} timeout={{ enter: staggerDelay, exit: duration }}>
+				{(state) => (
+					<GridCardItem style={gridCardItemTransitionStyles(state)} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+						<React.Fragment>
+							<ScreenFill inProp={quantityOpen||timeOpen||priceUnavailableOpen} partId={part.id} scrimOpacity={scrimOpacity} onClick={()=>{onScrimClick(this)}}/>
+							<QuantityInput inProp={quantityOpen} partId={part.id} checked={selectedQuantity} submitRef={submitRef} handleSubmit={handleQuantityChange} quantities={quantities}/>
+							<TimeInput inProp={timeOpen} partId={part.id} checked={selectedTime} submitRef={submitRef} handleSubmit={handleTimeChange} times={times}/>
+							<CardPopover inProp={priceUnavailableOpen} partId={part.id} handlePopoverClose={handlePopoverClose}/>
+						</React.Fragment>
+						{ displayLoader && <CardFill><Loader></Loader></CardFill> }
+						<GridCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+'bounds'}>
+							<PartPreview hover={hover} image={image} hoverOverlayEnabled={hoverOverlayEnabled} part={part}/>
+							<GridCardBottom>
+								<PartName>{part.partNumber}</PartName>
+								<GreyDetail>{materialAndMachineTypes}</GreyDetail>
+								<GreyDetail>{secondaryProcesses}</GreyDetail>
+								<GridCardFooter>
+									{ part.pricingAvailable ?
+										<PartGridCardPrice prices={prices(priceScale)} hover={hover} loading={loading} priceAffix={ (priceDisplay === 'unit') ? 'ea' : '/ '+selectedQuantity.display }/>
+										:
+										<PartGridNoPrice open={priceUnavailableOpen} hover={hover} loading={loading} handlePopoverClick={handlePopoverClick}/>
+									}
+									{ part.pricingAvailable ?
+										<ControlRow>
+											<DropDown open={quantityOpen} onClick={handleQuantityClick} value={selectedQuantity.display} longestValue={quantities.slice(-1)[0].display}/>
+											<div style={{display: 'inline-block', width: '8px'}}/>
+											<DropDown open={timeOpen} onClick={handleTimeClick} value={selectedTime.display} longestValue={times.slice(-1)[0].display}/>
+										</ControlRow>
+										:
+										<ControlRow style={{height:'53px',textAlign:'center'}}>
+											<Link to={`/parts/${part.id}`}><BlueLink style={{fontSize:'12px'}}>Edit Part Details</BlueLink></Link><GreyText style={{marginLeft:'4px'}}>to get a price.</GreyText>
+										</ControlRow>
+									}
+									{ part.pricingAvailable &&
+										<PriceFeedback hover={hover}>
+											<BlueLink>Question about Predicted Price?</BlueLink><IntercomIcon src="../assets/icons/intercom.svg"/>
+										</PriceFeedback> }
+									<Button type="default" width="stretch">Add to Estimate</Button>
+								</GridCardFooter>
+							</GridCardBottom>
+						</GridCardPart>
+					</GridCardItem>
+				)}
+			</Transition>
 		)
 	}
 }

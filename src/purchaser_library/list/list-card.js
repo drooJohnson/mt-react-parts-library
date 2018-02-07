@@ -73,12 +73,35 @@ let radioBlockTransitionStyles = {
 	exited:   { display:'none' },
 }
 
+let listCardEnter = keyframes`
+	0%{
+		transform:scale(0.95);
+		opacity:0.0;
+	}
+	99%{
+		transform:scale(1.0);
+		opacity:1.0;
+	}
+	100%{
+		transform:none;
+	}
+`
 // Presentational Components
+
+const listCardItemTransitionStyles = (state) => {
+	switch(state){
+		case 'entering':
+			return { opacity: 0.0 }
+		case 'entered':
+			return { animation: `${listCardEnter} 300ms ease 0ms 1 normal backwards` }
+	}
+}
 
 const ListCardItem = styled.div`
 	width: 100%;
 	position: relative;
 	grid-column: span 3;
+	transform: none;
 `
 
 const ListCard = styled.div`
@@ -314,17 +337,19 @@ class PartListCard extends React.Component {
 			handleQuantityChange, handleTimeClick, handleQuantityClick, handlePopoverClick, handlePopoverClose,
 			onScrimClick, scrimOpacity, hover, hoverOverlayEnabled,
 			materialAndMachineTypes, secondaryProcesses, prices, loading,
-			priceDisplay, times, quantities, submitRef
+			priceDisplay, times, quantities, submitRef, staggerDelay
 		} = this.props
 
 		const priceScale = ( priceDisplay === 'quantity' ? selectedQuantity.value : 1 )
 		return (
+			<Transition appear={true} in={true} exit={false} timeout={{ enter: staggerDelay, exit: duration }}>
+			{(state) => (
 			<ListCardItem onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
 				<React.Fragment>
 					<ScreenFill inProp={ quantityOpen || timeOpen || priceUnavailableOpen } partId={part.id} scrimOpacity={scrimOpacity} onClick={()=>{onScrimClick(this)}}/>
 				</React.Fragment>
 				{ (displayLoader === true) ? <CardFill><Loader></Loader></CardFill> : null }
-				<ListCardPart ref={(ref)=>this.popoverBoundary = ref} id={part.partId+'bounds'}>
+				<ListCardPart style={listCardItemTransitionStyles(state)} ref={(ref)=>this.popoverBoundary = ref} id={part.partId+'bounds'}>
 					<PartPreview hover={hover} image={image} hoverOverlayEnabled={hoverOverlayEnabled} part={part}/>
 					<ListCardLeft>
 						<PartName>{part.partNumber}</PartName>
@@ -356,6 +381,8 @@ class PartListCard extends React.Component {
 					</ListCardRight>
 				</ListCardPart>
 			</ListCardItem>
+		)}
+	</Transition>
 		)
 	}
 }

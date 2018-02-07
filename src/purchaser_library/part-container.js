@@ -136,7 +136,7 @@ class PartContainer extends React.Component {
   }
 
   render(){
-    let { part, image, priceDisplay, onScrimClick, hoverOverlayEnabled, libraryLayout, handleTimeChange, handleQuantityChange } = this.props;
+    let { part, image, priceDisplay, onScrimClick, hoverOverlayEnabled, libraryLayout, handleTimeChange, handleQuantityChange, staggerDelay } = this.props;
     let passedProps =  {  part,
                           image,
                         handleMouseOver: this.handleMouseOver,
@@ -160,9 +160,13 @@ class PartContainer extends React.Component {
 
     switch(libraryLayout){
       case 'grid':
-        return ( <GridCard {...passedProps} priceUnavailableOpen={this.state.priceUnavailableOpen} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} /> )
+        return (
+          <GridCard {...passedProps} staggerDelay={staggerDelay} priceUnavailableOpen={this.state.priceUnavailableOpen} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} />
+        )
       case 'list':
-        return ( <ListCard {...passedProps} priceUnavailableOpen={this.state.priceUnavailableOpen} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} /> )
+        return (
+          <ListCard {...passedProps} staggerDelay={staggerDelay} priceUnavailableOpen={this.state.priceUnavailableOpen} timeOpen={this.state.timeOpen} quantityOpen={this.state.quantityOpen} selectedTime={this.state.selectedTime} selectedQuantity={this.state.selectedQuantity} loading={this.state.loading} hover={this.state.hover} displayLoader={this.state.displayLoader} scrimOpacity={this.state.scrimOpacity} />
+        )
       default:
         return undefined
     }
