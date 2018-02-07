@@ -48,7 +48,7 @@ const PartCards = ( parts, priceDisplay, libraryLayout, hoverOverlayEnabled ) =>
   return(
     <React.Fragment>
       { parts
-        ? parts.map((part) => (<PartContainer key={part.id} part={part} image={`../assets/${part.assets.thumbnail}`} hoverOverlayEnabled={hoverOverlayEnabled} priceDisplay={priceDisplay} libraryLayout={libraryLayout}/>))
+        ? parts.map((part) => (<PartContainer key={part.id} part={part} image={ part.assets.thumbnail === "" ? `../assets/placeholder.png` : `../assets/${part.assets.thumbnail}`} hoverOverlayEnabled={hoverOverlayEnabled} priceDisplay={priceDisplay} libraryLayout={libraryLayout}/>))
         : <span>Loading...</span>
       }
     </React.Fragment>
