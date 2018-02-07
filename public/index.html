@@ -11,7 +11,9 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" rel="stylesheet" type="text/css">
+    <link href="index.css" rel="stylesheet" type="text/css">
     <style>
+    /* Global-ish Styles */
     *{box-sizing:border-box}
     html,body{
       background-color:#ececec;
@@ -25,74 +27,68 @@
     h1,h2,h3,h4,h5,h6{
       margin:0;
     }
-    .popper {
-      background: #FFFFFF;
-      color: white;
-      border-radius: 2px;
-      max-width: 100%;
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-      padding: 5px;
+
+    /* Parts Library Grid Popover Styles */
+    .tether-element-attached-top .gridRadioBlock .popoverArrowTop{
+      z-index:190;
+      top:-16px;
+      border: 8px solid transparent;
+      border-bottom:8px solid white;
+      border-top-width:0;
+    }
+    .tether-element-attached-top .gridRadioBlock .popoverArrowBottom{
+      bottom:-16px;
+      border: 8px solid transparent;
+    }
+    .tether-element-attached-bottom .gridRadioBlock .popoverArrowBottom{
+      bottom:-16px;
+      border: 8px solid transparent;
+      border-top:8px solid white;
+      border-bottom-width:0;
+    }
+    .tether-element-attached-bottom .gridRadioBlock .popoverArrowTop{
+      top:-16px;
+      border: 8px solid transparent;
     }
 
-    .popper .popper__arrow {
-      width: 0;
-      height: 0;
-      border-style: solid;
-      position: absolute;
-      margin: 10px;
-      filter: box-shadow(0 3px 2px rgba(0,0,0,0.1));
+    .tether-pinned-right .gridRadioBlock .popoverArrowTop, .tether-pinned-right .gridRadioBlock .popoverArrowBottom{
+      left:70%;
     }
 
-    .popper[data-placement^="top"] {
-      margin-bottom: 10px;
+    /* Parts Library List Popover Styles */
+    .tether-element-attached-top .listRadioBlockWrapper .popoverArrowTop {
+      border: 8px solid transparent;
+      border-bottom: 8px solid white;
+      border-top: 0 solid transparent;
+    }
+    .tether-element-attached-top .listRadioBlockWrapper .popoverArrowBottom {
+      border-top: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 0 solid transparent;
+      border-left: 0 solid transparent;
+    }
+    .tether-element-attached-bottom .listRadioBlockWrapper .popoverArrowTop {
+      border-top: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 0 solid transparent;
+      border-left: 0 solid transparent;
+    }
+    .tether-element-attached-bottom .listRadioBlockWrapper .popoverArrowBottom {
+      border: 8px solid transparent;
+      border-bottom: 0 solid transparent;
+      border-top: 8px solid white;
     }
 
-    .popper[data-placement^="top"] .popper__arrow {
-      border-width: 8px 8px 0 8px;
-      border-color: #222 transparent transparent transparent;
-      bottom: -8px;
-      left: calc(50% - 8px);
-      margin-top: 0;
-      margin-bottom: 0;
+    .tether-pinned-right .listRadioBlockWrapper .popoverArrowBottom,
+    .tether-pinned-right .listRadioBlockWrapper .popoverArrowTop {
+      margin-left:35%;
     }
 
-    .popper[data-placement^="bottom"] {
-      margin-top: 10px;
+    .tether-element-attached-top .listRadioBlockWrapper{
+      margin-top:4px;
     }
-
-    .popper[data-placement^="bottom"] .popper__arrow {
-      border-width: 0 8px 8px 8px;
-      border-color: transparent transparent #222 transparent;
-      top: -8px;
-      left: calc(50% - 10px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .popper[data-placement^="right"] {
-      margin-left: 10px;
-    }
-
-    .popper[data-placement^="right"] .popper__arrow {
-      border-width: 8px 8px 8px 0;
-      border-color: transparent #222 transparent transparent;
-      left: -8px;
-      top: calc(50% - 10px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    .popper[data-placement^="left"] {
-      margin-right: 10px;
-    }
-
-    .popper[data-placement^="left"] .popper__arrow {
-      border-width: 8px 0 8px 8px;
-      border-color: transparent transparent transparent #222;
-      right: -8px;
-      top: calc(50% - 10px);
-      margin-left: 0;
-      margin-right: 0;
+    .tether-element-attached-bottom .listRadioBlockWrapper{
+      margin-bottom:4px;
     }
     </style>
     <!--
@@ -104,7 +100,17 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>MakeTime</title>
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:762375,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
   </head>
   <body>
     <div id="root"></div>

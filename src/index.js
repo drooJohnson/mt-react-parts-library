@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { store } from './firebase';
+import { BrowserRouter as Router, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { store, persistor } from './firebase';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react'
+
 
 import PartsLibrary from './pages/parts-library';
 import PartDetail from './pages/part-detail';
@@ -22,19 +24,42 @@ const Page = styled.div`
     font-family:'proxima nova';
   }
 `
-ReactDOM.render((
+/*ReactDOM.render((
   <Provider store={store}>
     <Router>
       <Page>
+      <Scrim/>
         <Switch>
           <Route exact path="/parts" component={PartsLibrary}/>
-          <Route path="/parts/:id" component={PartDetail}/>
-          <Route path="/testing" component={Testing}/>
+          <Route exact path="/parts/:id" component={PartDetail}/>
+          <Route exact path="/testing" component={Testing}/>
           <Redirect exact from="/" to="/parts"/>
         </Switch>
       <ModalContainer/>
-      <Scrim/>
       </Page>
     </Router>
+  </Provider>
+), document.getElementById('root'));*/
+let libraryLayout = store.getState().store.libraryLayout;
+console.log(libraryLayout);
+ReactDOM.render((
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+    <Router>
+      <Page>
+      <Scrim/>
+        <Switch>
+          <Route exact path="/parts/:id" render={routeProps => <PartDetail {...routeProps}/>}/>
+          <Route exact path="/library/list" render={routeProps => <PartsLibrary {...routeProps}/>}/>
+          <Route exact path="/library/grid" render={routeProps => <PartsLibrary {...routeProps}/>}/>
+          <Route exact path="/library" render={routeProps => <PartsLibrary {...routeProps}/>}/>
+          <Redirect to={{
+            pathname: "/library/"+libraryLayout,
+          }}/>
+        </Switch>
+      <ModalContainer/>
+      </Page>
+    </Router>
+    </PersistGate>
   </Provider>
 ), document.getElementById('root'));

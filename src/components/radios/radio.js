@@ -1,11 +1,14 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-let buttonSize = '10px';
 let blueColor = '#4a90e2';
 
 const CustomRadio = Styled.div`
+  cursor:pointer;
   margin-bottom:8px;
+  label{
+    cursor:pointer;
+  }
   &:last-of-type{
     margin-bottom:0;
   }
@@ -54,8 +57,93 @@ const CustomRadio = Styled.div`
     box-sizing:border-box;
     display:inline-block;
     content: '';
-    width: ${buttonSize};
-    height: ${buttonSize};
+    width: 10px;
+    height: 10px;
+    border: ${props => props.original ? '1px solid #999' : '1px solid #ddd'};
+    border-radius: 100%;
+    background: #fff;
+    margin-right: 8px;
+  }
+
+  [type="radio"]:checked + label:before
+  {
+    background: ${blueColor};
+  }
+`;
+
+
+const Radio = ({name, option, label, handleChange, checked, original}) => {
+    //console.log("name:"+name+", option.value:"+option.value+", option.display:"+option.display+", partId:"+partId);
+  let inputId = option.value + name;
+  return(
+    <CustomRadio original={original} style={{fontFamily:"proxima nova"}}>
+      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked}/>
+      <label htmlFor={inputId}>
+        <span>{label}</span>
+      </label>
+    </CustomRadio>
+  )
+}
+
+const CustomInlineRadio = Styled.div`
+  cursor:pointer;
+  display:inline-block;
+  text-align:left;
+  margin-right:24px;
+  label{
+    cursor:pointer;
+  }
+  &:last-of-type{
+    margin-right:0;
+  }
+  [type="radio"]:checked,
+  [type="radio"]:not(:checked)
+  {
+    cursor:pointer;
+    box-sizing:border-box;
+    position:absolute;
+    left:-9999px;
+    width:0;
+  }
+
+  [type="radio"]:checked + label,
+  [type="radio"]:not(:checked) + label,
+  .custom-label
+  {
+    display:flex;
+    align-items:center;
+    span{
+    color:#333333;
+    font-size:14px;
+    line-height:14px;
+    font-weight:400;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align:middle;
+    }
+  }
+
+  [type="radio"]:checked + label
+  {
+    span{
+      position: relative;
+      cursor: pointer;
+      line-height: 12px;
+      display: inline-block;
+      color: #333333;
+    }
+  }
+
+  [type="radio"]:checked + label:before,
+  [type="radio"]:not(:checked) + label:before
+  {
+    cursor:pointer;
+    box-sizing:border-box;
+    display:inline-block;
+    content: '';
+    width: 12px;
+    height: 12px;
     border: 1px solid #ddd;
     border-radius: 100%;
     background: #fff;
@@ -68,17 +156,16 @@ const CustomRadio = Styled.div`
   }
 `;
 
-const Radio = ({name, option, partId, handleChange, checked}) => {
-    //console.log("name:"+name+", option.value:"+option.value+", option.display:"+option.display+", partId:"+partId);
-  let inputId = option.value + partId;
+const InlineRadio = ({name, option, label, handleChange, checked}) => {
+  let inputId = option.value + name;
   return(
-    <CustomRadio style={{fontFamily:"proxima nova"}}>
-      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={option === checked}/>
-      <label for={inputId}>
-        <span>{option.display}</span>
+    <CustomInlineRadio style={{fontFamily:"proxima nova",fontSize:"14px"}}>
+      <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked}/>
+      <label htmlFor={inputId}>
+        <span>{label}</span>
       </label>
-    </CustomRadio>
+    </CustomInlineRadio>
   )
 }
 
-export default Radio;
+export {Radio,InlineRadio};

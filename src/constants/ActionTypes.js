@@ -6,3 +6,6 @@ export const HIDE_SCRIM = 'HIDE_SCRIM';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
+
+export const TO_LIST = 'TO_LIST';
+export const TO_GRID = 'TO_GRID';

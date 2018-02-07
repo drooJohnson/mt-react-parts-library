@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import zIndex from '../utils/z-index';
+import zIndex from '../components/utils/z-index';
 import {connect} from 'react-redux';
 
 const colors = {
@@ -19,11 +19,11 @@ const ScrimBackdrop = styled.div`
   right:0;
   bottom:0;
   left:0;
-  transition: opacity 300ms ease;
   z-index: ${props => props.zIndex ? zIndex[props.zIndex] : zIndex.scrimHigh };
   background-color: ${props => props.color ? colors[props.color.toLowerCase()] : '#FFFFFF'};
-  opacity: ${props => props.opacity ? props.opacity : 0};
+  opacity: ${props => props.opacity ? props.opacity : '0'};
   display: ${props => props.display === 'true' ? 'block' : 'none'};
+  transition: opacity 300ms ease;
 `
 
 class Scrim extends React.Component {

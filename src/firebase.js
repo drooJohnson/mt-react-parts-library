@@ -3,13 +3,20 @@ import firebase from 'firebase'
 import 'firebase/firestore' // add this to use Firestore
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
 import { reduxFirestore, firestoreReducer } from 'redux-firestore'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 import bulkSelectionModeReducer from './redux/reducers/bulk-selection-mode';
 import collectionReducer from './redux/reducers/collection';
 import usernameReducer from './redux/reducers/username';
 import modalReducer from './redux/reducers/modal';
 import scrimReducer from './redux/reducers/scrim';
+import libraryLayoutReducer from './redux/reducers/library-layout';
 
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+}
 
 var config = {
   apiKey: "AIzaSyCCrXyzLZiFIbEfeHzhAFOAjz2pYRqg29M",
@@ -40,6 +47,7 @@ const initialState = {
       color:'dark',
       zIndex:'high',
     },
+    libraryLayout:'grid'
   }
 }
 
@@ -48,7 +56,8 @@ const storeReducer = combineReducers({
   collection:collectionReducer,
   username:usernameReducer,
   modal:modalReducer,
-  scrim:scrimReducer
+  scrim:scrimReducer,
+  libraryLayout:libraryLayoutReducer,
 })
 
 
@@ -67,8 +76,8 @@ const rootFireReducer = combineReducers({
   store: storeReducer
 })
 
-const store = createStoreWithFirebase(rootFireReducer, initialState);
+const persistedReducer = persistReducer(persistConfig, rootFireReducer);
 
-console.log(store);
-
-export {store};
+const store = createStoreWithFirebase(persistedReducer, initialState);
+const persistor = persistStore(store);
+export {store, persistor};

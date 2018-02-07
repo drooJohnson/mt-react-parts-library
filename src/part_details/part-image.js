@@ -27,4 +27,4 @@ const PartImageWithShadow = PartImage.extend`
   }
 `
 
-export default PartImage;
+export {PartImage,PartImageWithShadow};

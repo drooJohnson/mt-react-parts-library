@@ -5,11 +5,11 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import Grid from '../layout/grid';
+import Grid from '../components/layout/grid';
 
-import Navigation from '../navigation.js';
+import Navigation from '../components/navigation/navigation';
 import Header from '../part_details/part-detail-header';
-import PartImage from '../part_details/part-image';
+import {PartImage} from '../part_details/part-image';
 import {DetailHeaderPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel} from '../part_details/detail-card';
 import styled from 'styled-components';
 
@@ -165,9 +165,9 @@ class PartDetail extends React.Component {
       <PartDetailBase>
         <Navigation gridarea="navigation"/>
         { this.props.parts ?
-          <Header gridarea="header" partname={this.props.parts[this.props.match.params.id].partNumber}/>
+          <Header gridarea="header" libraryLayout={this.props.store.libraryLayout} partname={this.props.parts[this.props.match.params.id].partNumber}/>
         :
-          <Header gridarea="header" partname="loading..."/>
+          <Header gridarea="header" libraryLayout={this.props.store.libraryLayout} partname="loading..."/>
         }
         <Grid
           gridrows='auto'

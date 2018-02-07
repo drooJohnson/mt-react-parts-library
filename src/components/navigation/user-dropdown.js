@@ -7,6 +7,7 @@ import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
 const UserDropdownWrapper = styled.a`
   display:flex;
   align-items:center;
+  cursor:not-allowed;
 `
 
 const Avatar = styled.div`

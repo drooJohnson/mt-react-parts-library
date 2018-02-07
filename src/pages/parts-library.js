@@ -5,11 +5,11 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import Grid from '../layout/grid';
+import Grid from '../components/layout/grid';
 
-import PartsGrid from '../purchaser_library/parts-grid.js';
+import Parts from '../purchaser_library/parts.js';
 import Collections from '../purchaser_library/collections-panel.js';
-import Navigation from '../navigation.js';
+import Navigation from '../components/navigation/navigation.js';
 import Header from '../purchaser_library/header.js';
 import PartsActionBar from '../purchaser_library/parts-action-bar.js';
 import styled from 'styled-components';
@@ -33,7 +33,14 @@ class PartsLibrary extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      priceDisplay:'quantity', // CAN BE 'unit' or 'quantity'
+      priceDisplay:"unit", // CAN BE 'unit' or 'quantity'
+    }
+  }
+  componentWillMount(){
+    console.log(this.props.location.hash);
+    console.log(this.props.libraryLayout);
+    if(this.props.location.pathname !== '/library/'+this.props.libraryLayout){
+      this.props.history.push('/library/'+this.props.libraryLayout);
     }
   }
   onPriceScaleChange = (pricescale) => {
@@ -42,11 +49,14 @@ class PartsLibrary extends React.Component {
          priceDisplay:pricescale
        });
     } else {
-      console.log("Passed invalid value: "+pricescale+" for pricescale in parts-library.js");
+      console.log("Passed invalid value: " + pricescale + " for pricescale in parts-library.js");
     }
   }
+  onLayoutChange = (newLayout) => {
+    this.props.history.push('/library/'+newLayout);
+  }
   render(){
-    let props = this.props;
+    console.log(this);
     let store = this.props.store;
     return(
       <PartsLibraryBase>
@@ -73,8 +83,8 @@ class PartsLibrary extends React.Component {
             }}
           >
             <Collections gridarea="collections"/>
-            <PartsActionBar gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} onPriceScaleChange={this.onPriceScaleChange}/>
-            <PartsGrid gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
+            <PartsActionBar libraryLayout={this.props.libraryLayout} gridarea="actions" active="grid" collectionName={store.collection.Name !== '' ? store.collection.Name : 'All Parts'} priceDisplay={this.state.priceDisplay} onPriceScaleChange={this.onPriceScaleChange} onLayoutChange={this.onLayoutChange}/>
+            <Parts libraryLayout={this.props.libraryLayout} gridarea="parts" style={{overflowY:'scroll'}} priceDisplay={this.state.priceDisplay}/>
           </Grid>
       </PartsLibraryBase>
     )
@@ -87,7 +97,16 @@ export default compose(
       ({
         collections: state.firestore.ordered.collections,
         parts: state.firestore.ordered.parts,
-        store: state.store
+        store: state.store,
+        libraryLayout: state.store.libraryLayout,
       })
-  )
+  ,(dispatch) => ({
+    toList: () => {
+      dispatch({type:'TO_LIST'});
+    },
+    toGrid: () => {
+      dispatch({type:'TO_GRID'});
+    }
+  })
+)
 )(PartsLibrary)

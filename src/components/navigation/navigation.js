@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import VerticalRule from './components/vertical-rule';
+import VerticalRule from '../vertical-rule';
 import { NavLink as RouterNavLink, Link as RouterLink } from 'react-router-dom';
-import UserDropdown from './components/navigation/user-dropdown';
+import UserDropdown from './user-dropdown';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import zIndex from './utils/z-index';
-import Row from './layout/row';
+import zIndex from '../../components/utils/z-index';
+import Row from '../../components/layout/row';
 
 // COMPONENTS ASSUME THEIR OWN NAME AS THEIR GRID-AREA VALUE UNLESS EXPLICITLY ASSIGNED OTHERWISE!
 
@@ -31,6 +31,7 @@ const Nav = styled.nav.attrs({
 `
 
 const Link = styled(RouterNavLink)`
+  cursor:pointer;
   transition: all 300ms ease;
   display:inline-block;
   min-width:100px;
@@ -52,6 +53,7 @@ const Link = styled(RouterNavLink)`
 `
 
 const DisabledLink = styled.li`
+  cursor:not-allowed;
   transition: all 300ms ease;
   display:inline-block;
   min-width:100px;
@@ -101,9 +103,9 @@ class Navigation extends React.Component {
         <Row>
           <Logo/>
           <LinkList style={{marginLeft:0,marginRight:'auto'}}>
-            <Link to="/parts">Parts</Link>
-            <DisabledLink>Jobs</DisabledLink>
-            <DisabledLink>Machines</DisabledLink>
+            <Link to="library/" className="active">Parts</Link>
+            <DisabledLink>Estimates</DisabledLink>
+            <DisabledLink>Orders</DisabledLink>
           </LinkList>
           <LinkList>
             <UserDropdown name={this.props.store.username}/>

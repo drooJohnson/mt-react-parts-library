@@ -42,10 +42,10 @@ const DetailHeaderPanel = (props) => (
       <PartDetailDescription>Only visible to your company</PartDetailDescription>
     </div>
     <div style={{marginLeft:'auto'}}>
-      <Button nature='default'>Edit</Button>
-      <Button nature='default'>Duplicate</Button>
-      <Button nature='default'>Archive</Button>
-      <Button nature='default'>Add To Estimate</Button>
+      <Button type='default'>Edit</Button>
+      <Button type='default'>Duplicate</Button>
+      <Button type='default'>Archive</Button>
+      <Button type='default'>Add To Estimate</Button>
     </div>
   </FlexCard>
 )

@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
-import zIndex from '../utils/z-index.js';
-
+import zIndex from '../components/utils/z-index';
 import { connect } from 'react-redux';
 
 // eslint-disable-next-line
 import { TESTING_MODAL } from '../constants/ModalTypes';
 
 const DropDownBox = styled.span`
+  cursor:pointer;
   height:28px;
   padding:8px;
   border:1px solid #C6C6C6;
@@ -19,15 +19,24 @@ const DropDownBox = styled.span`
   justify-content:space-between;
   align-items:center;
   position:relative;
+  transition:${props => props.open ? 'box-shadow 150ms ease, z-index 0ms 0ms ease' : 'box-shadow 150ms ease, z-index 0ms 300ms ease' };
   & + &{
     margin-left:8px;
   }
+  &:hover,&:focus{
+    box-shadow:0 0 2px 0 #00e7b2;
+  }
 `
-
 const Value = styled.span`
+  position:absolute;
   font-size:12px;
   font-weight:500;
   margin-right:12px;
+`
+
+const BoxSizer = Value.extend`
+  position:relative;
+  visibility:hidden;
 `
 
 const ScrimClone = styled.span`
@@ -49,11 +58,12 @@ class DropDown extends React.Component {
   render(){
     return(
       <React.Fragment>
-        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} style={{zIndex: this.state.open ? zIndex['mid'] : '0'}}>
+        <DropDownBox onClick={()=>{this.props.onClick();this.props.scrimToggle(this);}} {... this.state} open={this.props.open} style={{zIndex: this.props.open ? zIndex['low'] : '0'}}>
           <Value>{this.props.value}</Value>
+          <BoxSizer>{this.props.longestValue}</BoxSizer>
           <FontAwesomeIcon icon={faAngleDown}/>
         </DropDownBox>
-        { this.state.open ? <ScrimClone onClick={()=>{this.props.onClick();this.props.onScrimClick(this);}}{...this.state}/> : null }
+        { this.props.open && <ScrimClone id="scrimClone" onClick={()=>{this.props.onClick();this.props.onScrimClick(this);}} {...this.state}/> }
       </React.Fragment>
     )
   }
@@ -63,24 +73,15 @@ export default connect(
   null,
   (dispatch) => ({
     scrimToggle: (ref) => {
-      console.log("onclick");
-      console.log(ref);
       if (ref.state.open === false) {
-        console.log(ref.state.open);
-        dispatch({type: 'SHOW_SCRIM', scrim:{
-          color:'light',
-          opacity:0.7,
-          zIndex:'low'
-        }})
         ref.setState({open:true})
       } else {
-        console.log(ref.state.open);
-        dispatch({type: 'HIDE_SCRIM'})
+        dispatch({type: 'HIDE_SCRIM'});
         ref.setState({open:false});
       }
     },
     onScrimClick: (ref) => {
-      dispatch({type: 'HIDE_SCRIM'})
+      dispatch({type: 'HIDE_SCRIM'});
       ref.setState({open:false});
     }
   })
