@@ -37,6 +37,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
     "eslint": "^4.17.0",
     "eslint-plugin-react": "^7.6.1"
   }

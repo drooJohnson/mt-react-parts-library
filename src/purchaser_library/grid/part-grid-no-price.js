@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import zIndex from '../../components/utils/z-index'
-import { Link } from 'react-router-dom'
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -69,38 +68,40 @@ class PartGridNoPrice extends React.Component {
 		}
 	}
 	render(){
-		let {open, hover, loading, handlePopoverClick} = this.props;
+		let {open, hover, loading, handlePopoverClick} = this.props
 		return(
 			<React.Fragment>
-			<Wrapper loading={loading} hover={hover}>
-				<GreyText>REQUEST ESTIMATE<br/>FOR PRICING</GreyText>
-				<BlueLink onClick={()=>{handlePopoverClick();this.props.scrimToggle(this);}}>Why?</BlueLink>
-				<Chart hover={hover}/>
-			</Wrapper>
-			{ this.props.open && <ScrimClone id="scrimClone" onClick={()=>{handlePopoverClick();this.props.onScrimClick(this);}} {...this.state}/> }
+				<Wrapper loading={loading} hover={hover}>
+					<GreyText>REQUEST ESTIMATE<br/>FOR PRICING</GreyText>
+					<BlueLink onClick={()=>{handlePopoverClick();this.props.scrimToggle(this)}}>Why?</BlueLink>
+					<Chart hover={hover}/>
+				</Wrapper>
+				{ open && <ScrimClone id="scrimClone" onClick={()=>{handlePopoverClick();this.props.onScrimClick(this)}} {...this.state}/> }
 			</React.Fragment>
-	)
-}
+		)
+	}
 }
 PartGridNoPrice.propTypes = {
+	open: PropTypes.bool,
 	hover: PropTypes.bool,
 	loading: PropTypes.bool,
+	handlePopoverClick: PropTypes.func
 }
 
 export default connect(
-  null,
-  (dispatch) => ({
-    scrimToggle: (ref) => {
-      if (ref.state.open === false) {
-        ref.setState({open:true})
-      } else {
-        dispatch({type: 'HIDE_SCRIM'});
-        ref.setState({open:false});
-      }
-    },
-    onScrimClick: (ref) => {
-      dispatch({type: 'HIDE_SCRIM'});
-      ref.setState({open:false});
-    }
-  })
-)(PartGridNoPrice);
+	null,
+	(dispatch) => ({
+		scrimToggle: (ref) => {
+			if (ref.state.open === false) {
+				ref.setState({open:true})
+			} else {
+				dispatch({type: 'HIDE_SCRIM'})
+				ref.setState({open:false})
+			}
+		},
+		onScrimClick: (ref) => {
+			dispatch({type: 'HIDE_SCRIM'})
+			ref.setState({open:false})
+		}
+	})
+)(PartGridNoPrice)

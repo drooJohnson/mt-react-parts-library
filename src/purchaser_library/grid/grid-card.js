@@ -10,8 +10,6 @@ import PartGridCardPrice from './part-grid-card-price'
 import PartGridNoPrice from './part-grid-no-price'
 import PartPreview from './grid-part-preview'
 import zIndex from '../../components/utils/z-index'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import faTimes from '@fortawesome/fontawesome-free-solid/faTimes'
 import { Link } from 'react-router-dom'
 
 import Loader from './grid-card-loader'
@@ -90,7 +88,7 @@ const GridCardPart = GridCard.extend`
 
 // Bluetext
 
-const BlueLink = styled.a`
+const BlueLink = styled.span`
 	font-size: 11px;
 	color: #4a90e2;
 	text-decoration: underline;
