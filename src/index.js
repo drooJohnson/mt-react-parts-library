@@ -5,7 +5,6 @@ import { store, persistor } from './firebase'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 
-
 import PartsLibrary from './pages/parts-library'
 import PartDetail from './pages/part-detail'
 
@@ -17,9 +16,9 @@ import Scrim from './components/scrim'
 const Page = styled.div`
   overflow:hidden;
   height:100vh;
-  font-family:'proxima nova';
+  font-family:'Proxima Nova Web';
   button{
-    font-family:'proxima nova';
+    font-family:'Proxima Nova Web';
   }
 `
 

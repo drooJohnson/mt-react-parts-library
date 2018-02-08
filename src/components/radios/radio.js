@@ -76,7 +76,7 @@ const Radio = ({name, option, label, handleChange, checked, original}) => {
     //console.log("name:"+name+", option.value:"+option.value+", option.display:"+option.display+", partId:"+partId);
   let inputId = option.value + name;
   return(
-    <CustomRadio original={original} style={{fontFamily:"proxima nova"}}>
+    <CustomRadio original={original} style={{fontFamily:"Proxima Nova Web"}}>
       <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked}/>
       <label htmlFor={inputId}>
         <span>{label}</span>
@@ -159,7 +159,7 @@ const CustomInlineRadio = Styled.div`
 const InlineRadio = ({name, option, label, handleChange, checked}) => {
   let inputId = option.value + name;
   return(
-    <CustomInlineRadio style={{fontFamily:"proxima nova",fontSize:"14px"}}>
+    <CustomInlineRadio style={{fontFamily:"Proxima Nova Web",fontSize:"14px"}}>
       <input type="radio" id={inputId} name={name} onChange={()=>{handleChange(option)}} checked={checked}/>
       <label htmlFor={inputId}>
         <span>{label}</span>

@@ -21,7 +21,7 @@ const PartPreviewImage = styled.img`
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  object-fit: ${props => props.image ? 'contain' : 'cover' };
   transition: opacity 300ms ease;
 `
 
@@ -85,7 +85,7 @@ class GridPartPreviewContainer extends React.Component {
     return(
       <PartPreview hover={hover}>
         { this.state.imageLoading && <Spinner/> }
-        <PartPreviewImage src={image} onLoad={this.imageLoaded} imageLoading={this.state.imageLoading}/>
+        <PartPreviewImage src={image} image={image === '../assets/placeholder.png' ? false : true } onLoad={this.imageLoaded} imageLoading={this.state.imageLoading}/>
         { hoverOverlayEnabled &&
             <ImageOverlay hover={hover}>
               <ImageOverlayDetailsButton id={part.id}>Edit Part</ImageOverlayDetailsButton>

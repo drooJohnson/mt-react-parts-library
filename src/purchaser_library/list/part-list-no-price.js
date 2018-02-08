@@ -129,7 +129,7 @@ const PopoverBlockWrapper = styled.div`
 	flex-direction:column;
 	align-items:center;
 	justify-content:center;
-	font-family:"Proxima Nova";
+	font-family:"Proxima Nova Web";
 	max-width:240px;
 	filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
 `
