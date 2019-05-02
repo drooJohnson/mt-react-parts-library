@@ -81,6 +81,8 @@ const gridCardItemTransitionStyles = (state) => {
 			return { opacity: 0.0 }
 		case 'entered':
 			return { animation: `${gridCardEnter} 300ms ease 0ms 1 normal backwards` }
+		default:
+			return
 	}
 }
 

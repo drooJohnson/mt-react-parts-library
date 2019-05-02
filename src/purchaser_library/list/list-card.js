@@ -94,6 +94,8 @@ const listCardItemTransitionStyles = (state) => {
 			return { opacity: 0.0 }
 		case 'entered':
 			return { animation: `${listCardEnter} 300ms ease 0ms 1 normal backwards` }
+		default:
+			return
 	}
 }
 
