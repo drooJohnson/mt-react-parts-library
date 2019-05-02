@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-const Grid = styled.div.attrs({
-})`
+const Grid = styled.div`
   width:100%;
   display:grid;
   grid-template-rows: ${props => props.gridrows};

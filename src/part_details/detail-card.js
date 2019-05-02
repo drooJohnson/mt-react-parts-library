@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import Button from '../components/buttons';
+import styled from 'styled-components'
+import Button from '../components/buttons'
 
-import React from 'react';
-import {PrintArea, ModelArea, OtherFilesArea} from '../components/files/file-area';
+import React from 'react'
+import {PrintArea, ModelArea, OtherFilesArea} from '../components/files/file-area'
 
 const Card = styled.div`
   background-color:#ffffff;
@@ -36,18 +36,18 @@ const NoData = styled.span`
 `
 
 const DetailHeaderPanel = (props) => (
-  <FlexCard>
-    <div>
-      <PartDetailHeading>{props.name}</PartDetailHeading>
-      <PartDetailDescription>Only visible to your company</PartDetailDescription>
-    </div>
-    <div style={{marginLeft:'auto'}}>
-      <Button type='default'>Edit</Button>
-      <Button type='default'>Duplicate</Button>
-      <Button type='default'>Archive</Button>
-      <Button type='default'>Add To Estimate</Button>
-    </div>
-  </FlexCard>
+	<FlexCard>
+		<div>
+			<PartDetailHeading>{props.name}</PartDetailHeading>
+			<PartDetailDescription>Only visible to your company</PartDetailDescription>
+		</div>
+		<div style={{marginLeft:'auto'}}>
+			<Button type='default'>Edit</Button>
+			<Button type='default'>Duplicate</Button>
+			<Button type='default'>Archive</Button>
+			<Button type='default'>Add To Estimate</Button>
+		</div>
+	</FlexCard>
 )
 
 const PanelHeading = styled.h5`
@@ -91,68 +91,70 @@ const DetailValue = styled.dd`
   margin:0;
 `
 
-const Detail = (props) => (
-  <React.Fragment>
-    <DetailName>{props.name}</DetailName>
-    <DetailValue>{props.value}</DetailValue>
-  </React.Fragment>
-)
+const Detail = (props) => {
+	return(
+		<React.Fragment>
+			<DetailName>{props.name}</DetailName>
+			<DetailValue>{props.value}</DetailValue>
+		</React.Fragment>
+	)}
 
-const DetailsPanel = (props) => (
-  <Card>
-    <PanelHeading>{props.name} { props.subtitle ? <PanelSubhead>{props.subtitle}</PanelSubhead> : null }</PanelHeading>
-    {props.children}
-  </Card>
-)
+const DetailsPanel = (props) => {
+	return(
+		<Card>
+			<PanelHeading>{props.name} { props.subtitle ? <PanelSubhead>{props.subtitle}</PanelSubhead> : null }</PanelHeading>
+			{props.children}
+		</Card>
+	)}
 
-const DetailsDataTable = (props) => (
-  <DetailsTable>
-    {props.details.map((detail)=>(
-      <Detail name={detail.name} value={detail.value}/>
-    ))}
-  </DetailsTable>
-)
+const DetailsDataTable = (props) => {
+	return(
+		<DetailsTable>
+			{props.details.map((detail, index)=>(
+				<Detail key={index} name={detail.name} value={detail.value}/>
+			))}
+		</DetailsTable>
+	)}
 
-const PartDetailsPanel = (props) => (
-  <DetailsPanel name={props.name}>
-    { props.details ?
-      <DetailsDataTable details={props.details}/>
-    :
-      <NoData>No {props.name} Provided</NoData>
-    }
+const PartDetailsPanel = (props) => {
+	return(
+		<DetailsPanel name={props.name}>
+			{ props.details ?
+				<DetailsDataTable details={props.details}/>
+				:
+				<NoData>No {props.name} Provided</NoData>
+			}
 
-  </DetailsPanel>
-)
+		</DetailsPanel>
+	)}
 
 const PriceQuotesPanel = (props) => {
+	return(
+		<DetailsPanel name="Price Quotes" subtitle="including materials">
+			{ (props.details.length !== 0)?
+				<React.Fragment>
+					<div style={{marginBottom:'12px'}}>Quantity</div>
+					<DetailsDataTable details={props.details}/>
+				</React.Fragment>
+				:
+				<NoData>No Price Quotes Available</NoData>
+			}
 
-  return(
-  <DetailsPanel name="Price Quotes" subtitle="including materials">
-    { (props.details.length !== 0)?
-      <React.Fragment>
-        <div style={{marginBottom:'12px'}}>Quantity</div>
-        <DetailsDataTable details={props.details}/>
-      </React.Fragment>
-      :
-      <NoData>No Price Quotes Available</NoData>
-    }
-
-  </DetailsPanel>
-)}
+		</DetailsPanel>
+	)}
 
 const ModelsPanel = (props) => {
-  console.log(props);
-  return(
-  <DetailsPanel name="Models">
-    <PrintArea data={props.data.print}/>
-    <ModelArea data={props.data.model}/>
-  </DetailsPanel>
-)}
+	return(
+		<DetailsPanel name="Models">
+			<PrintArea data={props.data.print}/>
+			<ModelArea data={props.data.model}/>
+		</DetailsPanel>
+	)}
 
-const OtherFilesPanel = (props) => (
-  <DetailsPanel name="Other Files">
-    <OtherFilesArea/>
-  </DetailsPanel>
+const OtherFilesPanel = () => (
+	<DetailsPanel name="Other Files">
+		<OtherFilesArea/>
+	</DetailsPanel>
 )
 
-export {DetailHeaderPanel, DetailsPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel};
+export {DetailHeaderPanel, DetailsPanel, PartDetailsPanel, PriceQuotesPanel, ModelsPanel, OtherFilesPanel}

@@ -11,9 +11,10 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" rel="stylesheet" type="text/css">
-    <link href="index.css" rel="stylesheet" type="text/css">
+    <link href="../index.css" rel="stylesheet" type="text/css">
     <style>
     /* Global-ish Styles */
+
     *{box-sizing:border-box}
     html,body{
       background-color:#ececec;
@@ -88,6 +89,41 @@
       margin-top:4px;
     }
     .tether-element-attached-bottom .listRadioBlockWrapper{
+      margin-bottom:4px;
+    }
+
+    .tether-element-attached-top .popoverBlockWrapper .popoverArrowTop {
+      border: 8px solid transparent;
+      border-bottom: 8px solid white;
+      border-top: 0 solid transparent;
+    }
+    .tether-element-attached-top .popoverBlockWrapper .popoverArrowBottom {
+      border-top: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 0 solid transparent;
+      border-left: 0 solid transparent;
+    }
+    .tether-element-attached-bottom .popoverBlockWrapper .popoverArrowTop {
+      border-top: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 0 solid transparent;
+      border-left: 0 solid transparent;
+    }
+    .tether-element-attached-bottom .popoverBlockWrapper .popoverArrowBottom {
+      border: 8px solid transparent;
+      border-bottom: 0 solid transparent;
+      border-top: 8px solid white;
+    }
+
+    .tether-pinned-right .popoverBlockWrapper .popoverArrowBottom,
+    .tether-pinned-right .popoverBlockWrapper .popoverArrowTop {
+      margin-left:35%;
+    }
+
+    .tether-element-attached-top .popoverBlockWrapper{
+      margin-top:4px;
+    }
+    .tether-element-attached-bottom .popoverBlockWrapper{
       margin-bottom:4px;
     }
     </style>

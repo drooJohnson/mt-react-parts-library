@@ -209,11 +209,11 @@ const GhostButtonBase = styled.button.attrs({
 const Button = ({type, onClick, width, size, ghost, children}) => {
   if (ghost){
     return(
-      <GhostButtonBase type={type} onClick={()=>{onClick()}} width={width} size={size}>{children}</GhostButtonBase>
+      <GhostButtonBase type={type} onClick={onClick} width={width} size={size}>{children}</GhostButtonBase>
     )
   } else {
     return(
-      <ButtonBase type={type} onClick={()=>{onClick()}} width={width} size={size}>{children}</ButtonBase>
+      <ButtonBase type={type} onClick={onClick} width={width} size={size}>{children}</ButtonBase>
     )
   }
 }

@@ -26,7 +26,7 @@ const PartPreviewImage = styled.img`
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  object-fit: ${props => props.usePlaceholder ? 'cover' : 'contain' };
   transition: opacity 300ms ease;
 `
 
@@ -87,10 +87,14 @@ class ListPartPreviewContainer extends React.Component {
 
   render(){
     let { hover, image, hoverOverlayEnabled, part } = this.props;
+    let usePlaceholder = false;
+    if (image === "../assets/placeholder.png"){
+      usePlaceholder = true;
+    }
     return(
       <PartPreview hover={hover}>
         { this.state.imageLoading && <Spinner/> }
-        <PartPreviewImage src={image} onLoad={this.imageLoaded} imageLoading={this.state.imageLoading}/>
+        <PartPreviewImage src={image} usePlaceholder={usePlaceholder} onLoad={this.imageLoaded} imageLoading={this.state.imageLoading}/>
         { hoverOverlayEnabled &&
           <ImageOverlay hover={this.state.hover}>
             <ImageOverlayDetailsButton id={part.id}>Edit Part</ImageOverlayDetailsButton>
